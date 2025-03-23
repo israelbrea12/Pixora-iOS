@@ -1,21 +1,18 @@
 //
-//  ContentView.swift
+//  FavsView.swift
 //  Pixora
 //
 //  Created by Israel Brea Piñero on 23/3/25.
 //
 
 import SwiftUI
-import CoreData
 
-struct ContentView: View {
-    
+struct FavsView: View {
     var body: some View {
-        MainView()
+        Text("Favs View")
     }
 }
 
 #Preview {
-    ContentView()
+    FavsView()
 }
-
