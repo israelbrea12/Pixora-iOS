@@ -22,6 +22,6 @@ public enum DataConstant {
     public static let contentType: String = "Content-Type"
     public static let applicationJson: String = "application/json"
 
-    public static let privateKey: String = "c54ac7101319572d23313a3b8f26df33fdc90549"
-    public static let publicKey: String = "d17cbcf918881825e0de87aa7ff37844"
+    public static let privateKey: String = "R__fjWcRQiKEXyNzk-HXA3x5odYGYUmgO8QO3DZQ4sY"
+    public static let publicKey: String = "jCMRYFHqydKyMnk9dUigbZjfsPH-Mbl7dJLSix5t9Wo"
 }

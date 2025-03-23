@@ -21,6 +21,7 @@
 		406351F42D90AE4D0090D1F8 /* PhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351F32D90AE4D0090D1F8 /* PhotoRequest.swift */; };
 		406351F62D90AE830090D1F8 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351F52D90AE830090D1F8 /* Extension.swift */; };
 		406351F82D90B4BD0090D1F8 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351F72D90B4BD0090D1F8 /* Resolver.swift */; };
+		406351FB2D90BBF70090D1F8 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 406351FA2D90BBF70090D1F8 /* CryptoSwift */; };
 		4090E1C92D907B0B001143BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C32D907B0B001143BE /* ContentView.swift */; };
 		4090E1CA2D907B0B001143BE /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C42D907B0B001143BE /* Persistence.swift */; };
 		4090E1CB2D907B0B001143BE /* Pixora.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C52D907B0B001143BE /* Pixora.xcdatamodeld */; };
@@ -124,6 +125,7 @@
 				4090E2022D908179001143BE /* FirebaseFirestore in Frameworks */,
 				4090E2042D908179001143BE /* FirebaseStorage in Frameworks */,
 				4090E2072D90818B001143BE /* Swinject in Frameworks */,
+				406351FB2D90BBF70090D1F8 /* CryptoSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +521,7 @@
 				4090E2032D908179001143BE /* FirebaseStorage */,
 				4090E2062D90818B001143BE /* Swinject */,
 				4090E2092D90819C001143BE /* SDWebImageSwiftUI */,
+				406351FA2D90BBF70090D1F8 /* CryptoSwift */,
 			);
 			productName = Pixora;
 			productReference = 4090E1AA2D907A60001143BE /* Pixora.app */;
@@ -552,6 +555,7 @@
 				4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4090E2052D90818B001143BE /* XCRemoteSwiftPackageReference "Swinject" */,
 				4090E2082D90819C001143BE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				406351F92D90BBF70090D1F8 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4090E1AB2D907A60001143BE /* Products */;
@@ -833,6 +837,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		406351F92D90BBF70090D1F8 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.4;
+			};
+		};
 		4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -860,6 +872,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		406351FA2D90BBF70090D1F8 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 406351F92D90BBF70090D1F8 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
+		};
 		4090E1FF2D908179001143BE /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -20,9 +20,7 @@ struct PhotoRequest: RequestProtocol, CustomStringConvertible {
     }
     
     var urlParams: [String: String?] {
-        var params = [
-            "page": "\(page)",
-        ]
+        let params = ["per_page": "\(DataConstant.per_page)"]
         return params
     }
     

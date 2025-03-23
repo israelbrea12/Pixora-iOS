@@ -6,10 +6,10 @@
 //
 
 import Foundation
-
 import FirebaseAuth
 import FirebaseFirestore
-import Foundation
+import CommonCrypto
+import CryptoSwift
 
 extension RequestProtocol {
     
@@ -17,11 +17,8 @@ extension RequestProtocol {
         DataConstant.baseUrl
     }
     
-    var headers: [String: String] {
-        [
-            "Authorization": "Bearer \(DataConstant.apiKeyValue)",
-            "Content-Type": "application/json"
-        ]
+    var headers: [String : String] {
+        [:]
     }
 
     
@@ -37,10 +34,16 @@ extension RequestProtocol {
         var urlComponents = URLComponents(string: host)!
         urlComponents.scheme = DataConstant.scheme
         urlComponents.host = host
+        urlComponents.port = DataConstant.port
         urlComponents.path = path
         
+        let ts = String(Date().timeIntervalSince1970)
+        let hash = "\(ts)\(DataConstant.privateKey)\(DataConstant.publicKey)".md5()
         
         var queryParamList: [URLQueryItem] = [
+            URLQueryItem(name: DataConstant.apiKey, value: DataConstant.publicKey),
+            URLQueryItem(name: DataConstant.ts, value: ts),
+            URLQueryItem(name: DataConstant.hash, value: hash)
         ]
         
         if !urlParams.isEmpty {
