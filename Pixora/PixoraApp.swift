@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct PixoraApp: App {
+    
+    init(){
+        Resolver.shared.injectDependencies()
+    }
+    
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
