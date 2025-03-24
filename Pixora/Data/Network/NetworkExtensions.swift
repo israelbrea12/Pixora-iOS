@@ -43,7 +43,8 @@ extension RequestProtocol {
         var queryParamList: [URLQueryItem] = [
             URLQueryItem(name: DataConstant.apiKey, value: DataConstant.publicKey),
             URLQueryItem(name: DataConstant.ts, value: ts),
-            URLQueryItem(name: DataConstant.hash, value: hash)
+            URLQueryItem(name: DataConstant.hash, value: hash),
+            URLQueryItem(name: "orientation", value: "portrait")
         ]
         
         if !urlParams.isEmpty {

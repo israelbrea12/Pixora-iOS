@@ -16,10 +16,10 @@ class PhotoRepositoryImpl: PhotoRepository {
         self.photoDataSource = photoDataSource
     }
     
-    func getPhotos(from page: Int) async -> Result<[Photo], AppError> {
+    func getPhotos(from page: Int, by query: String) async -> Result<[Photo], AppError> {
         do {
-            let photosData = try await photoDataSource.getPhotos(from: page)
-            return .success(photosData.map{$0.toDomain()})
+            let photosData = try await photoDataSource.getPhotos(from: page, by: query)
+            return .success(photosData.results?.map{$0.toDomain()} ?? [])
         } catch {
             return .failure(error.toAppError())
         }

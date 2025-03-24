@@ -10,9 +10,10 @@ import Foundation
 struct PhotoRequest: RequestProtocol, CustomStringConvertible {
     
     private let page: Int
+    private let query: String
     
     var path: String {
-        DataConstant.photoListUrl
+        DataConstant.photoSearchUrl
     }
     
     var httpMethodType: HTTPMethodType {
@@ -20,11 +21,15 @@ struct PhotoRequest: RequestProtocol, CustomStringConvertible {
     }
     
     var urlParams: [String: String?] {
-        let params = ["per_page": "\(DataConstant.per_page)"]
+        var params = ["per_page": "\(DataConstant.per_page)"]
+        if !query.isEmpty {
+            params["query"] = query
+        }
         return params
     }
     
-    init(page: Int) {
+    init(page: Int, query: String) {
         self.page = page
+        self.query = query
     }
 }

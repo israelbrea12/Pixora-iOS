@@ -9,4 +9,5 @@ import Foundation
 
 struct GetPhotosParam {
     let page: Int
+    let query: String
 }

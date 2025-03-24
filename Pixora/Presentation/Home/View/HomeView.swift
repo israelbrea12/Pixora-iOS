@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     var body: some View {
         NavigationStack{
@@ -16,7 +18,7 @@ struct HomeView: View {
                 content:{
                     switch homeViewModel.state{
                     case .initial,
-                         .loading:
+                            .loading:
                         loadingView()
                     case .success:
                         successView()
@@ -28,6 +30,15 @@ struct HomeView: View {
                 }
             )
             .navigationTitle("Photos")
+            .searchable(
+                text: $homeViewModel.searchQuery,
+                prompt: "Search photos"
+            )
+            .onChange(of: homeViewModel.searchDebounced, perform:{ _ in
+                Task{
+                    await homeViewModel.searchPhotos()
+                }
+            })
         }
     }
     
@@ -36,22 +47,47 @@ struct HomeView: View {
     }
     
     private func successView() -> some View {
-        List{
-            ForEach(homeViewModel.photos){ photo in
-                ZStack(
-                content:{
-                    PhotoRow(photo: photo, removeAction: nil)
-//                    NavigationLink(destination: CharacterDetailView(character: character).toolbar(.hidden, for: .tabBar)){
-//                        EmptyView() //Label
-//                    }
-                }) //ZStack
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 16))
+        let screenWidth = UIScreen.main.bounds.width
+        let itemWidth = (screenWidth / 2) - 24
+
+        let leftColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map { $0.element }
+        let rightColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map { $0.element }
+
+        return ScrollView {
+            HStack(alignment: .top, spacing: 16) {
+                LazyVStack(spacing: 16) {
+                    ForEach(leftColumn, id: \.id) { photo in
+                        WebImage(url: photo.imageURL)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(
+                                width: itemWidth,
+                                height: CGFloat.random(in: 150...300) // Altura variable
+                            )
+                            .clipped()
+                            .cornerRadius(8)
+                    }
+                }
+
+                LazyVStack(spacing: 16) {
+                    ForEach(rightColumn, id: \.id) { photo in
+                        WebImage(url: photo.imageURL)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(
+                                width: itemWidth,
+                                height: CGFloat.random(in: 150...300) // Altura variable
+                            )
+                            .clipped()
+                            .cornerRadius(8)
+                    }
+                }
             }
-        } //List
-        .listStyle(PlainListStyle())
-        .scrollIndicators(.hidden)
+            .padding(.horizontal)
+            .padding(.top, 16)
+        }
     }
+
     
     private func emptyView() -> some View {
         InfoView(message: "No data found")

@@ -7,10 +7,10 @@
 
 import Foundation
 
-typealias PhotoResponse = [PhotoModel]
+typealias PhotoResponse = BaseResponse<PhotoModel>
 
 protocol PhotoDataSource {
-    func getPhotos(from page: Int) async throws -> [PhotoModel]
+    func getPhotos(from page: Int, by query: String) async throws -> BaseResponse<PhotoModel>
 }
 
 class PhotoDataSourceImpl: PhotoDataSource {
@@ -20,8 +20,8 @@ class PhotoDataSourceImpl: PhotoDataSource {
         self.apiManager = apiManager
     }
     
-    func getPhotos(from page: Int) async throws -> [PhotoModel] {
-        let request = PhotoRequest(page: page)
+    func getPhotos(from page: Int, by query: String) async throws -> BaseResponse<PhotoModel> {
+        let request = PhotoRequest(page: page, query: query)
         print(request)
         let response: PhotoResponse = try await apiManager.makeRequest(request: request)
         return response.self

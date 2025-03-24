@@ -15,6 +15,6 @@ struct GetPhotosUseCase: UseCaseProtocol {
     }
     
     func execute(with params: GetPhotosParam) async -> Result<[Photo], AppError> {
-        await photoRepository.getPhotos(from: params.page)
+        await photoRepository.getPhotos(from: params.page, by: params.query)
     }
 }
