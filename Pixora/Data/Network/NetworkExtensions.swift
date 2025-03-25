@@ -57,6 +57,8 @@ extension RequestProtocol {
             throw NetworkError.invalidUrl
         }
         
+        print("Generated URL: \(url)")
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethodType.rawValue
         

@@ -335,7 +335,6 @@
 			isa = PBXGroup;
 			children = (
 				4090E1E22D907D2A001143BE /* HomeView.swift */,
-				4090E2142D909834001143BE /* PhotoRow.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -417,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				4090E2122D9097A2001143BE /* InfoView.swift */,
+				4090E2142D909834001143BE /* PhotoRow.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

@@ -21,7 +21,9 @@ struct PhotoRequest: RequestProtocol, CustomStringConvertible {
     }
     
     var urlParams: [String: String?] {
-        var params = ["per_page": "\(DataConstant.per_page)"]
+        var params = ["page": "\(page)",
+                      "per_page": "\(DataConstant.per_page)"]
+        
         if !query.isEmpty {
             params["query"] = query
         }
