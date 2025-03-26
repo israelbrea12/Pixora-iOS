@@ -55,13 +55,9 @@ final class HomeViewModel: ObservableObject {
     }
     
     public func updateCategory(_ category: String) {
-        if let index = categories.firstIndex(of: category) {
-            selectedIndex = index
-        }
         selectedCategory = category
         Task {
             await fetchPhotos()
         }
     }
-
 }

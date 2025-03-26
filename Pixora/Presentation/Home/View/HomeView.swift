@@ -10,22 +10,28 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
+    let categories = [
+        "popular",
+        "nature",
+        "people",
+        "animals",
+        "technology",
+        "travel"
+    ]
     
     var body: some View {
             NavigationStack {
                 VStack {
                     categorySelectionView()
-                    TabView(selection: $homeViewModel.selectedIndex) {
-                        ForEach(homeViewModel.categories.indices, id: \.self) { index in
-                            categoryView(for: homeViewModel.categories[index])
-                                .tag(index)
+                    TabView(selection: $homeViewModel.selectedCategory) {
+                        ForEach(categories, id: \.self) { category in
+                            categoryView(for: category)
+                                .tag(category)
                         }
                     }
-                    .tabViewStyle(.page) // Activa el gesto de deslizamiento
-                    .onChange(of: homeViewModel.selectedIndex) { oldIndex, newIndex in
-                        homeViewModel.updateCategory(homeViewModel.categories[newIndex])
-                    }
-
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                 }
             }
         }
@@ -119,7 +125,7 @@ struct HomeView: View {
     private func categorySelectionView() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(homeViewModel.categories, id: \.self) { category in
+                ForEach(categories, id: \.self) { category in
                     Button(action: {
                         homeViewModel.updateCategory(category)
                     }) {
