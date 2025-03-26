@@ -10,7 +10,6 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     let categories = [
         "popular",
@@ -22,44 +21,36 @@ struct HomeView: View {
     ]
     
     var body: some View {
-            NavigationStack {
-                VStack {
-                    categorySelectionView()
-                    TabView(selection: $homeViewModel.selectedCategory) {
-                        ForEach(categories, id: \.self) { category in
-                            categoryView(for: category)
-                                .tag(category)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                }
+        NavigationStack {
+            VStack {
+                categorySelectionView()
+                categoryView(for: homeViewModel.selectedCategory)
             }
         }
-        
-        private func categoryView(for category: String) -> some View {
-            ScrollView {
-                VStack {
-                    ZStack {
-                        if homeViewModel.selectedCategory == category {
-                            switch homeViewModel.state {
-                            case .loading:
-                                loadingView()
-                            case .success:
-                                successView()
-                            case .error(let errorMessage):
-                                errorView(errorMsg: errorMessage)
-                            default:
-                                emptyView()
-                            }
-                        }
+    }
+    
+    private func categoryView(for category: String) -> some View {
+        ScrollView {
+            VStack {
+                ZStack {
+                    switch homeViewModel.state {
+                    case .loading:
+                        loadingView()
+                    case .success:
+                        successView()
+                    case .error(let errorMessage):
+                        errorView(errorMsg: errorMessage)
+                    default:
+                        emptyView()
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-            }
-            .onAppear {
-                homeViewModel.updateCategory(category) // Cargar imágenes al cambiar de categoría
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .onAppear {
+            homeViewModel.updateCategory(category) // Cargar imágenes al cambiar de categoría
+        }
+    }
     
     private func loadingView() -> some View {
         ProgressView()
@@ -68,14 +59,10 @@ struct HomeView: View {
     private func successView() -> some View {
         let screenWidth = UIScreen.main.bounds.width
         let itemWidth = (screenWidth / 2) - 24
-
-        let leftColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map {
-            $0.element
-        }
-        let rightColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map {
-            $0.element
-        }
-
+        
+        let leftColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map { $0.element }
+        let rightColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map { $0.element }
+        
         return ScrollView {
             HStack(alignment: .top, spacing: 16) {
                 LazyVStack(spacing: 16) {
@@ -85,14 +72,13 @@ struct HomeView: View {
                             .scaledToFill()
                             .frame(
                                 width: itemWidth,
-                                height: CGFloat
-                                    .random(in: 150...300) // Altura variable
+                                height: CGFloat.random(in: 150...300) // Altura variable
                             )
                             .clipped()
                             .cornerRadius(8)
                     }
                 }
-
+                
                 LazyVStack(spacing: 16) {
                     ForEach(rightColumn, id: \.id) { photo in
                         WebImage(url: photo.imageURL)
@@ -100,8 +86,7 @@ struct HomeView: View {
                             .scaledToFill()
                             .frame(
                                 width: itemWidth,
-                                height: CGFloat
-                                    .random(in: 150...300) // Altura variable
+                                height: CGFloat.random(in: 150...300) // Altura variable
                             )
                             .clipped()
                             .cornerRadius(8)
@@ -112,7 +97,6 @@ struct HomeView: View {
             .padding(.top, 16)
         }
     }
-
     
     private func emptyView() -> some View {
         InfoView(message: "No data found")
@@ -133,8 +117,7 @@ struct HomeView: View {
                             .padding(.vertical, 10)
                             .padding(.horizontal, 20)
                             .background(
-                                homeViewModel.selectedCategory == category ? Color.blue : Color.gray
-                                    .opacity(0.2)
+                                homeViewModel.selectedCategory == category ? Color.blue : Color.gray.opacity(0.2)
                             )
                             .foregroundColor(
                                 homeViewModel.selectedCategory == category ? .white : .black
@@ -153,4 +136,3 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
-
