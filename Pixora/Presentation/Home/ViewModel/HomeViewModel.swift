@@ -9,37 +9,41 @@ import Foundation
 import Combine
 
 @MainActor
-final class HomeViewModel : ObservableObject {
-    
-    @Published var searchQuery = ""
-    @Published var searchDebounced = ""
-    @Published var photos: [Photo] = [Photo]()
+final class HomeViewModel: ObservableObject {
+    @Published var photos: [Photo] = []
     @Published var state: ViewState = .success
-    
-    private var page: Int = 1
-    
-    let getPhotosUseCase: GetPhotosUseCase
+    @Published var selectedCategory: String = "popular" // Categoría por defecto
+    @Published var selectedIndex: Int = 0 // Nuevo estado para sincronizar con TabView
+        
+        private var page: Int = 1
+        let getPhotosUseCase: GetPhotosUseCase
+        
+        let categories = [
+            "popular",
+            "nature",
+            "people",
+            "animals",
+            "technology",
+            "travel"
+        ]
     
     
     init(getPhotosUseCase: GetPhotosUseCase){
         self.getPhotosUseCase = getPhotosUseCase
         
-        $searchQuery.debounce(for: 0.5, scheduler: RunLoop.main).removeDuplicates().assign(to: &$searchDebounced)
+        // Sincronizar índice inicial con la categoría seleccionada
+                if let initialIndex = categories.firstIndex(of: selectedCategory) {
+                    selectedIndex = initialIndex
+                }
         
-        Task{
+        Task {
             await self.fetchPhotos()
         }
     }
-    
-    public func searchPhotos() async {
-        photos = []
-        await fetchPhotos()
-    }
-    
+
     public func fetchPhotos() async {
         state = .loading
-        let queryToUse = searchDebounced.isEmpty ? "popular" : searchDebounced // Cambia "nature" por una categoría genérica
-        let result = await getPhotosUseCase.execute(with: GetPhotosParam(page: page, query: queryToUse))
+        let result = await getPhotosUseCase.execute(with: GetPhotosParam(page: page, query: selectedCategory))
 
         switch result {
             case .success(let data):
@@ -47,6 +51,16 @@ final class HomeViewModel : ObservableObject {
                 state = photos.isEmpty ? .empty : .success
             case .failure(let err):
                 state = .error(err.localizedDescription)
+        }
+    }
+    
+    public func updateCategory(_ category: String) {
+        if let index = categories.firstIndex(of: category) {
+            selectedIndex = index
+        }
+        selectedCategory = category
+        Task {
+            await fetchPhotos()
         }
     }
 

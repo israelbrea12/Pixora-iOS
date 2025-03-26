@@ -29,7 +29,7 @@ struct SearchView: View {
                     }
                 }
             )
-            .navigationTitle("Photos")
+            .navigationTitle("Search")
             .searchable(
                 text: $searchViewModel.searchQuery,
                 prompt: "Search photos"

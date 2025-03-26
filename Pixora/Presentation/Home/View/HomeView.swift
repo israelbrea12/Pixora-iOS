@@ -10,37 +10,50 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     var body: some View {
-        NavigationStack{
-            ZStack(
-                content:{
-                    switch homeViewModel.state{
-                    case .initial,
-                            .loading:
-                        loadingView()
-                    case .success:
-                        successView()
-                    case .error(let errorMessage):
-                        errorView(errorMsg:errorMessage)
-                    default:
-                        emptyView()
+            NavigationStack {
+                VStack {
+                    categorySelectionView()
+                    TabView(selection: $homeViewModel.selectedIndex) {
+                        ForEach(homeViewModel.categories.indices, id: \.self) { index in
+                            categoryView(for: homeViewModel.categories[index])
+                                .tag(index)
+                        }
                     }
+                    .tabViewStyle(.page) // Activa el gesto de deslizamiento
+                    .onChange(of: homeViewModel.selectedIndex) { oldIndex, newIndex in
+                        homeViewModel.updateCategory(homeViewModel.categories[newIndex])
+                    }
+
                 }
-            )
-            .navigationTitle("Photos")
-            .searchable(
-                text: $homeViewModel.searchQuery,
-                prompt: "Search photos"
-            )
-            .onChange(of: homeViewModel.searchDebounced, perform:{ _ in
-                Task{
-                    await homeViewModel.searchPhotos()
-                }
-            })
+            }
         }
-    }
+        
+        private func categoryView(for category: String) -> some View {
+            ScrollView {
+                VStack {
+                    ZStack {
+                        if homeViewModel.selectedCategory == category {
+                            switch homeViewModel.state {
+                            case .loading:
+                                loadingView()
+                            case .success:
+                                successView()
+                            case .error(let errorMessage):
+                                errorView(errorMsg: errorMessage)
+                            default:
+                                emptyView()
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .onAppear {
+                homeViewModel.updateCategory(category) // Cargar imágenes al cambiar de categoría
+            }
+        }
     
     private func loadingView() -> some View {
         ProgressView()
@@ -50,8 +63,12 @@ struct HomeView: View {
         let screenWidth = UIScreen.main.bounds.width
         let itemWidth = (screenWidth / 2) - 24
 
-        let leftColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map { $0.element }
-        let rightColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map { $0.element }
+        let leftColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map {
+            $0.element
+        }
+        let rightColumn = homeViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map {
+            $0.element
+        }
 
         return ScrollView {
             HStack(alignment: .top, spacing: 16) {
@@ -62,7 +79,8 @@ struct HomeView: View {
                             .scaledToFill()
                             .frame(
                                 width: itemWidth,
-                                height: CGFloat.random(in: 150...300) // Altura variable
+                                height: CGFloat
+                                    .random(in: 150...300) // Altura variable
                             )
                             .clipped()
                             .cornerRadius(8)
@@ -76,7 +94,8 @@ struct HomeView: View {
                             .scaledToFill()
                             .frame(
                                 width: itemWidth,
-                                height: CGFloat.random(in: 150...300) // Altura variable
+                                height: CGFloat
+                                    .random(in: 150...300) // Altura variable
                             )
                             .clipped()
                             .cornerRadius(8)
@@ -95,6 +114,31 @@ struct HomeView: View {
     
     private func errorView(errorMsg: String) -> some View {
         InfoView(message: errorMsg)
+    }
+    
+    private func categorySelectionView() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(homeViewModel.categories, id: \.self) { category in
+                    Button(action: {
+                        homeViewModel.updateCategory(category)
+                    }) {
+                        Text(category.capitalized)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(
+                                homeViewModel.selectedCategory == category ? Color.blue : Color.gray
+                                    .opacity(0.2)
+                            )
+                            .foregroundColor(
+                                homeViewModel.selectedCategory == category ? .white : .black
+                            )
+                            .cornerRadius(20)
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
     }
 }
 
