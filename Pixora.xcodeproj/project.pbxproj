@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B5A892D97530800C8C15E /* PhotoDetailsView.swift */; };
+		400B5A8C2D97532000C8C15E /* PhotoDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B5A8B2D97532000C8C15E /* PhotoDetailsViewModel.swift */; };
 		406351D92D90A9310090D1F8 /* PhotoRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351D82D90A9310090D1F8 /* PhotoRepositoryImpl.swift */; };
 		406351DC2D90A9B10090D1F8 /* NetworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351DB2D90A9B10090D1F8 /* NetworkExtensions.swift */; };
 		406351DF2D90AA330090D1F8 /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351DE2D90AA330090D1F8 /* PhotoDataSource.swift */; };
@@ -64,6 +66,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		400B5A892D97530800C8C15E /* PhotoDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsView.swift; sourceTree = "<group>"; };
+		400B5A8B2D97532000C8C15E /* PhotoDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewModel.swift; sourceTree = "<group>"; };
 		406351D82D90A9310090D1F8 /* PhotoRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepositoryImpl.swift; sourceTree = "<group>"; };
 		406351DB2D90A9B10090D1F8 /* NetworkExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExtensions.swift; sourceTree = "<group>"; };
 		406351DE2D90AA330090D1F8 /* PhotoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
@@ -132,6 +136,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		400B5A872D9752C200C8C15E /* PhotoDetails */ = {
+			isa = PBXGroup;
+			children = (
+				400B5A882D9752F900C8C15E /* ViewModel */,
+				400B5A892D97530800C8C15E /* PhotoDetailsView.swift */,
+			);
+			path = PhotoDetails;
+			sourceTree = "<group>";
+		};
+		400B5A882D9752F900C8C15E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				400B5A8B2D97532000C8C15E /* PhotoDetailsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		406351D72D90A9200090D1F8 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,14 +255,15 @@
 		4090E1CF2D907B0E001143BE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				4090E2112D909791001143BE /* Utils */,
+				4090E1D52D907B88001143BE /* MainView.swift */,
+				4090E1DC2D907CDD001143BE /* ViewState.swift */,
 				4090E1D92D907C77001143BE /* Home */,
 				4090E1DA2D907C80001143BE /* Search */,
 				4090E1DB2D907CB2001143BE /* Notifications */,
 				4090E1D82D907C6E001143BE /* Favs */,
 				4090E1D72D907C5C001143BE /* Profile */,
-				4090E1D52D907B88001143BE /* MainView.swift */,
-				4090E1DC2D907CDD001143BE /* ViewState.swift */,
+				400B5A872D9752C200C8C15E /* PhotoDetails */,
+				4090E2112D909791001143BE /* Utils */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -607,6 +629,7 @@
 				406351F02D90AC920090D1F8 /* DataParser.swift in Sources */,
 				4090E2332D90A841001143BE /* GetPhotosUseCase.swift in Sources */,
 				4090E1F92D907E20001143BE /* ProfileView.swift in Sources */,
+				400B5A8C2D97532000C8C15E /* PhotoDetailsViewModel.swift in Sources */,
 				4090E1CB2D907B0B001143BE /* Pixora.xcdatamodeld in Sources */,
 				406351D92D90A9310090D1F8 /* PhotoRepositoryImpl.swift in Sources */,
 				406351F22D90ACBE0090D1F8 /* JsonDataParser.swift in Sources */,
@@ -629,6 +652,7 @@
 				406351E62D90AC1C0090D1F8 /* NetworkManagerImpl.swift in Sources */,
 				4090E2312D90A808001143BE /* AppError.swift in Sources */,
 				4090E20E2D9081CF001143BE /* SessionManager.swift in Sources */,
+				400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */,
 				406351E92D90AC4B0090D1F8 /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

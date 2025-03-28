@@ -104,5 +104,9 @@ extension Resolver {
         container.register(SearchViewModel.self){resolver in
             SearchViewModel(getPhotosUseCase: resolver.resolve(GetPhotosUseCase.self)!)
         }.inObjectScope(.container)
+        
+        container.register(PhotoDetailsViewModel.self){resolver in
+            PhotoDetailsViewModel()
+        }.inObjectScope(.container)
     }
 }
