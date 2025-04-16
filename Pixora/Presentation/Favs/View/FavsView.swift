@@ -5,66 +5,87 @@
 //  Created by Israel Brea Piñero on 23/3/25.
 //
 
+
+
 import SwiftUI
 import SDWebImageSwiftUI
 
 struct FavsView: View {
     @StateObject var favsViewModel = Resolver.shared.resolve(FavsViewModel.self)
-
-    private let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                Text("Favorites")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.horizontal)
-                    .padding(.top)
-                
-                content()
+            ZStack {
+                switch favsViewModel.state {
+                case .loading:
+                    loadingView()
+                case .success:
+                    successView()
+                case .error(let errorMessage):
+                    errorView(errorMsg: errorMessage)
+                default:
+                    emptyView()
+                }
+            }
+            .navigationTitle("Favorites")
+            .onAppear {
+                Task {
+                    await favsViewModel.refreshIfNeeded()
+                }
             }
         }
     }
     
-    @ViewBuilder
-    private func content() -> some View {
-        switch favsViewModel.state {
-        case .loading:
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case .success:
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(favsViewModel.photos, id: \.id) { photo in
-                        NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
-                            WebImage(url: photo.imageURL)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 130)
-                                .clipped()
-                                .cornerRadius(8)
+    private func loadingView() -> some View {
+        ProgressView()
+    }
+    
+    private func successView() -> some View {
+        let screenWidth = UIScreen.main.bounds.width
+        let itemWidth = (screenWidth / 3) - 20 // Ajuste para padding y spacing
+
+        // Dividir las fotos en 3 columnas según su posición
+        let columns = (0..<3).map { columnIndex in
+            favsViewModel.photos.enumerated()
+                .filter { $0.offset % 3 == columnIndex }
+                .map { $0.element }
+        }
+
+        return ScrollView {
+            HStack(alignment: .top, spacing: 12) {
+                ForEach(0..<3, id: \.self) { columnIndex in
+                    LazyVStack(spacing: 12) {
+                        ForEach(columns[columnIndex], id: \.id) { photo in
+                            NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                                WebImage(url: photo.imageURL)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(
+                                        width: itemWidth,
+                                        height: CGFloat.random(in: 150...190)
+                                    )
+                                    .clipped()
+                                    .cornerRadius(8)
+                            }
                         }
                     }
                 }
-                .padding(.horizontal)
-                .padding(.top)
             }
-        case .empty:
-            InfoView(message: "No favorites yet")
-        case .error(let message):
-            InfoView(message: message)
-        default:
-            EmptyView()
+            .padding(.horizontal, 12)
+            .padding(.top, 16)
         }
+    }
+    
+    private func emptyView() -> some View {
+        InfoView(message: "No favorites yet")
+    }
+    
+    private func errorView(errorMsg: String) -> some View {
+        InfoView(message: errorMsg)
     }
 }
 
 #Preview {
     FavsView()
 }
-

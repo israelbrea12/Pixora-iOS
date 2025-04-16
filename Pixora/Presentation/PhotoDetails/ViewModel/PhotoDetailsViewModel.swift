@@ -11,6 +11,7 @@ import Foundation
 final class PhotoDetailsViewModel: ObservableObject {
     @Published var isFavorite: Bool = false
     @Published var state: ViewState = .loading
+    @Published var likes: Int = 0
 
     private let setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase
     private let deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase
@@ -28,6 +29,7 @@ final class PhotoDetailsViewModel: ObservableObject {
 
     func load(photo: Photo) async -> Bool {
         self.state = .loading
+        self.likes = photo.likes ?? 0
         let result = await isPhotoFavoriteUseCase.execute(with: photo)
         switch result {
         case .success(let isFav):
@@ -46,12 +48,14 @@ final class PhotoDetailsViewModel: ObservableObject {
             let result = await deletePhotoAsFavoriteUseCase.execute(with: photo)
             if case .success = result {
                 self.isFavorite = false
+                self.likes = max(self.likes - 1, 0)
                 return false
             }
         } else {
             let result = await setPhotoAsFavoriteUseCase.execute(with: photo)
             if case .success = result {
                 self.isFavorite = true
+                self.likes += 1
                 return true
             }
         }

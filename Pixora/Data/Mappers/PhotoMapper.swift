@@ -43,13 +43,13 @@ extension FavoritePhotoEntity {
 extension Photo {
     func toData(context: NSManagedObjectContext) -> FavoritePhotoEntity {
         let entity = FavoritePhotoEntity(context: context)
-        entity.id = self.id
-        entity.descriptionText = self.description
-        entity.color = self.color
+        entity.id = self.id ?? UUID().uuidString // fallback razonable
+        entity.descriptionText = self.description ?? ""
+        entity.color = self.color ?? "#FFFFFF"
         entity.likes = Int32(self.likes ?? 0)
-        entity.imageURL = self.imageURL?.absoluteString
-        entity.photographerUsername = self.photographerUsername
-        entity.photographerProfileImage = self.photographerProfileImage?.absoluteString
+        entity.imageURL = self.imageURL?.absoluteString ?? ""
+        entity.photographerUsername = self.photographerUsername ?? "Desconocido"
+        entity.photographerProfileImage = self.photographerProfileImage?.absoluteString ?? ""
         return entity
     }
 }

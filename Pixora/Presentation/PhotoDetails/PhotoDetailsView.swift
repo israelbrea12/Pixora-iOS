@@ -115,23 +115,21 @@ struct PhotoDetailsView: View {
     private var interactionBar: some View {
         HStack(spacing: 18) {
             HStack {
-                Button(action: {
-                    Task {
-                        let liked = await photoDetailsViewModel.toggleFavorite(for: photo)
-                        if liked {
-                            photo.likes = (photo.likes ?? 0) + 1
-                        } else {
-                            photo.likes = max((photo.likes ?? 0) - 1, 0)
+                LikeButton(
+                        isLiked: photoDetailsViewModel.isFavorite,
+                        onTap: {
+                            Task {
+                                let liked = await photoDetailsViewModel.toggleFavorite(for: photo)
+                                if liked {
+                                    photo.likes = (photo.likes ?? 0) + 1
+                                } else {
+                                    photo.likes = max((photo.likes ?? 0) - 1, 0)
+                                }
+                            }
                         }
-                    }
-                }) {
-                    Image(systemName: photoDetailsViewModel.isFavorite ? "heart.fill" : "heart")
-                        .foregroundColor(photoDetailsViewModel.isFavorite ? Color.red : Color.black)
-                        .font(.headline)
-                        .bold()
-                }
+                    )
 
-                Text("\(photo.likes ?? 0)")
+                Text("\(photoDetailsViewModel.likes)")
                     .font(.subheadline)
             }
                 

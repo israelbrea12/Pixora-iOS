@@ -57,39 +57,44 @@ struct SearchView: View {
             HStack(alignment: .top, spacing: 16) {
                 LazyVStack(spacing: 16) {
                     ForEach(leftColumn, id: \.id) { photo in
-                        WebImage(url: photo.imageURL)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: itemWidth, height: CGFloat.random(in: 150...300))
-                            .clipped()
-                            .cornerRadius(8)
-                            .onAppear {
-                                if photo == searchViewModel.photos.last {
-                                    Task {
-                                        await searchViewModel.fetchPhotos()
-                                    }
+                        NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                            WebImage(url: photo.imageURL)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: itemWidth, height: CGFloat.random(in: 150...300))
+                                .clipped()
+                                .cornerRadius(8)
+                        }
+                        .onAppear {
+                            if photo == searchViewModel.photos.last {
+                                Task {
+                                    await searchViewModel.fetchPhotos()
                                 }
                             }
+                        }
                     }
                 }
                 
                 LazyVStack(spacing: 16) {
                     ForEach(rightColumn, id: \.id) { photo in
-                        WebImage(url: photo.imageURL)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: itemWidth, height: CGFloat.random(in: 150...300))
-                            .clipped()
-                            .cornerRadius(8)
-                            .onAppear {
-                                if photo == searchViewModel.photos.last {
-                                    Task {
-                                        await searchViewModel.fetchPhotos()
-                                    }
+                        NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                            WebImage(url: photo.imageURL)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: itemWidth, height: CGFloat.random(in: 150...300))
+                                .clipped()
+                                .cornerRadius(8)
+                        }
+                        .onAppear {
+                            if photo == searchViewModel.photos.last {
+                                Task {
+                                    await searchViewModel.fetchPhotos()
                                 }
                             }
+                        }
                     }
                 }
+
             }
             .padding(.horizontal)
             .padding(.top, 16)
