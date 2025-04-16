@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GetPhotosUseCase: UseCaseProtocol {
+class GetPhotosUseCase: UseCaseProtocol {
     private let photoRepository: PhotoRepository
     
     init(photoRepository: PhotoRepository) {

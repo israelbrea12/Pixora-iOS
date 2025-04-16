@@ -9,7 +9,8 @@ import Foundation
 
 protocol PhotoRepository {
     func getPhotos(from page: Int, by query: String) async -> Result<[Photo], AppError>
-//    func savePhotoAsFavorite(_ data: Photo)  -> Result<Bool,AppError>
-//    func deletePhotoAsFavorite(_ data: Photo) -> Result<Bool,AppError>
-//    func fetchFavoritePhotos() -> Result<[Photo], AppError>
+    func savePhotoAsFavorite(_ photo: Photo) -> Result<Bool, AppError>
+    func deletePhotoAsFavorite(_ photo: Photo) -> Result<Bool, AppError>
+    func fetchFavoritePhotos() -> Result<[Photo], AppError>
+    func isPhotoFavorite(_ photo: Photo) -> Result<Bool, AppError>
 }

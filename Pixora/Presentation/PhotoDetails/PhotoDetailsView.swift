@@ -38,6 +38,13 @@ struct PhotoDetailsView: View {
                 }
             )
         }
+        .task {
+            let isAlreadyFavorite = await photoDetailsViewModel.load(photo: photo)
+            if isAlreadyFavorite {
+                photo.likes = (photo.likes ?? 0) + 1
+            }
+        }
+
     }
     
     private func loadingView() -> some View {
@@ -108,10 +115,22 @@ struct PhotoDetailsView: View {
     private var interactionBar: some View {
         HStack(spacing: 18) {
             HStack {
-                Image(systemName: "heart")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .bold()
+                Button(action: {
+                    Task {
+                        let liked = await photoDetailsViewModel.toggleFavorite(for: photo)
+                        if liked {
+                            photo.likes = (photo.likes ?? 0) + 1
+                        } else {
+                            photo.likes = max((photo.likes ?? 0) - 1, 0)
+                        }
+                    }
+                }) {
+                    Image(systemName: photoDetailsViewModel.isFavorite ? "heart.fill" : "heart")
+                        .foregroundColor(photoDetailsViewModel.isFavorite ? Color.red : Color.black)
+                        .font(.headline)
+                        .bold()
+                }
+
                 Text("\(photo.likes ?? 0)")
                     .font(.subheadline)
             }
@@ -140,7 +159,9 @@ struct PhotoDetailsView: View {
                 
             Spacer()
                 
-            Button(action: {}) {
+            Button(action: {
+                
+            }) {
                 Text("Guardar")
                     .padding(.vertical, 10)
                     .padding(.horizontal, 10)

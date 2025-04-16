@@ -48,8 +48,10 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            homeViewModel.updateCategory(category) // Cargar imágenes al cambiar de categoría
-        }
+                if homeViewModel.selectedCategory != category || homeViewModel.photos.isEmpty {
+                    homeViewModel.updateCategory(category)
+                }
+            }
     }
     
     private func loadingView() -> some View {

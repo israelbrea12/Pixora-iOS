@@ -11,7 +11,7 @@ struct Photo: Identifiable, Equatable {
     let id: String?
     let description: String?
     let color: String?
-    let likes: Int?
+    var likes: Int?
     let imageURL: URL?
     let photographerUsername: String?
     let photographerProfileImage: URL?

@@ -10,10 +10,11 @@ import Foundation
 class PhotoRepositoryImpl: PhotoRepository {
     
     private let photoDataSource: PhotoDataSource
-//    private let favDataSource: FavDataSource
+    private let favDataSource: FavoritePhotoDataSource
     
-    init(photoDataSource: PhotoDataSource) {
+    init(photoDataSource: PhotoDataSource, favDataSource: FavoritePhotoDataSource) {
         self.photoDataSource = photoDataSource
+        self.favDataSource = favDataSource
     }
     
     func getPhotos(from page: Int, by query: String) async -> Result<[Photo], AppError> {
@@ -25,33 +26,38 @@ class PhotoRepositoryImpl: PhotoRepository {
         }
     }
     
-//    func saveMovieAsFavorite(_ movie: Movie) -> Result<Bool, AppError> {
-//        let fav = movie.toData()
-//        do{
-//            try favDataSource.addFavorite(fav)
-//            return .success(true)
-//        }catch{
-//            return .failure(error.toAppError())
-//        }
-//    }
-//
-//    func deleteMovieAsFavorite(_ movie: Movie) -> Result<Bool, AppError> {
-//        let fav = movie.toData()
-//
-//        do{
-//            try favDataSource.removeFavorite(fav)
-//            return .success(true)
-//        }catch{
-//            return .failure(error.toAppError())
-//        }
-//    }
-//
-//    func fetchFavoriteMovies() -> Result<[Movie], AppError> {
-//        do{
-//           let favorites = try favDataSource.fetchFavorites()
-//            return .success(favorites.map{$0.toDomain()})
-//        }catch{
-//            return .failure(error.toAppError())
-//        }
-//    }
+    func savePhotoAsFavorite(_ photo: Photo) -> Result<Bool, AppError> {
+        do {
+            try favDataSource.saveFavorite(photo)
+            return .success(true)
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
+    
+    func deletePhotoAsFavorite(_ photo: Photo) -> Result<Bool, AppError> {
+            do {
+                try favDataSource.deleteFavorite(photo)
+                return .success(true)
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
+
+    func fetchFavoritePhotos() -> Result<[Photo], AppError> {
+            do {
+                let result = try favDataSource.fetchFavorites()
+                return .success(result)
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
+    
+    func isPhotoFavorite(_ photo: Photo) -> Result<Bool, AppError> {
+            do {
+                return .success(try favDataSource.isFavorite(photo: photo))
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
 }

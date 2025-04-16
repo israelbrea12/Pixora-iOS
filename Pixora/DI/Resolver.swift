@@ -58,6 +58,10 @@ extension Resolver {
         container.register(PhotoDataSource.self){ resolver in
             PhotoDataSourceImpl(apiManager: resolver.resolve(APIManager.self)!)
         }.inObjectScope(.container)
+        
+        container.register(FavoritePhotoDataSource.self){ resolver in
+            FavoritePhotoDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -69,7 +73,8 @@ extension Resolver {
         //--------------------------------------------------------------------------------
         // Photo
         container.register(PhotoRepository.self){resolver in
-            PhotoRepositoryImpl(photoDataSource: resolver.resolve(PhotoDataSource.self)!)
+            PhotoRepositoryImpl(photoDataSource: resolver.resolve(PhotoDataSource.self)!,
+                                favDataSource: resolver.resolve(FavoritePhotoDataSource.self)!)
         }.inObjectScope(.container)
     }
 }
@@ -84,6 +89,24 @@ extension Resolver {
         // Photo
         container.register(GetPhotosUseCase.self){resolver in
             GetPhotosUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
+        
+        //--------------------------------------------------------------------------------
+        // Favorite
+        container.register(SetPhotoAsFavoriteUseCase.self){resolver in
+            SetPhotoAsFavoriteUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(DeletePhotoAsFavoriteUseCase.self){resolver in
+            DeletePhotoAsFavoriteUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(IsPhotoFavoriteUseCase.self){resolver in
+            IsPhotoFavoriteUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(GetFavoritePhotosUseCase.self){resolver in
+            GetFavoritePhotosUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
         }.inObjectScope(.container)
     }
 
@@ -106,7 +129,14 @@ extension Resolver {
         }.inObjectScope(.container)
         
         container.register(PhotoDetailsViewModel.self){resolver in
-            PhotoDetailsViewModel()
+            PhotoDetailsViewModel(
+                setPhotoAsFavoriteUseCase: resolver.resolve(SetPhotoAsFavoriteUseCase.self)!,
+                deletePhotoAsFavoriteUseCase: resolver.resolve(DeletePhotoAsFavoriteUseCase.self)!,
+                isPhotoFavoriteUseCase: resolver.resolve(IsPhotoFavoriteUseCase.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(FavsViewModel.self){resolver in
+            FavsViewModel(getFavoritePhotosUseCase: resolver.resolve(GetFavoritePhotosUseCase.self)!)
         }.inObjectScope(.container)
     }
 }
