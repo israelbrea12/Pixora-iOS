@@ -9,4 +9,8 @@
         <attribute name="photographerProfileImage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="photographerUsername" optional="YES" attributeType="String" defaultValueString=""/>
     </entity>
+    <entity name="PhotoListEntity" representedClassName="PhotoListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
 </model>

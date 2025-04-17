@@ -62,6 +62,10 @@ extension Resolver {
         container.register(FavoritePhotoDataSource.self){ resolver in
             FavoritePhotoDataSourceImpl()
         }.inObjectScope(.container)
+        
+        container.register(PhotoListDataSource.self){ resolver in
+            PhotoListDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -75,6 +79,10 @@ extension Resolver {
         container.register(PhotoRepository.self){resolver in
             PhotoRepositoryImpl(photoDataSource: resolver.resolve(PhotoDataSource.self)!,
                                 favDataSource: resolver.resolve(FavoritePhotoDataSource.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(PhotoListRepository.self){resolver in
+            PhotoListRepositoryImpl(dataSource: resolver.resolve(PhotoListDataSource.self)!)
         }.inObjectScope(.container)
     }
 }
@@ -108,6 +116,14 @@ extension Resolver {
         container.register(GetFavoritePhotosUseCase.self){resolver in
             GetFavoritePhotosUseCase(photoRepository: resolver.resolve(PhotoRepository.self)!)
         }.inObjectScope(.container)
+        
+        container.register(CreatePhotoListUseCase.self){resolver in
+            CreatePhotoListUseCase(photoListRepository: resolver.resolve(PhotoListRepository.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(GetPhotoListsUseCase.self){resolver in
+            GetPhotoListsUseCase(photoListRepository: resolver.resolve(PhotoListRepository.self)!)
+        }.inObjectScope(.container)
     }
 
 }
@@ -137,6 +153,11 @@ extension Resolver {
         
         container.register(FavsViewModel.self){resolver in
             FavsViewModel(getFavoritePhotosUseCase: resolver.resolve(GetFavoritePhotosUseCase.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(NewListViewModel.self){resolver in
+            NewListViewModel(getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
+                             createListUseCase: resolver.resolve(CreatePhotoListUseCase.self)!)
         }.inObjectScope(.container)
     }
 }

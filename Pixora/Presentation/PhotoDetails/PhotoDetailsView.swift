@@ -158,7 +158,7 @@ struct PhotoDetailsView: View {
             Spacer()
                 
             Button(action: {
-                
+                photoDetailsViewModel.isNewListSheetPresented = true
             }) {
                 Text("Guardar")
                     .padding(.vertical, 10)
@@ -168,6 +168,9 @@ struct PhotoDetailsView: View {
                     .background(Color.red)
                     .foregroundColor(.white)
                     .cornerRadius(24)
+            }
+            .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented) {
+                NewListView(photoID: photo.id ?? "")
             }
         }
         .font(.title3)

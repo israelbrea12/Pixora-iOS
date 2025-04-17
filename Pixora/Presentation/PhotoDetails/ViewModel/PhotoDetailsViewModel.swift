@@ -12,6 +12,7 @@ final class PhotoDetailsViewModel: ObservableObject {
     @Published var isFavorite: Bool = false
     @Published var state: ViewState = .loading
     @Published var likes: Int = 0
+    @Published var isNewListSheetPresented = false
 
     private let setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase
     private let deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase
