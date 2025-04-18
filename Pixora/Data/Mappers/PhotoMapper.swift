@@ -25,7 +25,7 @@ extension PhotoModel {
     }
 }
 
-extension FavoritePhotoEntity {
+extension PhotoEntity {
     func toDomain() -> Photo {
         Photo(
             id: id,
@@ -35,22 +35,25 @@ extension FavoritePhotoEntity {
             imageURL: URL(string: imageURL ?? ""),
             photographerUsername: photographerUsername,
             photographerProfileImage: URL(string: photographerProfileImage ?? ""),
-            isFavorite: true
+            isFavorite: isFavorite
         )
     }
 }
 
 extension Photo {
-    func toData(context: NSManagedObjectContext) -> FavoritePhotoEntity {
-        let entity = FavoritePhotoEntity(context: context)
-        entity.id = self.id ?? UUID().uuidString // fallback razonable
+    func toData(context: NSManagedObjectContext) -> PhotoEntity {
+        let request = NSFetchRequest<PhotoEntity>(entityName: "PhotoEntity")
+        request.predicate = NSPredicate(format: "id == %@", id ?? "")
+        let entity = (try? context.fetch(request).first) ?? PhotoEntity(context: context)
+
+        entity.id = self.id ?? UUID().uuidString
         entity.descriptionText = self.description ?? ""
         entity.color = self.color ?? "#FFFFFF"
         entity.likes = Int32(self.likes ?? 0)
         entity.imageURL = self.imageURL?.absoluteString ?? ""
         entity.photographerUsername = self.photographerUsername ?? "Desconocido"
         entity.photographerProfileImage = self.photographerProfileImage?.absoluteString ?? ""
+        entity.isFavorite = self.isFavorite
         return entity
     }
 }
-

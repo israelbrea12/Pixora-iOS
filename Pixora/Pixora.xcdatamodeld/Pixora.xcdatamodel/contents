@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="FavoritePhotoEntity" representedClassName="FavoritePhotoEntity" syncable="YES" codeGenerationType="class">
+    <entity name="PhotoEntity" representedClassName="PhotoEntity" syncable="YES" codeGenerationType="class">
         <attribute name="color" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="descriptionText" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="imageURL" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="likes" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="photographerProfileImage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="photographerUsername" optional="YES" attributeType="String" defaultValueString=""/>

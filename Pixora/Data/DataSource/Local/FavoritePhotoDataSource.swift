@@ -20,35 +20,36 @@ protocol FavoritePhotoDataSource {
 class FavoritePhotoDataSourceImpl: FavoritePhotoDataSource {
     private let context: NSManagedObjectContext
     
-    init(
-        context: NSManagedObjectContext = PersistenceController.shared.container.viewContext
-    ) {
+    init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.context = context
     }
     
     func saveFavorite(_ photo: Photo) throws {
-        _ = photo.toData(context: context)
-        return try context.save()
+        var updatedPhoto = photo
+        updatedPhoto.isFavorite = true
+        _ = updatedPhoto.toData(context: context)
+        try context.save()
     }
-    
+
     func deleteFavorite(_ photo: Photo) throws {
-        let request = FavoritePhotoEntity.fetchRequest()
+        let request = PhotoEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", photo.id ?? "")
-            
         if let result = try context.fetch(request).first {
-            context.delete(result)
-            return try context.save()
+            result.isFavorite = false
+            try context.save()
         }
     }
 
     func fetchFavorites() throws -> [Photo] {
-        let request = FavoritePhotoEntity.fetchRequest()
+        let request = PhotoEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "isFavorite == true")
         return try context.fetch(request).map { $0.toDomain() }
     }
 
     func isFavorite(photo: Photo) throws -> Bool {
-        let request = FavoritePhotoEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", photo.id ?? "")
+        let request = PhotoEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@ AND isFavorite == true", photo.id ?? "")
         return try context.count(for: request) > 0
     }
 }
+
