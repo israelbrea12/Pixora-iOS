@@ -9,9 +9,11 @@
         <attribute name="likes" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="photographerProfileImage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="photographerUsername" optional="YES" attributeType="String" defaultValueString=""/>
+        <relationship name="photoLists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="PhotoListEntity" inverseName="photos" inverseEntity="PhotoListEntity"/>
     </entity>
     <entity name="PhotoListEntity" representedClassName="PhotoListEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoEntity" inverseName="photoLists" inverseEntity="PhotoEntity"/>
     </entity>
 </model>

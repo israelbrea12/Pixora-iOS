@@ -10,5 +10,6 @@ import Foundation
 protocol PhotoListRepository {
     func getLists() -> Result<[PhotoList], AppError>
     func addList(name: String) -> Result<Bool, AppError>
+    func addPhotoToList(_ photo: Photo, to list: PhotoList) -> Result<Bool, AppError>
 }
 

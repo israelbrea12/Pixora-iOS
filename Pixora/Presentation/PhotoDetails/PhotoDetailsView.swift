@@ -170,7 +170,7 @@ struct PhotoDetailsView: View {
                     .cornerRadius(24)
             }
             .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented) {
-                NewListView(photoID: photo.id ?? "")
+                NewListView(photo: photo)
             }
         }
         .font(.title3)

@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct NewListView: View {
-    let photoID: String
     @Environment(\.dismiss) var dismiss
-    @StateObject var newListViewModel = Resolver.shared.resolve(NewListViewModel.self)
+    @StateObject var newListViewModel: NewListViewModel
+
+    init(photo: Photo) {
+        _newListViewModel = StateObject(wrappedValue: Resolver.shared.resolve(NewListViewModel.self, argument: photo))
+    }
 
     var body: some View {
         NavigationStack {
@@ -83,7 +86,7 @@ struct NewListView: View {
                 ListCellView(
                     name: list.name,
                     action: {
-                        newListViewModel.save(photoID: photoID, to: list)
+                        newListViewModel.addPhotoToList(list)
                         dismiss()
                     }
                 )

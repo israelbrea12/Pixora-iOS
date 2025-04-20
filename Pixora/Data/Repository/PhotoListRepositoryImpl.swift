@@ -31,6 +31,15 @@ class PhotoListRepositoryImpl: PhotoListRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func addPhotoToList(_ photo: Photo, to list: PhotoList) -> Result<Bool, AppError> {
+        do {
+            try dataSource.addPhotoToList(photo, to: list)
+            return .success(true)
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }
 
 

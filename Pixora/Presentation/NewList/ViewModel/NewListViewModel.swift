@@ -16,13 +16,19 @@ final class NewListViewModel: ObservableObject {
 
     private let getListsUseCase: GetPhotoListsUseCase
     private let createListUseCase: CreatePhotoListUseCase
+    private let photo: Photo
+    private let addPhotoToListUseCase: AddPhotoToListUseCase
 
     init(
         getListsUseCase: GetPhotoListsUseCase,
-        createListUseCase: CreatePhotoListUseCase
+        createListUseCase: CreatePhotoListUseCase,
+        addPhotoToListUseCase: AddPhotoToListUseCase,
+        photo: Photo
     ) {
         self.getListsUseCase = getListsUseCase
         self.createListUseCase = createListUseCase
+        self.addPhotoToListUseCase = addPhotoToListUseCase
+        self.photo = photo
         loadLists()
     }
 
@@ -48,10 +54,15 @@ final class NewListViewModel: ObservableObject {
             loadLists()
         }
     }
-
-    func save(photoID: String, to list: PhotoList) {  
-        print("✅ Foto \(photoID) guardada en lista \(list.name)")
-        // Aquí más adelante implementarás la lógica real.
+    
+    func addPhotoToList(_ list: PhotoList) {
+        let result = addPhotoToListUseCase.execute(photo: photo, list: list)
+        switch result {
+        case .success:
+            print("✅ Foto añadida a la lista \(list.name)")
+        case .failure(let error):
+            print("❌ Error al añadir foto: \(error.localizedDescription)")
+        }
     }
 }
 
