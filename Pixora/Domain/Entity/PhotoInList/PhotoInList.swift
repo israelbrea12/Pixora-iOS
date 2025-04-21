@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoInList {
+struct PhotoInList: Identifiable, Equatable {
     let id: UUID
     let photo: Photo
     let addedAt: Date

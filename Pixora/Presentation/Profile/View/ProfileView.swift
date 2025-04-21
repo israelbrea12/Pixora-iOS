@@ -10,6 +10,8 @@ import SDWebImageSwiftUI
 
 struct ProfileView: View {
     @StateObject private var viewModel = Resolver.shared.resolve(ProfileViewModel.self)
+    @State private var selectedList: PhotoList? = nil
+    @EnvironmentObject private var tabBarVisibility: TabBarVisibilityManager
 
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -48,6 +50,14 @@ struct ProfileView: View {
                     }
                 }
             }
+            .navigationDestination(item: $selectedList) { list in
+                            PhotoListDetailView(photoList: list)
+                        }
+        }
+        .onChange(of: selectedList) { newValue in
+            withAnimation {
+                tabBarVisibility.isVisible = (newValue == nil)
+            }
         }
         .task {
             await viewModel.loadLists()
@@ -58,9 +68,12 @@ struct ProfileView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(viewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
-                    NavigationLink(destination: PhotoListDetailView(photoList: list)) {
+                    Button {
+                        selectedList = list
+                    } label: {
                         PhotoListCardView(photoList: list, photos: photos)
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .padding()

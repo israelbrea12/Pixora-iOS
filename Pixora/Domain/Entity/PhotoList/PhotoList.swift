@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoList: Identifiable, Equatable {
+struct PhotoList: Identifiable, Equatable, Hashable {
     let id: UUID
     let name: String
 }

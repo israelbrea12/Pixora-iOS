@@ -43,9 +43,6 @@ struct PhotoListDetailView: View {
         .onAppear {
             tabBarVisibility.isVisible = false
         }
-        .onDisappear {
-            tabBarVisibility.isVisible = true
-        }
     }
 
     @ViewBuilder
