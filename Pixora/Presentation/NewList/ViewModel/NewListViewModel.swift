@@ -13,32 +13,52 @@ final class NewListViewModel: ObservableObject {
     @Published var newListName: String = ""
     @Published var showCreateAlert: Bool = false
     @Published var state: ViewState = .initial
+    @Published var listsWithPhotos: [(PhotoList, [Photo])] = []
 
     private let getListsUseCase: GetPhotoListsUseCase
     private let createListUseCase: CreatePhotoListUseCase
     private let photo: Photo
     private let addPhotoToListUseCase: AddPhotoToListUseCase
+    private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
 
     init(
         getListsUseCase: GetPhotoListsUseCase,
         createListUseCase: CreatePhotoListUseCase,
         addPhotoToListUseCase: AddPhotoToListUseCase,
-        photo: Photo
+        photo: Photo,
+        getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
     ) {
         self.getListsUseCase = getListsUseCase
         self.createListUseCase = createListUseCase
         self.addPhotoToListUseCase = addPhotoToListUseCase
         self.photo = photo
+        self.getPhotosFromListUseCase = getPhotosFromListUseCase
         loadLists()
     }
 
     func loadLists() {
         state = .loading
-        let result = getListsUseCase.execute()
-        switch result {
-        case .success(let data):
-            self.lists = data
-            self.state = .success
+        switch getListsUseCase.execute() {
+        case .success(let lists):
+            Task {
+                var result: [(PhotoList, [Photo])] = []
+
+                await withTaskGroup(of: (PhotoList, [Photo]?).self) { group in
+                    for list in lists {
+                        group.addTask { [self] in
+                            let photos = try? await getPhotosFromListUseCase.execute(for: list).get()
+                            return (list, photos ?? [])
+                        }
+                    }
+
+                    for await (list, photos) in group {
+                        result.append((list, photos ?? []))
+                    }
+                }
+
+                self.listsWithPhotos = result
+                self.state = .success
+            }
         case .failure(let error):
             print("❌ Error al cargar listas: \(error)")
             self.state = .error("Error al cargar las listas: \(error.localizedDescription)")

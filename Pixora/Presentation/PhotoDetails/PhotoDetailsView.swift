@@ -43,6 +43,7 @@ struct PhotoDetailsView: View {
             if isAlreadyFavorite {
                 photo.likes = (photo.likes ?? 0) + 1
             }
+            photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
         }
 
     }
@@ -160,16 +161,18 @@ struct PhotoDetailsView: View {
             Button(action: {
                 photoDetailsViewModel.isNewListSheetPresented = true
             }) {
-                Text("Guardar")
+                Text(photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar")
                     .padding(.vertical, 10)
                     .padding(.horizontal, 10)
                     .font(.body)
                     .bold()
-                    .background(Color.red)
+                    .background(photoDetailsViewModel.isSavedInAnyList ? Color.gray : Color.red)
                     .foregroundColor(.white)
                     .cornerRadius(24)
             }
-            .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented) {
+            .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented, onDismiss: {
+                photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
+            }) {
                 NewListView(photo: photo)
             }
         }

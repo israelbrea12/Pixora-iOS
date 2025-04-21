@@ -156,6 +156,18 @@ extension Resolver {
                 photoListRepository: resolver.resolve(PhotoListRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(IsPhotoInAnyListUseCase.self){resolver in
+            IsPhotoInAnyListUseCase(
+                photoListRepository: resolver.resolve(PhotoListRepository.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(GetPhotosFromPhotoListUseCase.self){resolver in
+            GetPhotosFromPhotoListUseCase(
+                photoListRepository: resolver.resolve(PhotoListRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -187,7 +199,9 @@ extension Resolver {
                 deletePhotoAsFavoriteUseCase: resolver
                     .resolve(DeletePhotoAsFavoriteUseCase.self)!,
                 isPhotoFavoriteUseCase: resolver
-                    .resolve(IsPhotoFavoriteUseCase.self)!)
+                    .resolve(IsPhotoFavoriteUseCase.self)!,
+                isPhotoInAnyListUseCase: resolver
+                    .resolve(IsPhotoInAnyListUseCase.self)!)
         }.inObjectScope(.container)
         
         container.register(FavsViewModel.self){resolver in
@@ -200,9 +214,27 @@ extension Resolver {
         container.register(NewListViewModel.self) { resolver, photo in
             NewListViewModel(
                 getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
-                createListUseCase: resolver.resolve(CreatePhotoListUseCase.self)!,
-                addPhotoToListUseCase: resolver.resolve(AddPhotoToListUseCase.self)!,
-                photo: photo
+                createListUseCase: resolver
+                    .resolve(CreatePhotoListUseCase.self)!,
+                addPhotoToListUseCase: resolver
+                    .resolve(AddPhotoToListUseCase.self)!,
+                photo: photo,
+                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
+            )
+        }
+        
+        container.register(ProfileViewModel.self) { resolver in
+            ProfileViewModel(
+                getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
+                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
+            )
+        }
+        
+        container.register(PhotoListDetailViewModel.self) { resolver, photoList in
+            PhotoListDetailViewModel(
+                list: photoList,
+                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
+                
             )
         }
     }

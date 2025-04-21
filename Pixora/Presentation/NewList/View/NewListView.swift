@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct NewListView: View {
     @Environment(\.dismiss) var dismiss
@@ -82,16 +83,34 @@ struct NewListView: View {
 
     private var listSection: some View {
         List {
-            ForEach(newListViewModel.lists) { list in
-                ListCellView(
-                    name: list.name,
-                    action: {
-                        newListViewModel.addPhotoToList(list)
-                        dismiss()
+            ForEach(newListViewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
+                Button {
+                    newListViewModel.addPhotoToList(list)
+                    dismiss()
+                } label: {
+                    HStack(spacing: 12) {
+                        if let lastPhoto = photos.last {
+                            WebImage(url: lastPhoto.imageURL)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 44, height: 44)
+                                .clipped()
+                                .cornerRadius(8)
+                        } else {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.2))
+                                .frame(width: 44, height: 44)
+                                .cornerRadius(8)
+                        }
+
+                        Text(list.name)
+                            .foregroundColor(.primary)
                     }
-                )
+                    .padding(.vertical, 6)
+                }
             }
         }
         .listStyle(.plain)
     }
+
 }

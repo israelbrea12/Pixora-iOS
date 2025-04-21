@@ -13,19 +13,23 @@ final class PhotoDetailsViewModel: ObservableObject {
     @Published var state: ViewState = .loading
     @Published var likes: Int = 0
     @Published var isNewListSheetPresented = false
+    @Published var isSavedInAnyList: Bool = false
 
     private let setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase
     private let deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase
     private let isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase
+    private let isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase
 
     init(
         setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase,
         deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase,
-        isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase
+        isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase,
+        isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase
     ) {
         self.setPhotoAsFavoriteUseCase = setPhotoAsFavoriteUseCase
         self.deletePhotoAsFavoriteUseCase = deletePhotoAsFavoriteUseCase
         self.isPhotoFavoriteUseCase = isPhotoFavoriteUseCase
+        self.isPhotoInAnyListUseCase = isPhotoInAnyListUseCase
     }
 
     func load(photo: Photo) async -> Bool {
@@ -62,5 +66,12 @@ final class PhotoDetailsViewModel: ObservableObject {
         }
         return isFavorite
     }
-
+    
+    func checkIfPhotoIsInAnyList(_ photo: Photo) {
+        // Simula que tienes un use case como este:
+        let result = isPhotoInAnyListUseCase.execute(photo)
+        if case .success(let isInList) = result {
+            self.isSavedInAnyList = isInList
+        }
+    }
 }

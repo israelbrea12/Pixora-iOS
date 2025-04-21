@@ -12,6 +12,7 @@ protocol PhotoListDataSource {
     func fetchLists() throws -> [PhotoList]
     func createList(name: String) throws
     func addPhotoToList(_ photo: Photo, to list: PhotoList) throws
+    func getPhotos(for list: PhotoList) throws -> [Photo]
 }
 
 class PhotoListDataSourceImpl: PhotoListDataSource {
@@ -44,8 +45,28 @@ class PhotoListDataSourceImpl: PhotoListDataSource {
         }
 
         let photoEntity = photo.toData(context: context)
-        listEntity.addToPhotos(photoEntity)
+
+        let entry = PhotoInListEntity(context: context)
+        entry.id = UUID()
+        entry.addedAt = Date()
+        entry.list = listEntity
+        entry.photo = photoEntity
 
         try context.save()
+    }
+    
+    func getPhotos(for list: PhotoList) throws -> [Photo] {
+        let request = PhotoListEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", list.id.uuidString)
+        guard let listEntity = try context.fetch(request).first,
+              let photoInListSet = listEntity.photosInList as? Set<PhotoInListEntity> else {
+            return []
+        }
+
+        let sorted = photoInListSet
+            .sorted(by: { $0.addedAt ?? .distantPast < $1.addedAt ?? .distantPast })
+            .compactMap { $0.photo?.toDomain() }
+
+        return sorted
     }
 }
