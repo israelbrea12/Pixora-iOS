@@ -10,6 +10,7 @@
         <attribute name="photographerProfileImage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="photographerUsername" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="photoInLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoInListEntity" inverseName="photo" inverseEntity="PhotoInListEntity"/>
+        <relationship name="userActivity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserActivityEntity" inverseName="photo" inverseEntity="UserActivityEntity"/>
     </entity>
     <entity name="PhotoInListEntity" representedClassName="PhotoInListEntity" syncable="YES" codeGenerationType="class">
         <attribute name="addedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -21,5 +22,12 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="photosInList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoInListEntity" inverseName="list" inverseEntity="PhotoInListEntity"/>
+    </entity>
+    <entity name="UserActivityEntity" representedClassName="UserActivityEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="listName" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotoEntity" inverseName="userActivity" inverseEntity="PhotoEntity"/>
     </entity>
 </model>

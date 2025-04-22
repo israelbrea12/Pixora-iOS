@@ -19,17 +19,20 @@ final class PhotoDetailsViewModel: ObservableObject {
     private let deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase
     private let isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase
     private let isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase
+    private let saveUserActivityUseCase: SaveUserActivityUseCase
 
     init(
         setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase,
         deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase,
         isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase,
-        isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase
+        isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase,
+        saveUserActivityUseCase: SaveUserActivityUseCase
     ) {
         self.setPhotoAsFavoriteUseCase = setPhotoAsFavoriteUseCase
         self.deletePhotoAsFavoriteUseCase = deletePhotoAsFavoriteUseCase
         self.isPhotoFavoriteUseCase = isPhotoFavoriteUseCase
         self.isPhotoInAnyListUseCase = isPhotoInAnyListUseCase
+        self.saveUserActivityUseCase = saveUserActivityUseCase
     }
 
     func load(photo: Photo) async -> Bool {
@@ -61,6 +64,16 @@ final class PhotoDetailsViewModel: ObservableObject {
             if case .success = result {
                 self.isFavorite = true
                 self.likes += 1
+                
+                // Guardar actividad
+                let activity = UserActivity(
+                    id: UUID(),
+                    type: .likedPhoto,
+                    photo: photo,
+                    listName: nil,
+                    timestamp: Date()
+                )
+                _ = saveUserActivityUseCase.execute(activity)
                 return true
             }
         }

@@ -91,6 +91,11 @@
 		4093BB132DB77F8F0082A482 /* MyPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB122DB77F8F0082A482 /* MyPhotosView.swift */; };
 		4093BB1B2DB78E410082A482 /* AddMyPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB1A2DB78E410082A482 /* AddMyPhotoView.swift */; };
 		4093BB1D2DB794F20082A482 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB1C2DB794F20082A482 /* NotificationManager.swift */; };
+		4093BB202DB79B6E0082A482 /* UserActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB1F2DB79B6E0082A482 /* UserActivity.swift */; };
+		4093BB222DB79C130082A482 /* UserActivityMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB212DB79C130082A482 /* UserActivityMapper.swift */; };
+		4093BB242DB79C690082A482 /* UserActivityDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB232DB79C690082A482 /* UserActivityDataSource.swift */; };
+		4093BB272DB79CE00082A482 /* GetUserActivitiesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB262DB79CE00082A482 /* GetUserActivitiesUseCase.swift */; };
+		4093BB292DB7A0040082A482 /* SaveUserActivityUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB282DB7A0040082A482 /* SaveUserActivityUseCase.swift */; };
 		40F9E1232DB00D970071A0FD /* FavoritePhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */; };
 		40F9E1252DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */; };
 		40F9E1272DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */; };
@@ -178,6 +183,11 @@
 		4093BB122DB77F8F0082A482 /* MyPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosView.swift; sourceTree = "<group>"; };
 		4093BB1A2DB78E410082A482 /* AddMyPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPhotoView.swift; sourceTree = "<group>"; };
 		4093BB1C2DB794F20082A482 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		4093BB1F2DB79B6E0082A482 /* UserActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivity.swift; sourceTree = "<group>"; };
+		4093BB212DB79C130082A482 /* UserActivityMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityMapper.swift; sourceTree = "<group>"; };
+		4093BB232DB79C690082A482 /* UserActivityDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityDataSource.swift; sourceTree = "<group>"; };
+		4093BB262DB79CE00082A482 /* GetUserActivitiesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserActivitiesUseCase.swift; sourceTree = "<group>"; };
+		4093BB282DB7A0040082A482 /* SaveUserActivityUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveUserActivityUseCase.swift; sourceTree = "<group>"; };
 		40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoDataSource.swift; sourceTree = "<group>"; };
 		40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
 		40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
@@ -526,6 +536,7 @@
 		4090E2182D909A22001143BE /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				4093BB1E2DB79B660082A482 /* UserActivity */,
 				4093BAF62DB69ED80082A482 /* PhotoInList */,
 				4090E2192D909A2F001143BE /* Photo */,
 				4093BACE2DB0F2EF0082A482 /* PhotoList */,
@@ -569,6 +580,7 @@
 				4090E2272D90A0FE001143BE /* PhotoMapper.swift */,
 				4093BAD42DB0F3C50082A482 /* PhotoListMapper.swift */,
 				4093BAF92DB69EF60082A482 /* PhotoInListMapper.swift */,
+				4093BB212DB79C130082A482 /* UserActivityMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -576,6 +588,7 @@
 		4090E22B2D90A7AA001143BE /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				4093BB252DB79CC60082A482 /* UserActivity */,
 				4093BAEF2DB64B6E0082A482 /* Photo */,
 				4093BADC2DB0FBBE0082A482 /* PhotoList */,
 				4090E22C2D90A7B7001143BE /* Base */,
@@ -771,6 +784,23 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		4093BB1E2DB79B660082A482 /* UserActivity */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB1F2DB79B6E0082A482 /* UserActivity.swift */,
+			);
+			path = UserActivity;
+			sourceTree = "<group>";
+		};
+		4093BB252DB79CC60082A482 /* UserActivity */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB262DB79CE00082A482 /* GetUserActivitiesUseCase.swift */,
+				4093BB282DB7A0040082A482 /* SaveUserActivityUseCase.swift */,
+			);
+			path = UserActivity;
+			sourceTree = "<group>";
+		};
 		40F9E1202DB00B380071A0FD /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +814,7 @@
 			children = (
 				40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */,
 				4093BAD62DB0FA130082A482 /* PhotoListDataSource.swift */,
+				4093BB232DB79C690082A482 /* UserActivityDataSource.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -886,6 +917,7 @@
 				4090E1C92D907B0B001143BE /* ContentView.swift in Sources */,
 				4090E1E72D907D76001143BE /* SearchView.swift in Sources */,
 				4090E1CA2D907B0B001143BE /* Persistence.swift in Sources */,
+				4093BB222DB79C130082A482 /* UserActivityMapper.swift in Sources */,
 				4093BAF82DB69EE70082A482 /* PhotoInList.swift in Sources */,
 				4090E1F32D907DC6001143BE /* FavsView.swift in Sources */,
 				406351F42D90AE4D0090D1F8 /* PhotoRequest.swift in Sources */,
@@ -908,6 +940,7 @@
 				4090E21E2D909D50001143BE /* PhotoModel.swift in Sources */,
 				4093BAE02DB0FC3A0082A482 /* GetPhotoListsUseCase.swift in Sources */,
 				406351DC2D90A9B10090D1F8 /* NetworkExtensions.swift in Sources */,
+				4093BB292DB7A0040082A482 /* SaveUserActivityUseCase.swift in Sources */,
 				4090E1ED2D907DA9001143BE /* NotificationsViewModel.swift in Sources */,
 				4093BAF52DB669430082A482 /* GetPhotosFromPhotoListUseCase.swift in Sources */,
 				406351F02D90AC920090D1F8 /* DataParser.swift in Sources */,
@@ -923,12 +956,14 @@
 				4093BAD72DB0FA130082A482 /* PhotoListDataSource.swift in Sources */,
 				406351D92D90A9310090D1F8 /* PhotoRepositoryImpl.swift in Sources */,
 				4093BAE62DB105820082A482 /* ListCellView.swift in Sources */,
+				4093BB272DB79CE00082A482 /* GetUserActivitiesUseCase.swift in Sources */,
 				406351F22D90ACBE0090D1F8 /* JsonDataParser.swift in Sources */,
 				4090E1F52D907DD8001143BE /* FavsViewModel.swift in Sources */,
 				4093BB012DB6A9E60082A482 /* PhotoListDetailViewModel.swift in Sources */,
 				4093BACB2DB0E8B50082A482 /* NewListView.swift in Sources */,
 				4090E1E92D907D8E001143BE /* SearchViewModel.swift in Sources */,
 				4090E1E32D907D2A001143BE /* HomeView.swift in Sources */,
+				4093BB242DB79C690082A482 /* UserActivityDataSource.swift in Sources */,
 				40F9E1232DB00D970071A0FD /* FavoritePhotoDataSource.swift in Sources */,
 				4090E2282D90A0FE001143BE /* PhotoMapper.swift in Sources */,
 				40F9E12D2DB014EA0071A0FD /* IsPhotoFavoriteUseCase.swift in Sources */,
@@ -953,6 +988,7 @@
 				4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */,
 				400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */,
 				406351E92D90AC4B0090D1F8 /* NetworkError.swift in Sources */,
+				4093BB202DB79B6E0082A482 /* UserActivity.swift in Sources */,
 				4093BB032DB6AEBE0082A482 /* TabBarVisibilityManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

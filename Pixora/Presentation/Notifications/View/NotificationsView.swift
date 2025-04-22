@@ -6,13 +6,56 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct NotificationsView: View {
+    @StateObject var viewModel = Resolver.shared.resolve(NotificationsViewModel.self)
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            Group {
+                switch viewModel.state {
+                case .initial, .loading:
+                    ProgressView()
+                case .success:
+                    List(viewModel.actions, id: \.id) { action in
+                        HStack {
+                            WebImage(url: action.photo.imageURL)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(6)
+                                .clipped()
+
+                            VStack(alignment: .leading) {
+                                Text(actionMessage(for: action))
+                                    .font(.body)
+                                Text(action.timestamp.formatted(date: .abbreviated, time: .shortened))
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                        }
+                    }
+                case .empty:
+                    InfoView(message: "No activity yet")
+                case .error(let msg):
+                    InfoView(message: msg)
+                }
+            }
+            .navigationTitle("Activity")
+        }
+        .task {
+            viewModel.loadActions()
+        }
+    }
+
+    private func actionMessage(for action: UserActivity) -> String {
+        switch action.type {
+        case .likedPhoto:
+            return "Has dado me gusta a una foto"
+        case .addedToList:
+            return "Has añadido una foto a la lista \(action.listName ?? "")"
+        }
     }
 }
 
-#Preview {
-    NotificationsView()
-}
