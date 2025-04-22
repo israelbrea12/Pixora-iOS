@@ -28,7 +28,6 @@ struct FavsView: View {
                     emptyView()
                 }
             }
-            .navigationTitle("Favorites")
             .onAppear {
                 Task {
                     await favsViewModel.refreshIfNeeded()

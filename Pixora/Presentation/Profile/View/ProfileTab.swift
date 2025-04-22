@@ -6,7 +6,7 @@
 //
 
 enum ProfileTab: String, CaseIterable {
-    case likes = "Likes"
-    case lists = "Lists"
     case myPhotos = "My Photos"
+    case lists = "Lists"
+    case likes = "Likes"
 }

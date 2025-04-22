@@ -89,7 +89,8 @@
 		4093BB0C2DB77EB60082A482 /* TopTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB0B2DB77EB60082A482 /* TopTabBar.swift */; };
 		4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB0D2DB77EF40082A482 /* ProfileTab.swift */; };
 		4093BB132DB77F8F0082A482 /* MyPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB122DB77F8F0082A482 /* MyPhotosView.swift */; };
-		4093BB162DB77FA30082A482 /* LikesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB152DB77FA30082A482 /* LikesView.swift */; };
+		4093BB1B2DB78E410082A482 /* AddMyPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB1A2DB78E410082A482 /* AddMyPhotoView.swift */; };
+		4093BB1D2DB794F20082A482 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB1C2DB794F20082A482 /* NotificationManager.swift */; };
 		40F9E1232DB00D970071A0FD /* FavoritePhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */; };
 		40F9E1252DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */; };
 		40F9E1272DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */; };
@@ -175,7 +176,8 @@
 		4093BB0B2DB77EB60082A482 /* TopTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTabBar.swift; sourceTree = "<group>"; };
 		4093BB0D2DB77EF40082A482 /* ProfileTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
 		4093BB122DB77F8F0082A482 /* MyPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosView.swift; sourceTree = "<group>"; };
-		4093BB152DB77FA30082A482 /* LikesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesView.swift; sourceTree = "<group>"; };
+		4093BB1A2DB78E410082A482 /* AddMyPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPhotoView.swift; sourceTree = "<group>"; };
+		4093BB1C2DB794F20082A482 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoDataSource.swift; sourceTree = "<group>"; };
 		40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
 		40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 		4090E1CF2D907B0E001143BE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				4093BB172DB78E1C0082A482 /* AddMyPhoto */,
 				4090E1D52D907B88001143BE /* MainView.swift */,
 				4090E1DC2D907CDD001143BE /* ViewState.swift */,
 				4090E1D92D907C77001143BE /* Home */,
@@ -329,7 +332,6 @@
 				4090E1D82D907C6E001143BE /* Favs */,
 				4090E1D72D907C5C001143BE /* Profile */,
 				4093BB102DB77F650082A482 /* MyPhotos */,
-				4093BB0F2DB77F5F0082A482 /* Likes */,
 				4093BB062DB77E150082A482 /* Lists */,
 				4093BAFB2DB6A9460082A482 /* PhotoListDetail */,
 				400B5A872D9752C200C8C15E /* PhotoDetails */,
@@ -503,6 +505,7 @@
 				4090E20D2D9081CF001143BE /* SessionManager.swift */,
 				406351F52D90AE830090D1F8 /* Extension.swift */,
 				4093BB022DB6AEBE0082A482 /* TabBarVisibilityManager.swift */,
+				4093BB1C2DB794F20082A482 /* NotificationManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -728,14 +731,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		4093BB0F2DB77F5F0082A482 /* Likes */ = {
-			isa = PBXGroup;
-			children = (
-				4093BB142DB77F930082A482 /* View */,
-			);
-			path = Likes;
-			sourceTree = "<group>";
-		};
 		4093BB102DB77F650082A482 /* MyPhotos */ = {
 			isa = PBXGroup;
 			children = (
@@ -752,12 +747,28 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		4093BB142DB77F930082A482 /* View */ = {
+		4093BB172DB78E1C0082A482 /* AddMyPhoto */ = {
 			isa = PBXGroup;
 			children = (
-				4093BB152DB77FA30082A482 /* LikesView.swift */,
+				4093BB182DB78E290082A482 /* View */,
+				4093BB192DB78E2F0082A482 /* ViewModel */,
+			);
+			path = AddMyPhoto;
+			sourceTree = "<group>";
+		};
+		4093BB182DB78E290082A482 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB1A2DB78E410082A482 /* AddMyPhotoView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		4093BB192DB78E2F0082A482 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		40F9E1202DB00B380071A0FD /* Remote */ = {
@@ -868,6 +879,7 @@
 				4090E2232D909ED3001143BE /* PhotoURLsModel.swift in Sources */,
 				40F9E1272DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift in Sources */,
 				4093BAFF2DB6A9CD0082A482 /* PhotoListDetailView.swift in Sources */,
+				4093BB1B2DB78E410082A482 /* AddMyPhotoView.swift in Sources */,
 				4090E21B2D909A43001143BE /* Photo.swift in Sources */,
 				406351ED2D90AC7C0090D1F8 /* HTTPMethodType.swift in Sources */,
 				4093BAF32DB668320082A482 /* PhotoListCardView.swift in Sources */,
@@ -884,6 +896,7 @@
 				4093BAE82DB591F60082A482 /* AddPhotoToListUseCase.swift in Sources */,
 				4090E2172D90989F001143BE /* DataConstants.swift in Sources */,
 				4093BAF12DB64BA20082A482 /* IsPhotoInAnyListUseCase.swift in Sources */,
+				4093BB1D2DB794F20082A482 /* NotificationManager.swift in Sources */,
 				4093BAC82DB040350082A482 /* LikeButton.swift in Sources */,
 				4090E22A2D90A782001143BE /* GetPhotosParam.swift in Sources */,
 				4090E1DD2D907CDD001143BE /* ViewState.swift in Sources */,
@@ -901,7 +914,6 @@
 				4090E2332D90A841001143BE /* GetPhotosUseCase.swift in Sources */,
 				4090E1F92D907E20001143BE /* ProfileView.swift in Sources */,
 				400B5A8C2D97532000C8C15E /* PhotoDetailsViewModel.swift in Sources */,
-				4093BB162DB77FA30082A482 /* LikesView.swift in Sources */,
 				4093BB052DB77DB00082A482 /* ListsView.swift in Sources */,
 				4093BB132DB77F8F0082A482 /* MyPhotosView.swift in Sources */,
 				4093BAD92DB0FB680082A482 /* PhotoListRepositoryImpl.swift in Sources */,

@@ -19,12 +19,12 @@ struct ProfileView: View {
                 TopTabBar(selectedTab: $selectedTab)
 
                 switch selectedTab {
-                case .likes:
-                    LikesView()
-                case .lists:
-                    ListsView(selectedList: $selectedList)
                 case .myPhotos:
                     MyPhotosView()
+                case .lists:
+                    ListsView(selectedList: $selectedList)
+                case .likes:
+                    FavsView()
                 }
                 Spacer()
             }

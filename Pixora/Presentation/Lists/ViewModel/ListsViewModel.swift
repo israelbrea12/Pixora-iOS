@@ -12,6 +12,8 @@ final class ListsViewModel: ObservableObject {
     @Published var state: ViewState = .initial
     @Published var listsWithPhotos: [(PhotoList, [Photo])] = []
 
+    private var hasLoaded = false
+
     private let getListsUseCase: GetPhotoListsUseCase
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
 
@@ -23,7 +25,13 @@ final class ListsViewModel: ObservableObject {
         self.getPhotosFromListUseCase = getPhotosFromListUseCase
     }
 
-    func loadLists() async {
+    func loadListsIfNeeded() async {
+        guard !hasLoaded else { return }
+        hasLoaded = true
+        await loadLists()
+    }
+
+    private func loadLists() async {
         self.state = .loading
 
         switch getListsUseCase.execute() {
@@ -37,7 +45,6 @@ final class ListsViewModel: ObservableObject {
                             let photos = try await self.getPhotosFromListUseCase.execute(for: list).get()
                             return (list, photos)
                         } catch {
-                            // Puedes loguear si quieres
                             print("Error fetching photos for list \(list.name): \(error)")
                             return (list, nil)
                         }

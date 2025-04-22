@@ -42,7 +42,7 @@ struct ListsView: View {
             }
         }
         .task {
-            await viewModel.loadLists()
+            await viewModel.loadListsIfNeeded()
         }
     }
 }
