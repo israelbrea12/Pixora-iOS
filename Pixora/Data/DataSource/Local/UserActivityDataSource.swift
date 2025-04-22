@@ -13,7 +13,7 @@ protocol UserActivityDataSource {
     func fetchAllActions() throws -> [UserActivity]
 }
 
-class UserActivityDataSourceImpl: UserActivityDataSource {
+final class UserActivityDataSourceImpl: UserActivityDataSource {
     private let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
@@ -36,4 +36,3 @@ class UserActivityDataSourceImpl: UserActivityDataSource {
         return try context.fetch(request).compactMap { $0.toDomain() }
     }
 }
-

@@ -7,19 +7,24 @@
 
 import Foundation
 
-class SaveUserActivityUseCase {
-    private let userActivityDataSource: UserActivityDataSource
+final class SaveUserActivityUseCase {
+    private let userActivityRepository: UserActivityRepository
 
-    init(userActivityDataSource: UserActivityDataSource) {
-        self.userActivityDataSource = userActivityDataSource
+    init(userActivityRepository: UserActivityRepository) {
+        self.userActivityRepository = userActivityRepository
     }
 
     func execute(_ activity: UserActivity) -> Result<Void, AppError> {
-        do {
-            try userActivityDataSource.saveAction(activity)
+        switch userActivityRepository.saveAction(activity) {
+        case .success:
             return .success(())
-        } catch {
-            return .failure(error.toAppError())
+        case .failure(let error):
+            return .failure(error)
         }
     }
 }
+
+
+
+
+

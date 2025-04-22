@@ -7,19 +7,15 @@
 
 import Foundation
 
-class GetUserActivitiesUseCase {
-    private let userActivityDataSource: UserActivityDataSource
-    
-    init(userActivityDataSource: UserActivityDataSource) {
-        self.userActivityDataSource = userActivityDataSource
+final class GetUserActivitiesUseCase {
+    private let userActivityRepository: UserActivityRepository
+
+    init(userActivityRepository: UserActivityRepository) {
+        self.userActivityRepository = userActivityRepository
     }
 
     func execute() -> Result<[UserActivity], AppError> {
-        do {
-            let actions = try userActivityDataSource.fetchAllActions()
-            return .success(actions)
-        } catch {
-            return .failure(error.toAppError())
-        }
+        userActivityRepository.getAllActions()
     }
 }
+

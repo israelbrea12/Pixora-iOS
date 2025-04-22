@@ -101,6 +101,12 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
+        container.register(UserActivityRepository.self){resolver in
+            UserActivityRepositoryImpl(
+                dataSource: resolver.resolve(UserActivityDataSource.self)!
+            )
+        }.inObjectScope(.container)
+        
     }
 }
 
@@ -176,12 +182,12 @@ extension Resolver {
         
         container.register(GetUserActivitiesUseCase.self){resolver in
             GetUserActivitiesUseCase(
-                userActivityDataSource: resolver.resolve(UserActivityDataSource.self)!)
+                userActivityRepository: resolver.resolve(UserActivityRepository.self)!)
         }.inObjectScope(.container)
         
         container.register(SaveUserActivityUseCase.self){resolver in
             SaveUserActivityUseCase(
-                userActivityDataSource: resolver.resolve(UserActivityDataSource.self)!)
+                userActivityRepository: resolver.resolve(UserActivityRepository.self)!)
         }.inObjectScope(.container)
     }
 
