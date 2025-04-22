@@ -30,7 +30,7 @@ struct MainView: View {
             }
             .environmentObject(tabBarVisibility)
             .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
-            .animation(.easeInOut(duration: 1), value: tabBarVisibility.isVisible)
+            .animation(.easeInOut(duration: 0.5), value: tabBarVisibility.isVisible)
         }
         .onAppear {
             let tabBarAppearance = UITabBarAppearance()

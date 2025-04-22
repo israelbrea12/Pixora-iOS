@@ -56,17 +56,24 @@ class PhotoListDataSourceImpl: PhotoListDataSource {
     }
     
     func getPhotos(for list: PhotoList) throws -> [Photo] {
-        let request = PhotoListEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", list.id.uuidString)
-        guard let listEntity = try context.fetch(request).first,
-              let photoInListSet = listEntity.photosInList as? Set<PhotoInListEntity> else {
-            return []
+        let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+        var result: [Photo] = []
+        
+        try backgroundContext.performAndWait {
+            let request = PhotoListEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", list.id.uuidString)
+
+            guard let listEntity = try backgroundContext.fetch(request).first,
+                  let photoInListSet = listEntity.photosInList as? Set<PhotoInListEntity> else {
+                result = []
+                return
+            }
+
+            result = photoInListSet
+                .sorted(by: { $0.addedAt ?? .distantPast < $1.addedAt ?? .distantPast })
+                .compactMap { $0.photo?.toDomain() } // AHORA es seguro
         }
 
-        let sorted = photoInListSet
-            .sorted(by: { $0.addedAt ?? .distantPast < $1.addedAt ?? .distantPast })
-            .compactMap { $0.photo?.toDomain() }
-
-        return sorted
+        return result
     }
 }

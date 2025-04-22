@@ -223,8 +223,8 @@ extension Resolver {
             )
         }
         
-        container.register(ProfileViewModel.self) { resolver in
-            ProfileViewModel(
+        container.register(ListsViewModel.self) { resolver in
+            ListsViewModel(
                 getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
             )

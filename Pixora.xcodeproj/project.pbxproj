@@ -84,6 +84,12 @@
 		4093BAFF2DB6A9CD0082A482 /* PhotoListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BAFE2DB6A9CD0082A482 /* PhotoListDetailView.swift */; };
 		4093BB012DB6A9E60082A482 /* PhotoListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB002DB6A9E60082A482 /* PhotoListDetailViewModel.swift */; };
 		4093BB032DB6AEBE0082A482 /* TabBarVisibilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB022DB6AEBE0082A482 /* TabBarVisibilityManager.swift */; };
+		4093BB052DB77DB00082A482 /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB042DB77DB00082A482 /* ListsView.swift */; };
+		4093BB0A2DB77E730082A482 /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB092DB77E730082A482 /* ListsViewModel.swift */; };
+		4093BB0C2DB77EB60082A482 /* TopTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB0B2DB77EB60082A482 /* TopTabBar.swift */; };
+		4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB0D2DB77EF40082A482 /* ProfileTab.swift */; };
+		4093BB132DB77F8F0082A482 /* MyPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB122DB77F8F0082A482 /* MyPhotosView.swift */; };
+		4093BB162DB77FA30082A482 /* LikesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB152DB77FA30082A482 /* LikesView.swift */; };
 		40F9E1232DB00D970071A0FD /* FavoritePhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */; };
 		40F9E1252DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */; };
 		40F9E1272DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */; };
@@ -164,6 +170,12 @@
 		4093BAFE2DB6A9CD0082A482 /* PhotoListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListDetailView.swift; sourceTree = "<group>"; };
 		4093BB002DB6A9E60082A482 /* PhotoListDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListDetailViewModel.swift; sourceTree = "<group>"; };
 		4093BB022DB6AEBE0082A482 /* TabBarVisibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVisibilityManager.swift; sourceTree = "<group>"; };
+		4093BB042DB77DB00082A482 /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
+		4093BB092DB77E730082A482 /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
+		4093BB0B2DB77EB60082A482 /* TopTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTabBar.swift; sourceTree = "<group>"; };
+		4093BB0D2DB77EF40082A482 /* ProfileTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
+		4093BB122DB77F8F0082A482 /* MyPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosView.swift; sourceTree = "<group>"; };
+		4093BB152DB77FA30082A482 /* LikesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesView.swift; sourceTree = "<group>"; };
 		40F9E1222DB00D970071A0FD /* FavoritePhotoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoDataSource.swift; sourceTree = "<group>"; };
 		40F9E1242DB010EF0071A0FD /* SetPhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
 		40F9E1262DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePhotoAsFavoriteUseCase.swift; sourceTree = "<group>"; };
@@ -316,6 +328,9 @@
 				4090E1DB2D907CB2001143BE /* Notifications */,
 				4090E1D82D907C6E001143BE /* Favs */,
 				4090E1D72D907C5C001143BE /* Profile */,
+				4093BB102DB77F650082A482 /* MyPhotos */,
+				4093BB0F2DB77F5F0082A482 /* Likes */,
+				4093BB062DB77E150082A482 /* Lists */,
 				4093BAFB2DB6A9460082A482 /* PhotoListDetail */,
 				400B5A872D9752C200C8C15E /* PhotoDetails */,
 				4093BAC92DB0E88A0082A482 /* NewList */,
@@ -476,6 +491,7 @@
 		4090E1F72D907E11001143BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4093BB0D2DB77EF40082A482 /* ProfileTab.swift */,
 				4090E1F82D907E20001143BE /* ProfileView.swift */,
 			);
 			path = View;
@@ -499,6 +515,7 @@
 				4093BAC72DB040350082A482 /* LikeButton.swift */,
 				4093BAE52DB105820082A482 /* ListCellView.swift */,
 				4093BAF22DB668320082A482 /* PhotoListCardView.swift */,
+				4093BB0B2DB77EB60082A482 /* TopTabBar.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -686,6 +703,63 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4093BB062DB77E150082A482 /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB082DB77E2A0082A482 /* View */,
+				4093BB072DB77E240082A482 /* ViewModel */,
+			);
+			path = Lists;
+			sourceTree = "<group>";
+		};
+		4093BB072DB77E240082A482 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB092DB77E730082A482 /* ListsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4093BB082DB77E2A0082A482 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB042DB77DB00082A482 /* ListsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4093BB0F2DB77F5F0082A482 /* Likes */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB142DB77F930082A482 /* View */,
+			);
+			path = Likes;
+			sourceTree = "<group>";
+		};
+		4093BB102DB77F650082A482 /* MyPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB112DB77F830082A482 /* View */,
+			);
+			path = MyPhotos;
+			sourceTree = "<group>";
+		};
+		4093BB112DB77F830082A482 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB122DB77F8F0082A482 /* MyPhotosView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4093BB142DB77F930082A482 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB152DB77FA30082A482 /* LikesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		40F9E1202DB00B380071A0FD /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -827,8 +901,12 @@
 				4090E2332D90A841001143BE /* GetPhotosUseCase.swift in Sources */,
 				4090E1F92D907E20001143BE /* ProfileView.swift in Sources */,
 				400B5A8C2D97532000C8C15E /* PhotoDetailsViewModel.swift in Sources */,
+				4093BB162DB77FA30082A482 /* LikesView.swift in Sources */,
+				4093BB052DB77DB00082A482 /* ListsView.swift in Sources */,
+				4093BB132DB77F8F0082A482 /* MyPhotosView.swift in Sources */,
 				4093BAD92DB0FB680082A482 /* PhotoListRepositoryImpl.swift in Sources */,
 				4090E1CB2D907B0B001143BE /* Pixora.xcdatamodeld in Sources */,
+				4093BB0C2DB77EB60082A482 /* TopTabBar.swift in Sources */,
 				4093BACD2DB0E9160082A482 /* NewListViewModel.swift in Sources */,
 				4093BAD72DB0FA130082A482 /* PhotoListDataSource.swift in Sources */,
 				406351D92D90A9310090D1F8 /* PhotoRepositoryImpl.swift in Sources */,
@@ -850,6 +928,7 @@
 				4090E1FB2D907E39001143BE /* ProfileViewModel.swift in Sources */,
 				4093BAD32DB0F3470082A482 /* PhotoListModel.swift in Sources */,
 				4090E1EF2D907DB4001143BE /* NotificationsView.swift in Sources */,
+				4093BB0A2DB77E730082A482 /* ListsViewModel.swift in Sources */,
 				4090E22E2D90A7C5001143BE /* UseCaseProtocol.swift in Sources */,
 				4090E2152D909834001143BE /* PhotoRow.swift in Sources */,
 				4090E2132D9097A2001143BE /* InfoView.swift in Sources */,
@@ -859,6 +938,7 @@
 				406351E62D90AC1C0090D1F8 /* NetworkManagerImpl.swift in Sources */,
 				4090E2312D90A808001143BE /* AppError.swift in Sources */,
 				4090E20E2D9081CF001143BE /* SessionManager.swift in Sources */,
+				4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */,
 				400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */,
 				406351E92D90AC4B0090D1F8 /* NetworkError.swift in Sources */,
 				4093BB032DB6AEBE0082A482 /* TabBarVisibilityManager.swift in Sources */,
