@@ -41,7 +41,7 @@ struct PhotoDetailsView: View {
         .task {
             let isAlreadyFavorite = await photoDetailsViewModel.load(photo: photo)
             if isAlreadyFavorite {
-                photo.likes = (photo.likes ?? 0) + 1
+                photoDetailsViewModel.likes += 1
             }
             photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
         }
@@ -120,12 +120,7 @@ struct PhotoDetailsView: View {
                         isLiked: photoDetailsViewModel.isFavorite,
                         onTap: {
                             Task {
-                                let liked = await photoDetailsViewModel.toggleFavorite(for: photo)
-                                if liked {
-                                    photo.likes = (photo.likes ?? 0) + 1
-                                } else {
-                                    photo.likes = max((photo.likes ?? 0) - 1, 0)
-                                }
+                                _ = await photoDetailsViewModel.toggleFavorite(for: photo)
                             }
                         }
                     )

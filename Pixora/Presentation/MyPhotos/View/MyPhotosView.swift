@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MyPhotosView: View {
-    @StateObject var myPhotosViewModel = Resolver.shared.resolve(MyPhotosViewModel.self)
+    @StateObject var myPhotosViewModel = Resolver.shared.resolve(
+        MyPhotosViewModel.self
+    )
 
     var body: some View {
         NavigationStack {
@@ -28,40 +30,39 @@ struct MyPhotosView: View {
                 }
             )
             .onAppear {
-                            myPhotosViewModel.fetchMyPhotos() // 🔥 recarga cada vez que se ve la pantalla
-                        }
+                myPhotosViewModel
+                    .fetchMyPhotos() // 🔥 recarga cada vez que se ve la pantalla
+            }
         }
     }
     func successView() -> some View {
         ScrollView {
-            LazyVStack(spacing: 20) {
+            let columns = [
+                GridItem(.adaptive(minimum: 150), spacing: 8)
+            ]
+
+            LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(myPhotosViewModel.photos, id: \.id) { photo in
-                    if let data = photo.imageData, let uiImage = UIImage(data: data) {
-                        VStack(alignment: .leading) {
+                    if let data = photo.imageData, let uiImage = UIImage(
+                        data: data
+                    ) {
+                        GeometryReader { geometry in
                             Image(uiImage: uiImage)
                                 .resizable()
-                                .scaledToFit()
-                                .cornerRadius(15)
-
-                            if let description = photo.description {
-                                Text(description)
-                                    .font(.headline)
-                            }
-
-                            if let username = photo.photographerUsername {
-                                Text("@\(username)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
+                                .scaledToFill()
+                                .frame(
+                                    width: geometry.size.width,
+                                    height: geometry.size.width
+                                ) // cuadrado
+                                .clipped()
+                                .cornerRadius(12)
                         }
-                        .padding()
-                        .background(Color(.systemBackground))
-                        .cornerRadius(20)
-                        .shadow(radius: 4)
+                        .aspectRatio(1, contentMode: .fit)
                     }
                 }
             }
-            .padding()
+            .padding(.horizontal, 8)
+            .padding(.top, 8)
         }
     }
     
