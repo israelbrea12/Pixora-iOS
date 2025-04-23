@@ -31,7 +31,7 @@ final class ListsViewModel: ObservableObject {
         await loadLists()
     }
 
-    private func loadLists() async {
+    func loadLists() async {
         self.state = .loading
 
         switch getListsUseCase.execute() {

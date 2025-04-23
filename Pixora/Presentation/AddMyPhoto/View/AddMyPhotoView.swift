@@ -46,7 +46,7 @@ struct AddMyPhotoView: View {
                         Button {
                             viewModel.takePhoto()
                         } label: {
-                            Image(systemName: "circle")
+                            Image(systemName: "circle.fill")
                                 .font(.system(size: 70))
                                 .foregroundColor(.white)
                                 .padding(.bottom, 8)
