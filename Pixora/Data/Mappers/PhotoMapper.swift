@@ -44,8 +44,10 @@ extension Photo {
     func toData(context: NSManagedObjectContext) -> PhotoEntity {
         let request = NSFetchRequest<PhotoEntity>(entityName: "PhotoEntity")
         request.predicate = NSPredicate(format: "id == %@", id ?? "")
+        
         let entity = (try? context.fetch(request).first) ?? PhotoEntity(context: context)
 
+        // actualiza todos los campos siempre
         entity.id = self.id ?? UUID().uuidString
         entity.descriptionText = self.description ?? ""
         entity.color = self.color ?? "#FFFFFF"
@@ -53,7 +55,9 @@ extension Photo {
         entity.imageURL = self.imageURL?.absoluteString ?? ""
         entity.photographerUsername = self.photographerUsername ?? "Desconocido"
         entity.photographerProfileImage = self.photographerProfileImage?.absoluteString ?? ""
-        entity.isFavorite = self.isFavorite
+        entity.isFavorite = true // importante: fuerza a true
+
         return entity
     }
+
 }

@@ -29,7 +29,9 @@ class FavoritePhotoDataSourceImpl: FavoritePhotoDataSource {
         updatedPhoto.isFavorite = true
         _ = updatedPhoto.toData(context: context)
         try context.save()
+        print("✅ Foto guardada como favorita: \(photo.id ?? "sin ID")")
     }
+
 
     func deleteFavorite(_ photo: Photo) throws {
         let request = PhotoEntity.fetchRequest()
