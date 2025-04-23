@@ -9,12 +9,19 @@ import SwiftUI
 
 struct PhotoFormView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: PhotoFormViewModel
+    @StateObject var photoFormViewModel: PhotoFormViewModel
+
+    init(image: UIImage?) {
+        _photoFormViewModel = StateObject(
+            wrappedValue: Resolver.shared
+                .resolve(PhotoFormViewModel.self, argument: image)
+        )
+    }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                if let image = viewModel.image {
+                if let image = photoFormViewModel.image {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -22,17 +29,20 @@ struct PhotoFormView: View {
                         .cornerRadius(25)
                 }
 
-                TextField("Descripción", text: $viewModel.description)
+                TextField("Descripción", text: $photoFormViewModel.description)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Color (#RRGGBB)", text: $viewModel.color)
+                TextField("Color (#RRGGBB)", text: $photoFormViewModel.color)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Usuario", text: $viewModel.photographerUsername)
-                    .textFieldStyle(.roundedBorder)
+                TextField(
+                    "Usuario",
+                    text: $photoFormViewModel.photographerUsername
+                )
+                .textFieldStyle(.roundedBorder)
 
                 Button("Guardar") {
-                    viewModel.savePhoto()
+                    photoFormViewModel.savePhoto()
                     presentationMode.wrappedValue.dismiss()
                 }
                 .padding()

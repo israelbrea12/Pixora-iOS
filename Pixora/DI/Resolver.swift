@@ -76,6 +76,10 @@ extension Resolver {
         container.register(UserActivityDataSource.self){ resolver in
             UserActivityDataSourceImpl()
         }.inObjectScope(.container)
+        
+        container.register(MyPhotosDataSource.self){ resolver in
+            MyPhotosDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -91,7 +95,8 @@ extension Resolver {
                 photoDataSource: resolver.resolve(
                     PhotoDataSource.self
                 )!,
-                favDataSource: resolver.resolve(FavoritePhotoDataSource.self)!
+                favDataSource: resolver.resolve(FavoritePhotoDataSource.self)!,
+                myPhotosDataSource: resolver.resolve(MyPhotosDataSource.self)!
             )
         }.inObjectScope(.container)
         
@@ -189,6 +194,16 @@ extension Resolver {
             SaveUserActivityUseCase(
                 userActivityRepository: resolver.resolve(UserActivityRepository.self)!)
         }.inObjectScope(.container)
+        
+        container.register(FetchMyPhotosUseCase.self){resolver in
+            FetchMyPhotosUseCase(
+                photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(SaveMyPhotoUseCase.self){resolver in
+            SaveMyPhotoUseCase(
+                photoRepository: resolver.resolve(PhotoRepository.self)!)
+        }.inObjectScope(.container)
     }
 
 }
@@ -264,6 +279,19 @@ extension Resolver {
         container.register(NotificationsViewModel.self) { resolver in
             NotificationsViewModel(
                 getUserActivitiesUseCase: resolver.resolve(GetUserActivitiesUseCase.self)!)
+        }
+        
+        container.register(MyPhotosViewModel.self) { resolver in
+            MyPhotosViewModel(
+                fetchMyPhotosUseCase: resolver.resolve(FetchMyPhotosUseCase.self)!
+            )
+        }
+        
+        container.register(PhotoFormViewModel.self) { resolver, image in
+            PhotoFormViewModel(
+                image: image,
+                saveMyPhotoUseCase: resolver.resolve(SaveMyPhotoUseCase.self)!
+            )
         }
     }
 }

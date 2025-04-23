@@ -29,7 +29,6 @@ final class FavsViewModel: ObservableObject {
             let result = await getFavoritePhotosUseCase.execute()
             switch result {
             case .success(let latestFavorites):
-                // Solo actualizar si hay diferencias reales
                 if latestFavorites.map(\.id) != self.photos.map(\.id) {
                     self.photos = latestFavorites
                     self.state = latestFavorites.isEmpty ? .empty : .success

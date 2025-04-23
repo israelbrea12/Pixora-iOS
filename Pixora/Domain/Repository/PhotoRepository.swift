@@ -13,4 +13,6 @@ protocol PhotoRepository {
     func deletePhotoAsFavorite(_ photo: Photo) -> Result<Bool, AppError>
     func fetchFavoritePhotos() -> Result<[Photo], AppError>
     func isPhotoFavorite(_ photo: Photo) -> Result<Bool, AppError>
+    func fetchMyPhotos() -> Result<[Photo], AppError>
+    func saveMyPhoto(_ photo: Photo) -> Result<Bool, AppError>
 }

@@ -69,7 +69,7 @@ struct AddMyPhotoView: View {
             }
             .padding()
             .navigationDestination(isPresented: $isNavigatingToForm) {
-                PhotoFormView(viewModel: PhotoFormViewModel(image: viewModel.selectedImage))
+                PhotoFormView(image: viewModel.selectedImage)
             }
         }
     }

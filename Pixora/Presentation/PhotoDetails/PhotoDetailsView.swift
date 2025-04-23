@@ -210,22 +210,4 @@ struct PhotoDetailsView: View {
     }
 }
 
-#Preview {
-    let samplePhoto = Photo(
-        id: "123",
-        description: "Una hermosa vista de las montañas al atardecer.",
-        color: "#FF5733",
-        likes: 120,
-        imageURL: URL(
-            string: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=800"
-        ),
-        photographerUsername: "john_doe",
-        photographerProfileImage: URL(
-            string: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100"
-        ),
-        isFavorite: false
-    )
-    
-    return PhotoDetailsView(photo: samplePhoto)
-}
 

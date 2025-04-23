@@ -11,10 +11,13 @@ class PhotoRepositoryImpl: PhotoRepository {
     
     private let photoDataSource: PhotoDataSource
     private let favDataSource: FavoritePhotoDataSource
+    private let myPhotosDataSource: MyPhotosDataSource
     
-    init(photoDataSource: PhotoDataSource, favDataSource: FavoritePhotoDataSource) {
+    init(photoDataSource: PhotoDataSource, favDataSource: FavoritePhotoDataSource,
+    myPhotosDataSource: MyPhotosDataSource) {
         self.photoDataSource = photoDataSource
         self.favDataSource = favDataSource
+        self.myPhotosDataSource = myPhotosDataSource
     }
     
     func getPhotos(from page: Int, by query: String) async -> Result<[Photo], AppError> {
@@ -60,4 +63,23 @@ class PhotoRepositoryImpl: PhotoRepository {
                 return .failure(error.toAppError())
             }
         }
+    
+    func fetchMyPhotos() -> Result<[Photo], AppError> {
+            do {
+                let result = try myPhotosDataSource.fetchMyPhotos()
+                return .success(result)
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
+    
+    func saveMyPhoto(_ photo: Photo) -> Result<Bool, AppError> {
+        do {
+            try myPhotosDataSource.saveMyPhoto(photo)
+            return .success(true)
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
+
 }

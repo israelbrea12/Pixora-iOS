@@ -14,26 +14,34 @@ class PhotoFormViewModel: ObservableObject {
     @Published var color: String = "#FFFFFF"
     @Published var photographerUsername: String = ""
 
-    init(image: UIImage?) {
+    private let saveMyPhotoUseCase: SaveMyPhotoUseCase
+
+    init(image: UIImage?, saveMyPhotoUseCase: SaveMyPhotoUseCase) {
         self.image = image
+        self.saveMyPhotoUseCase = saveMyPhotoUseCase
     }
 
     func savePhoto() {
         guard let image = image else { return }
-        let context = PersistenceController.shared.container.viewContext
-        let newPhoto = PhotoEntity(context: context)
-        newPhoto.id = UUID().uuidString
-        newPhoto.descriptionText = description
-        newPhoto.color = color
-        newPhoto.photographerUsername = photographerUsername
-        newPhoto.isFavorite = false
-        newPhoto.imageData = image.jpegData(compressionQuality: 0.8)
-        
-        do {
-            try context.save()
-            print("✅ Foto guardada en CoreData.")
-        } catch {
-            print("❌ Error al guardar: \(error)")
+
+        let photo = Photo(
+            id: UUID().uuidString,
+            description: description,
+            color: color,
+            likes: 0,
+            imageURL: nil,
+            photographerUsername: photographerUsername,
+            photographerProfileImage: nil,
+            isFavorite: false,
+            imageData: image.jpegData(compressionQuality: 0.8)
+        )
+
+        let result = saveMyPhotoUseCase.execute(photo: photo)
+        switch result {
+        case .success:
+            print("✅ Foto guardada.")
+        case .failure(let error):
+            print("❌ Error al guardar: \(error.localizedDescription)")
         }
     }
 }

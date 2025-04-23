@@ -14,6 +14,7 @@ struct PhotoModel: Codable {
     let likes: Int?
     let urls: PhotoURLsModel?
     let user: UserModel?
+    let imageData: Data?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -22,14 +23,16 @@ struct PhotoModel: Codable {
         case likes
         case urls
         case user
+        case imageData
     }
     
-    init(id: String?, description: String?, color: String?, likes: Int?, urls: PhotoURLsModel?, user: UserModel?) {
+    init(id: String?, description: String?, color: String?, likes: Int?, urls: PhotoURLsModel?, user: UserModel?, imageData: Data?) {
         self.id = id
         self.description = description
         self.color = color
         self.likes = likes
         self.urls = urls
         self.user = user
+        self.imageData = imageData
     }
 }

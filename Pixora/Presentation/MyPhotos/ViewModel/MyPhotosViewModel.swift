@@ -10,24 +10,24 @@ import SwiftUI
 import CoreData
 
 class MyPhotosViewModel: ObservableObject {
-    @Published var photos: [PhotoEntity] = []
+    @Published var photos: [Photo] = []
+    @Published var state: ViewState = .initial
 
-    private var context: NSManagedObjectContext {
-        PersistenceController.shared.container.viewContext
+    private let fetchMyPhotosUseCase: FetchMyPhotosUseCase
+    
+    init(fetchMyPhotosUseCase: FetchMyPhotosUseCase) {
+        self.fetchMyPhotosUseCase = fetchMyPhotosUseCase
     }
-
-    init() {
-        fetchPhotos()
-    }
-
-    func fetchPhotos() {
-        let request: NSFetchRequest<PhotoEntity> = PhotoEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "imageData != nil")
-
-        do {
-            photos = try context.fetch(request)
-        } catch {
-            print("❌ Error al cargar fotos: \(error)")
+    
+    public func fetchMyPhotos() {
+        state = .loading
+        let result = fetchMyPhotosUseCase.execute()
+        switch result {
+        case .success(let myPhotos):
+            self.photos = myPhotos
+            self.state = myPhotos.isEmpty ? .empty : .success
+        case .failure(let error):
+            self.state = .error(error.localizedDescription)
         }
     }
 }

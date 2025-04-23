@@ -20,7 +20,8 @@ extension PhotoModel {
             imageURL: self.urls?.regular,
             photographerUsername: self.user?.username,
             photographerProfileImage: self.user?.profile_image?.small,
-            isFavorite: false
+            isFavorite: false,
+            imageData: self.imageData ?? nil
         )
     }
 }
@@ -35,7 +36,8 @@ extension PhotoEntity {
             imageURL: URL(string: imageURL ?? ""),
             photographerUsername: photographerUsername,
             photographerProfileImage: URL(string: photographerProfileImage ?? ""),
-            isFavorite: isFavorite
+            isFavorite: isFavorite,
+            imageData: imageData
         )
     }
 }
@@ -56,6 +58,7 @@ extension Photo {
         entity.photographerUsername = self.photographerUsername ?? "Desconocido"
         entity.photographerProfileImage = self.photographerProfileImage?.absoluteString ?? ""
         entity.isFavorite = true // importante: fuerza a true
+        entity.imageData = self.imageData ?? nil
 
         return entity
     }
