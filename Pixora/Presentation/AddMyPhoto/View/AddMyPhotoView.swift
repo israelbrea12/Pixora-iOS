@@ -7,70 +7,74 @@
 
 import SwiftUI
 import PhotosUI
-import AVFoundation
 
 struct AddMyPhotoView: View {
     @StateObject private var viewModel = AddMyPhotoViewModel()
-    @Environment(\.presentationMode) var presentationMode
+    @State private var isNavigatingToForm = false
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            VStack {
                 if let image = viewModel.selectedImage {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
-                        .ignoresSafeArea()
+                        .frame(height: 300)
+                        .cornerRadius(25)
                 } else {
-                    CameraPreview(session: viewModel.captureSession)
-                        .ignoresSafeArea()
-                        .onAppear {
-                            viewModel.startCamera()
-                        }
+#if DEBUG
+                    Image("placeholderImage")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 300)
+                        .cornerRadius(25)
+#endif
                 }
 
-                VStack {
-                    HStack {
-                        Button {
-                            viewModel.showGalleryPicker = true
-                        } label: {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 24, weight: .bold))
-                                .padding()
-                                .background(.ultraThinMaterial)
-                                .clipShape(Circle())
-                        }
-
-                        Spacer()
-
-                        Button {
-                            viewModel.takePhoto()
-                        } label: {
-                            Image(systemName: "circle.fill")
-                                .font(.system(size: 70))
-                                .foregroundColor(.white)
-                                .padding(.bottom, 8)
-                        }
-
-                        Spacer()
-
-                        Button {
-                            viewModel.switchCamera()
-                        } label: {
-                            Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                .font(.system(size: 24, weight: .bold))
-                                .padding()
-                                .background(.ultraThinMaterial)
-                                .clipShape(Circle())
-                        }
-                    }
-                    .padding()
+                Button(action: {
+                    viewModel.showingCamera = true
+                }) {
+                    Text("Take Photo")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.yellow)
+                        .foregroundColor(.black)
+                        .cornerRadius(25)
                 }
-                .frame(maxHeight: .infinity, alignment: .bottom)
+                .sheet(isPresented: $viewModel.showingCamera) {
+                    CameraView(image: $viewModel.selectedImage)
+                }
+
+                PhotosPicker(selection: $viewModel.selectedItem,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Text("Select Photo")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.purple)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
+                }
+
+                Button("Siguiente") {
+                    isNavigatingToForm = true
+                }
+                .disabled(viewModel.selectedImage == nil)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(25)
             }
-            .photosPicker(isPresented: $viewModel.showGalleryPicker,
-                          selection: $viewModel.photoItem,
-                          matching: .images)
+            .padding()
+            .navigationDestination(isPresented: $isNavigatingToForm) {
+                PhotoFormView(viewModel: PhotoFormViewModel(image: viewModel.selectedImage))
+            }
         }
     }
+}
+
+#Preview {
+    AddMyPhotoView()
 }

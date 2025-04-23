@@ -4,6 +4,7 @@
         <attribute name="color" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="descriptionText" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="imageURL" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="likes" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
