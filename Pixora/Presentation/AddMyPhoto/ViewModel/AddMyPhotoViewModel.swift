@@ -1,38 +1,39 @@
+////
+////  AddMyPhotoViewModel.swift
+////  Pixora
+////
+////  Created by Israel Brea Piñero on 22/4/25.
+////
 //
-//  AddMyPhotoViewModel.swift
-//  Pixora
+//import SwiftUI
+//import PhotosUI
 //
-//  Created by Israel Brea Piñero on 22/4/25.
+//@MainActor
+//class AddMyPhotoViewModel: ObservableObject {
+//    @Published var selectedImage: UIImage?
+//    @Published var showingCamera = false
+//    @Published var showingGalleryPicker = false
+//    @Published var selectedItem: PhotosPickerItem? {
+//        didSet {
+//            loadImageFromPicker()
+//        }
+//    }
 //
-
-import SwiftUI
-import PhotosUI
-
-@MainActor
-class AddMyPhotoViewModel: ObservableObject {
-    @Published var selectedImage: UIImage?
-    @Published var showingCamera = false
-    @Published var selectedItem: PhotosPickerItem? {
-        didSet {
-            loadImageFromPicker()
-        }
-    }
-
-    func loadImageFromPicker() {
-        guard let item = selectedItem else { return }
-        Task {
-            if let data = try? await item.loadTransferable(type: Data.self),
-               let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.selectedImage = image
-                }
-            }
-        }
-    }
-
-    func setImageFromCamera(_ image: UIImage?) {
-        selectedImage = image
-    }
-}
-
-
+//    func loadImageFromPicker() {
+//        guard let item = selectedItem else { return }
+//        Task {
+//            if let data = try? await item.loadTransferable(type: Data.self),
+//               let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    self.selectedImage = image
+//                }
+//            }
+//        }
+//    }
+//
+//    func setImageFromCamera(_ image: UIImage?) {
+//        selectedImage = image
+//    }
+//}
+//
+//

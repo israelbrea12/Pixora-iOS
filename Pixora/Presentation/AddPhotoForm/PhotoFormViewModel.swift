@@ -17,9 +17,11 @@ class PhotoFormViewModel: ObservableObject {
     private let saveMyPhotoUseCase: SaveMyPhotoUseCase
 
     init(image: UIImage?, saveMyPhotoUseCase: SaveMyPhotoUseCase) {
+        print("🧩 ViewModel inicializado con imagen: \(String(describing: image))")
         self.image = image
         self.saveMyPhotoUseCase = saveMyPhotoUseCase
     }
+
 
     func savePhoto() {
         guard let image = image else { return }

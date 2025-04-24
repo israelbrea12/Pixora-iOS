@@ -10,31 +10,61 @@ import SwiftUI
 struct MainView: View {
     @StateObject private var tabBarVisibility = TabBarVisibilityManager()
     @Environment(\.scenePhase) private var scenePhase
-    
+    @State private var selectedTab = 0
+    @State private var previousTab = 0
+    @State private var isPresented = false
+    @State private var selectedImageForForm: UIImage? = nil
+
     var body: some View {
-        ZStack(alignment: .bottom) {
-            TabView {
-                HomeView()
-                    .tabItem { Image(systemName: "house") }
-
-                SearchView()
-                    .tabItem { Image(systemName: "magnifyingglass") }
-
-                AddMyPhotoView()
-                    .tabItem { Image(systemName: "plus") }
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                TabView(selection: $selectedTab) {
+                    HomeView()
+                        .tabItem { Image(systemName: "house") }
+                        .tag(0)
+                    
+                    SearchView()
+                        .tabItem { Image(systemName: "magnifyingglass") }
+                        .tag(1)
+                    
+                    Color.clear // Placeholder view
+                        .tabItem {
+                            Image(systemName: "plus")
+                        }
+                        .tag(2)
+                    
+                    NotificationsView()
+                        .tabItem { Image(systemName: "bell") }
+                        .tag(3)
+                    
+                    ProfileView()
+                        .tabItem { Image(systemName: "person") }
+                        .tag(4)
+                }
+                .onChange(of: selectedTab) { newValue in
+                    if newValue == 2 {
+                        selectedTab = previousTab
+                        isPresented = true
+                    } else {
+                        previousTab = newValue
+                    }
+                }
                 
-                NotificationsView()
-                    .tabItem { Image(systemName: "bell") }
-
-                ProfileView()
-                    .tabItem { Image(systemName: "person") }
+                .sheet(isPresented: $isPresented) {
+                    BottomSheetView { image in
+                        selectedImageForForm = image
+                    }
+                    .presentationDetents([.fraction(0.4), .medium])
+                    .presentationDragIndicator(.visible)
+                }
+                .navigationDestination(item: $selectedImageForForm) { image in
+                    PhotoFormView(image: image)
+                }
+                
+                .environmentObject(tabBarVisibility)
+                .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
+                .animation(.easeInOut(duration: 0.5), value: tabBarVisibility.isVisible)
             }
-            .environmentObject(tabBarVisibility)
-            .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
-            .animation(
-                .easeInOut(duration: 0.5),
-                value: tabBarVisibility.isVisible
-            )
         }
         .onAppear {
             let tabBarAppearance = UITabBarAppearance()
@@ -42,11 +72,11 @@ struct MainView: View {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             NotificationManager.shared.requestAuthorization()
         }
-        .onChange(of: scenePhase) {
+        .onChange(of: scenePhase) { _ in
             handleScenePhaseChange()
         }
     }
-    
+
     private func handleScenePhaseChange() {
         switch scenePhase {
         case .background:

@@ -12,6 +12,7 @@ struct PhotoFormView: View {
     @StateObject var photoFormViewModel: PhotoFormViewModel
 
     init(image: UIImage?) {
+        print("📷 Recibida imagen en PhotoFormView: \(String(describing: image))")
         _photoFormViewModel = StateObject(
             wrappedValue: Resolver.shared
                 .resolve(PhotoFormViewModel.self, argument: image)
@@ -54,6 +55,8 @@ struct PhotoFormView: View {
             .padding()
         }
         .navigationTitle("Nueva Foto")
+        .background(Color.yellow)
+
     }
 }
 
