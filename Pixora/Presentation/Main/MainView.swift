@@ -13,58 +13,59 @@ struct MainView: View {
     @State private var selectedTab = 0
     @State private var previousTab = 0
     @State private var isPresented = false
-    @State private var selectedImageForForm: UIImage? = nil
+    @State private var selectedImageForForm: IdentifiableImage? = nil
 
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .bottom) {
-                TabView(selection: $selectedTab) {
-                    HomeView()
-                        .tabItem { Image(systemName: "house") }
-                        .tag(0)
-                    
-                    SearchView()
-                        .tabItem { Image(systemName: "magnifyingglass") }
-                        .tag(1)
-                    
-                    Color.clear // Placeholder view
-                        .tabItem {
-                            Image(systemName: "plus")
-                        }
-                        .tag(2)
-                    
-                    NotificationsView()
-                        .tabItem { Image(systemName: "bell") }
-                        .tag(3)
-                    
-                    ProfileView()
-                        .tabItem { Image(systemName: "person") }
-                        .tag(4)
-                }
-                .onChange(of: selectedTab) { newValue in
-                    if newValue == 2 {
-                        selectedTab = previousTab
-                        isPresented = true
-                    } else {
-                        previousTab = newValue
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selectedTab) {
+                HomeView()
+                    .tabItem { Image(systemName: "house") }
+                    .tag(0)
+
+                SearchView()
+                    .tabItem { Image(systemName: "magnifyingglass") }
+                    .tag(1)
+
+                Color.clear // Placeholder view
+                    .tabItem {
+                        Image(systemName: "plus")
                     }
-                }
-                
-                .sheet(isPresented: $isPresented) {
-                    BottomSheetView { image in
-                        selectedImageForForm = image
-                    }
-                    .presentationDetents([.fraction(0.4), .medium])
-                    .presentationDragIndicator(.visible)
-                }
-                .navigationDestination(item: $selectedImageForForm) { image in
-                    PhotoFormView(image: image)
-                }
-                
-                .environmentObject(tabBarVisibility)
-                .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
-                .animation(.easeInOut(duration: 0.5), value: tabBarVisibility.isVisible)
+                    .tag(2)
+
+                NotificationsView()
+                    .tabItem { Image(systemName: "bell") }
+                    .tag(3)
+
+                ProfileView()
+                    .tabItem { Image(systemName: "person") }
+                    .tag(4)
             }
+            .onChange(of: selectedTab) { newValue in
+                if newValue == 2 {
+                    selectedTab = previousTab
+                    isPresented = true
+                } else {
+                    previousTab = newValue
+                }
+            }
+
+            .sheet(isPresented: $isPresented) {
+                BottomSheetView { image in
+                    selectedImageForForm = IdentifiableImage(image: image)
+                }
+                .presentationDetents([.fraction(0.4), .medium])
+                .presentationDragIndicator(.visible)
+            }
+
+            .sheet(item: $selectedImageForForm) { identifiable in
+                NavigationStack {
+                    PhotoFormView(image: identifiable.image)
+                }
+            }
+
+            .environmentObject(tabBarVisibility)
+            .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
+            .animation(.easeInOut(duration: 0.5), value: tabBarVisibility.isVisible)
         }
         .onAppear {
             let tabBarAppearance = UITabBarAppearance()
@@ -85,23 +86,20 @@ struct MainView: View {
                 body: "Explora y comparte fotos con la comunidad ¡Qué divertido!",
                 inSeconds: 5
             )
-
             NotificationManager.shared.scheduleNotification(
                 title: "Pixora",
                 body: "Pixora te echa de menos 😢 ¡Vuelve y mira las nuevas fotos increíbles!",
                 inSeconds: 30
             )
-
         case .active:
             NotificationManager.shared.cancelAllNotifications()
-
         default:
             break
         }
     }
 }
 
-
 #Preview {
     MainView()
 }
+
