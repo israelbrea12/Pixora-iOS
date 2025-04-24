@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PhotoFormView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var mainViewModel: MainViewModel
     @StateObject private var photoFormViewModel = Resolver.shared.resolve(PhotoFormViewModel.self)
 
     let image: UIImage
@@ -31,8 +32,12 @@ struct PhotoFormView: View {
                     .textFieldStyle(.roundedBorder)
 
                 Button {
-                    photoFormViewModel.savePhoto()
-                    presentationMode.wrappedValue.dismiss()
+                            photoFormViewModel.savePhoto()
+                            presentationMode.wrappedValue.dismiss()
+
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                mainViewModel.shouldNavigateToMyPhotos = true
+                            }
                 } label: {
                     Text("Guardar")
                         .padding()

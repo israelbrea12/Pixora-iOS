@@ -47,6 +47,9 @@ struct ProfileView: View {
                 PhotoListDetailView(photoList: list)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .navigateToMyPhotos)) { _ in
+            selectedTab = .myPhotos
+        }
         .onChange(of: selectedList) { newValue in
             withAnimation {
                 tabBarVisibility.isVisible = (newValue == nil)

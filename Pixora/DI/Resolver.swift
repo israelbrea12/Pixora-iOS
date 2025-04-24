@@ -292,6 +292,12 @@ extension Resolver {
             PhotoFormViewModel(
                 saveMyPhotoUseCase: resolver.resolve(SaveMyPhotoUseCase.self)!
             )
-        }
+        }.inObjectScope(.container)
+        
+        container.register(MainViewModel.self) { resolver in
+            MainViewModel(
+                
+            )
+        }.inObjectScope(.container)
     }
 }

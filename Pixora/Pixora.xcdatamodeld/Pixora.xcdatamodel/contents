@@ -11,7 +11,7 @@
         <attribute name="photographerProfileImage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="photographerUsername" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="photoInLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoInListEntity" inverseName="photo" inverseEntity="PhotoInListEntity"/>
-        <relationship name="userActivity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserActivityEntity" inverseName="photo" inverseEntity="UserActivityEntity"/>
+        <relationship name="userActivity" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserActivityEntity" inverseName="photo" inverseEntity="UserActivityEntity"/>
     </entity>
     <entity name="PhotoInListEntity" representedClassName="PhotoInListEntity" syncable="YES" codeGenerationType="class">
         <attribute name="addedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

@@ -47,3 +47,7 @@ struct IdentifiableImage: Identifiable, Equatable {
     }
 }
 
+extension Notification.Name {
+    static let navigateToMyPhotos = Notification.Name("navigateToMyPhotos")
+}
+

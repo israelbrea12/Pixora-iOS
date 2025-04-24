@@ -29,7 +29,7 @@ struct MyPhotosView: View {
             }
             .onAppear {
                             Task {
-                                await myPhotosViewModel.loadIfNeeded()
+                                await myPhotosViewModel.fetchMyPhotos()
                             }
                         }
         }
