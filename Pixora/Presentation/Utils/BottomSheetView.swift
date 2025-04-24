@@ -27,7 +27,13 @@ struct BottomSheetView: View {
                 
                 VStack(spacing: 16) {
                     Button {
-                        showingCamera = true
+                        checkCameraPermission { granted in
+                            if granted {
+                                showingCamera = true
+                            } else {
+                                // Muestra alerta para que active permisos
+                            }
+                        }
                     } label: {
                         sheetButton(icon: "camera.fill", title: "Desde cámara")
                     }
@@ -35,6 +41,7 @@ struct BottomSheetView: View {
                     PhotosPicker(selection: $selectedItem, matching: .images) {
                         sheetButton(icon: "photo.on.rectangle", title: "Desde galería")
                     }
+                    
                     .onChange(of: selectedItem) { newItem in
                         guard let newItem = newItem else { return }
                         Task {
