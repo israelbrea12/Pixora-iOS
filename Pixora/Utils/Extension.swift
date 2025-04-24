@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension CustomStringConvertible where Self: Any {
     
@@ -37,3 +38,7 @@ extension String {
     }
 }
 
+struct IdentifiableImage: Identifiable {
+    let id = UUID()
+    let image: UIImage
+}

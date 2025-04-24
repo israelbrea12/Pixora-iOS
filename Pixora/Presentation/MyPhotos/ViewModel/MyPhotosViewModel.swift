@@ -9,19 +9,27 @@ import Foundation
 import SwiftUI
 import CoreData
 
-class MyPhotosViewModel: ObservableObject {
+@MainActor
+final class MyPhotosViewModel: ObservableObject {
     @Published var photos: [Photo] = []
     @Published var state: ViewState = .initial
 
     private let fetchMyPhotosUseCase: FetchMyPhotosUseCase
-    
+    private var initialLoadDone = false
+
     init(fetchMyPhotosUseCase: FetchMyPhotosUseCase) {
         self.fetchMyPhotosUseCase = fetchMyPhotosUseCase
     }
-    
-    public func fetchMyPhotos() {
+
+    func loadIfNeeded() async {
+        guard !initialLoadDone else { return }
+        initialLoadDone = true
+        await fetchMyPhotos()
+    }
+
+    public func fetchMyPhotos() async {
         state = .loading
-        let result = fetchMyPhotosUseCase.execute()
+        let result = await fetchMyPhotosUseCase.execute()
         switch result {
         case .success(let myPhotos):
             self.photos = myPhotos
@@ -31,3 +39,4 @@ class MyPhotosViewModel: ObservableObject {
         }
     }
 }
+

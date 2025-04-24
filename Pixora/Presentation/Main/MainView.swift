@@ -61,6 +61,7 @@ struct MainView: View {
                 NavigationStack {
                     PhotoFormView(image: identifiable.image)
                 }
+                .presentationDragIndicator(.visible)
             }
 
             .environmentObject(tabBarVisibility)

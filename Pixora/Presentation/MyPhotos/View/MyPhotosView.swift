@@ -14,26 +14,26 @@ struct MyPhotosView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack(
-                content: {
-                    switch myPhotosViewModel.state{
-                    case .loading,
-                            .initial:
-                        loadingView()
-                    case .success:
-                        successView()
-                    case .error(let error):
-                        errorView(errorMsg: error)
-                    case .empty:
-                        emptyView()
-                    }
+            ZStack{
+                switch myPhotosViewModel.state{
+                case .loading,
+                        .initial:
+                    ProgressView()
+                case .success:
+                    successView()
+                case .error(let error):
+                    errorView(errorMsg: error)
+                case .empty:
+                    emptyView()
                 }
-            )
-            .onAppear {
-                myPhotosViewModel
-                    .fetchMyPhotos() // 🔥 recarga cada vez que se ve la pantalla
             }
+            .onAppear {
+                            Task {
+                                await myPhotosViewModel.loadIfNeeded()
+                            }
+                        }
         }
+        
     }
     func successView() -> some View {
         ScrollView {
@@ -43,8 +43,13 @@ struct MyPhotosView: View {
 
             LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(myPhotosViewModel.photos, id: \.id) { photo in
-                    if let data = photo.imageData, let uiImage = UIImage(data: data) {
-                        NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                    if let data = photo.imageData, let uiImage = UIImage(
+                        data: data
+                    ) {
+                        NavigationLink(
+                            destination: PhotoDetailsView(photo: photo)
+                                .toolbar(.hidden, for: .tabBar)
+                        ) {
                             GeometryReader { geometry in
                                 Image(uiImage: uiImage)
                                     .resizable()

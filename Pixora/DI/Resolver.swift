@@ -259,14 +259,14 @@ extension Resolver {
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!,
                 saveUserActivityUseCase: resolver.resolve(SaveUserActivityUseCase.self)!
             )
-        }
+        }.inObjectScope(.container)
         
         container.register(ListsViewModel.self) { resolver in
             ListsViewModel(
                 getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
             )
-        }
+        }.inObjectScope(.container)
         
         container.register(PhotoListDetailViewModel.self) { resolver, photoList in
             PhotoListDetailViewModel(
@@ -274,24 +274,25 @@ extension Resolver {
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
                 
             )
-        }
+        }.inObjectScope(.container)
         
         container.register(NotificationsViewModel.self) { resolver in
             NotificationsViewModel(
-                getUserActivitiesUseCase: resolver.resolve(GetUserActivitiesUseCase.self)!)
-        }
+                getUserActivitiesUseCase: resolver.resolve(GetUserActivitiesUseCase.self)!
+            )
+        }.inObjectScope(.container)
         
         container.register(MyPhotosViewModel.self) { resolver in
             MyPhotosViewModel(
                 fetchMyPhotosUseCase: resolver.resolve(FetchMyPhotosUseCase.self)!
             )
-        }
-        
+        }.inObjectScope(.container)
+
         container.register(PhotoFormViewModel.self) { resolver, image in
             PhotoFormViewModel(
                 image: image,
                 saveMyPhotoUseCase: resolver.resolve(SaveMyPhotoUseCase.self)!
             )
-        }
+        }.inObjectScope(.container)
     }
 }

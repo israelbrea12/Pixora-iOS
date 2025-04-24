@@ -59,7 +59,7 @@ struct BottomSheetView: View {
                 dismiss()
             }
         }) {
-            CameraView(image: $tempImage)
+            ModernCameraView(image: $tempImage)
         }
     }
 
@@ -82,10 +82,5 @@ struct BottomSheetView: View {
         .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
     }
-}
-
-struct IdentifiableImage: Identifiable {
-    let id = UUID()
-    let image: UIImage
 }
 

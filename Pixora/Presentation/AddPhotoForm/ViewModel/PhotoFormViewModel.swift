@@ -11,7 +11,6 @@ import SwiftUI
 class PhotoFormViewModel: ObservableObject {
     @Published var image: UIImage?
     @Published var description: String = ""
-    @Published var color: String = "#FFFFFF"
     @Published var photographerUsername: String = ""
 
     private let saveMyPhotoUseCase: SaveMyPhotoUseCase
@@ -29,7 +28,7 @@ class PhotoFormViewModel: ObservableObject {
         let photo = Photo(
             id: UUID().uuidString,
             description: description,
-            color: color,
+            color: "#FFFFFF",
             likes: 0,
             imageURL: nil,
             photographerUsername: photographerUsername,

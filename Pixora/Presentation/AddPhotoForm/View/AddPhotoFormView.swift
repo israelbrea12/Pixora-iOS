@@ -33,29 +33,28 @@ struct PhotoFormView: View {
                 TextField("Descripción", text: $photoFormViewModel.description)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Color (#RRGGBB)", text: $photoFormViewModel.color)
-                    .textFieldStyle(.roundedBorder)
-
                 TextField(
                     "Usuario",
                     text: $photoFormViewModel.photographerUsername
                 )
                 .textFieldStyle(.roundedBorder)
 
-                Button("Guardar") {
+                Button {
                     photoFormViewModel.savePhoto()
                     presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Guardar")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(25)
+                
             }
             .padding()
         }
         .navigationTitle("Nueva Foto")
-        .background(Color.yellow)
 
     }
 }

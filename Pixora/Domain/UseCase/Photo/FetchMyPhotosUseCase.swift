@@ -14,7 +14,7 @@ final class FetchMyPhotosUseCase {
         self.photoRepository = photoRepository
     }
     
-    func execute() -> Result<[Photo], AppError> {
+    func execute() async -> Result<[Photo], AppError>{
         photoRepository.fetchMyPhotos()
     }
 }

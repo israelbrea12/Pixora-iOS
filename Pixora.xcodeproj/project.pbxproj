@@ -99,7 +99,7 @@
 		4093BB2B2DB7A89D0082A482 /* UserActivityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB2A2DB7A89D0082A482 /* UserActivityRepository.swift */; };
 		4093BB2D2DB7A8C90082A482 /* UserActivityRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB2C2DB7A8C90082A482 /* UserActivityRepositoryImpl.swift */; };
 		4093BB2F2DB7AF8D0082A482 /* AddMyPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB2E2DB7AF8D0082A482 /* AddMyPhotoViewModel.swift */; };
-		4093BB312DB7AFAA0082A482 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB302DB7AFAA0082A482 /* CameraView.swift */; };
+		4093BB312DB7AFAA0082A482 /* ModernCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB302DB7AFAA0082A482 /* ModernCameraView.swift */; };
 		4093BB392DB963420082A482 /* AddPhotoFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB382DB963420082A482 /* AddPhotoFormView.swift */; };
 		4093BB3B2DB965750082A482 /* PhotoFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB3A2DB965750082A482 /* PhotoFormViewModel.swift */; };
 		4093BB3E2DB9678A0082A482 /* MyPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093BB3D2DB9678A0082A482 /* MyPhotosViewModel.swift */; };
@@ -202,7 +202,7 @@
 		4093BB2A2DB7A89D0082A482 /* UserActivityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityRepository.swift; sourceTree = "<group>"; };
 		4093BB2C2DB7A8C90082A482 /* UserActivityRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityRepositoryImpl.swift; sourceTree = "<group>"; };
 		4093BB2E2DB7AF8D0082A482 /* AddMyPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPhotoViewModel.swift; sourceTree = "<group>"; };
-		4093BB302DB7AFAA0082A482 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		4093BB302DB7AFAA0082A482 /* ModernCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernCameraView.swift; sourceTree = "<group>"; };
 		4093BB382DB963420082A482 /* AddPhotoFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoFormView.swift; sourceTree = "<group>"; };
 		4093BB3A2DB965750082A482 /* PhotoFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFormViewModel.swift; sourceTree = "<group>"; };
 		4093BB3D2DB9678A0082A482 /* MyPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosViewModel.swift; sourceTree = "<group>"; };
@@ -554,7 +554,7 @@
 				4093BAE52DB105820082A482 /* ListCellView.swift */,
 				4093BAF22DB668320082A482 /* PhotoListCardView.swift */,
 				4093BB0B2DB77EB60082A482 /* TopTabBar.swift */,
-				4093BB302DB7AFAA0082A482 /* CameraView.swift */,
+				4093BB302DB7AFAA0082A482 /* ModernCameraView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -843,8 +843,8 @@
 		4093BB372DB9632F0082A482 /* AddPhotoForm */ = {
 			isa = PBXGroup;
 			children = (
-				4093BB382DB963420082A482 /* AddPhotoFormView.swift */,
-				4093BB3A2DB965750082A482 /* PhotoFormViewModel.swift */,
+				4093BB6A2DBA81D60082A482 /* View */,
+				4093BB692DBA81CE0082A482 /* ViewModel */,
 			);
 			path = AddPhotoForm;
 			sourceTree = "<group>";
@@ -855,6 +855,22 @@
 				4093BB3D2DB9678A0082A482 /* MyPhotosViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4093BB692DBA81CE0082A482 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB3A2DB965750082A482 /* PhotoFormViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4093BB6A2DBA81D60082A482 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4093BB382DB963420082A482 /* AddPhotoFormView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		40F9E1202DB00B380071A0FD /* Remote */ = {
@@ -976,7 +992,7 @@
 				4093BAF32DB668320082A482 /* PhotoListCardView.swift in Sources */,
 				4090E1C92D907B0B001143BE /* ContentView.swift in Sources */,
 				4090E1E72D907D76001143BE /* SearchView.swift in Sources */,
-				4093BB312DB7AFAA0082A482 /* CameraView.swift in Sources */,
+				4093BB312DB7AFAA0082A482 /* ModernCameraView.swift in Sources */,
 				4090E1CA2D907B0B001143BE /* Persistence.swift in Sources */,
 				4093BB222DB79C130082A482 /* UserActivityMapper.swift in Sources */,
 				4093BAF82DB69EE70082A482 /* PhotoInList.swift in Sources */,
