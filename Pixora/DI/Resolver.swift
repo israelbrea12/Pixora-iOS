@@ -288,11 +288,10 @@ extension Resolver {
             )
         }.inObjectScope(.container)
 
-        container.register(PhotoFormViewModel.self) { resolver, image in
+        container.register(PhotoFormViewModel.self) { resolver in
             PhotoFormViewModel(
-                image: image,
                 saveMyPhotoUseCase: resolver.resolve(SaveMyPhotoUseCase.self)!
             )
-        }.inObjectScope(.container)
+        }
     }
 }

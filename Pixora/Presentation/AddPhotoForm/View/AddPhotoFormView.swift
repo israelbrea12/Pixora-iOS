@@ -9,15 +9,9 @@ import SwiftUI
 
 struct PhotoFormView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var photoFormViewModel: PhotoFormViewModel
+    @StateObject private var photoFormViewModel = Resolver.shared.resolve(PhotoFormViewModel.self)
 
-    init(image: UIImage?) {
-        print("📷 Recibida imagen en PhotoFormView: \(String(describing: image))")
-        _photoFormViewModel = StateObject(
-            wrappedValue: Resolver.shared
-                .resolve(PhotoFormViewModel.self, argument: image)
-        )
-    }
+    let image: UIImage
 
     var body: some View {
         ScrollView {
@@ -33,11 +27,8 @@ struct PhotoFormView: View {
                 TextField("Descripción", text: $photoFormViewModel.description)
                     .textFieldStyle(.roundedBorder)
 
-                TextField(
-                    "Usuario",
-                    text: $photoFormViewModel.photographerUsername
-                )
-                .textFieldStyle(.roundedBorder)
+                TextField("Usuario", text: $photoFormViewModel.photographerUsername)
+                    .textFieldStyle(.roundedBorder)
 
                 Button {
                     photoFormViewModel.savePhoto()
@@ -50,12 +41,18 @@ struct PhotoFormView: View {
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }
-                
             }
             .padding()
         }
         .navigationTitle("Nueva Foto")
-
+        .onAppear {
+            photoFormViewModel.setImage(image)
+        }
+        .onDisappear {
+            photoFormViewModel.image = nil
+            photoFormViewModel.description = ""
+            photoFormViewModel.photographerUsername = ""
+        }
     }
 }
 

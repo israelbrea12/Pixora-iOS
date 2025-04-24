@@ -15,12 +15,14 @@ class PhotoFormViewModel: ObservableObject {
 
     private let saveMyPhotoUseCase: SaveMyPhotoUseCase
 
-    init(image: UIImage?, saveMyPhotoUseCase: SaveMyPhotoUseCase) {
-        print("🧩 ViewModel inicializado con imagen: \(String(describing: image))")
-        self.image = image
+    init(saveMyPhotoUseCase: SaveMyPhotoUseCase) {
         self.saveMyPhotoUseCase = saveMyPhotoUseCase
     }
 
+    func setImage(_ image: UIImage) {
+        print("🧩 Imagen actualizada: \(image)")
+        self.image = image
+    }
 
     func savePhoto() {
         guard let image = image else { return }
@@ -45,4 +47,10 @@ class PhotoFormViewModel: ObservableObject {
             print("❌ Error al guardar: \(error.localizedDescription)")
         }
     }
+    func reset() {
+        image = nil
+        description = ""
+        photographerUsername = ""
+    }
+
 }
