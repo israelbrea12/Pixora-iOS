@@ -25,3 +25,15 @@ extension CustomStringConvertible where Self: Any {
         return desc
     }
 }
+
+extension String {
+    var initials: String {
+        return self
+            .components(separatedBy: " ")
+            .prefix(2)
+            .compactMap { $0.first }
+            .map { String($0).uppercased() }
+            .joined()
+    }
+}
+

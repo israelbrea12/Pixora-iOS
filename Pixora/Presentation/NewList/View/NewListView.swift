@@ -90,12 +90,26 @@ struct NewListView: View {
                 } label: {
                     HStack(spacing: 12) {
                         if let lastPhoto = photos.last {
-                            WebImage(url: lastPhoto.imageURL)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 44, height: 44)
-                                .clipped()
-                                .cornerRadius(8)
+                            if let data = lastPhoto.imageData, let uiImage = UIImage(data: data) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 44, height: 44)
+                                    .clipped()
+                                    .cornerRadius(8)
+                            } else if let url = lastPhoto.imageURL {
+                                WebImage(url: url)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 44, height: 44)
+                                    .clipped()
+                                    .cornerRadius(8)
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(width: 44, height: 44)
+                                    .cornerRadius(8)
+                            }
                         } else {
                             Rectangle()
                                 .fill(Color.gray.opacity(0.2))

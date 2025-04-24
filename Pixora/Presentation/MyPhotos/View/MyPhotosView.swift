@@ -43,21 +43,21 @@ struct MyPhotosView: View {
 
             LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(myPhotosViewModel.photos, id: \.id) { photo in
-                    if let data = photo.imageData, let uiImage = UIImage(
-                        data: data
-                    ) {
-                        GeometryReader { geometry in
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(
-                                    width: geometry.size.width,
-                                    height: geometry.size.width
-                                ) // cuadrado
-                                .clipped()
-                                .cornerRadius(12)
+                    if let data = photo.imageData, let uiImage = UIImage(data: data) {
+                        NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                            GeometryReader { geometry in
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(
+                                        width: geometry.size.width,
+                                        height: geometry.size.width
+                                    )
+                                    .clipped()
+                                    .cornerRadius(12)
+                            }
+                            .aspectRatio(1, contentMode: .fit)
                         }
-                        .aspectRatio(1, contentMode: .fit)
                     }
                 }
             }

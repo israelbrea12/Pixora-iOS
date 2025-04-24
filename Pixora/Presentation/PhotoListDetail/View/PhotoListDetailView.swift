@@ -87,31 +87,37 @@ struct PhotoListDetailView: View {
     private func photoCard(photo: Photo, width: CGFloat) -> some View {
         let height = CGFloat.random(in: 150...300)
 
-        return WebImage(url: photo.imageURL) { phase in
-            switch phase {
-            case .empty:
-                ZStack {
-                    Rectangle().fill(Color.gray.opacity(0.1))
-                    ProgressView()
-                }
-
-            case .success(let image):
-                image.resizable()
+        return Group {
+            if let data = photo.imageData, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
                     .scaledToFill()
-                    .clipped()
-
-            case .failure:
-                ZStack {
-                    Rectangle().fill(Color.red.opacity(0.1))
-                    Image(systemName: "xmark.octagon")
-                        .foregroundColor(.red)
+            } else if let url = photo.imageURL {
+                WebImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Rectangle().fill(Color.gray.opacity(0.1))
+                            ProgressView()
+                        }
+                    case .success(let image):
+                        image.resizable().scaledToFill()
+                    case .failure:
+                        ZStack {
+                            Rectangle().fill(Color.red.opacity(0.1))
+                            Image(systemName: "xmark.octagon")
+                                .foregroundColor(.red)
+                        }
+                    @unknown default:
+                        EmptyView()
+                    }
                 }
-
-            @unknown default:
-                EmptyView()
+            } else {
+                Rectangle().fill(Color.gray.opacity(0.2))
             }
         }
         .frame(width: width, height: height)
+        .clipped()
         .cornerRadius(8)
     }
 }

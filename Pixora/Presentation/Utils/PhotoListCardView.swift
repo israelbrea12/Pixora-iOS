@@ -16,18 +16,18 @@ struct PhotoListCardView: View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
                 // Primera imagen o placeholder
-                imageView(for: photos.indices.contains(0) ? photos[0].imageURL : nil)
+                imageView(for: photos.indices.contains(0) ? photos[0] : nil)
                     .frame(width: 100, height: 100)
                     .cornerRadius(10)
 
                 VStack(spacing: 4) {
                     // Segunda imagen o placeholder
-                    imageView(for: photos.indices.contains(1) ? photos[1].imageURL : nil)
+                    imageView(for: photos.indices.contains(1) ? photos[1] : nil)
                         .frame(width: 70, height: 48)
                         .cornerRadius(10)
 
                     // Tercera imagen o placeholder
-                    imageView(for: photos.indices.contains(2) ? photos[2].imageURL : nil)
+                    imageView(for: photos.indices.contains(2) ? photos[2] : nil)
                         .frame(width: 70, height: 48)
                         .cornerRadius(10)
                 }
@@ -46,8 +46,13 @@ struct PhotoListCardView: View {
     }
 
     @ViewBuilder
-    private func imageView(for url: URL?) -> some View {
-        if let url = url {
+    private func imageView(for photo: Photo?) -> some View {
+        if let data = photo?.imageData, let uiImage = UIImage(data: data) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFill()
+                .clipped()
+        } else if let url = photo?.imageURL {
             WebImage(url: url)
                 .resizable()
                 .scaledToFill()
@@ -57,5 +62,4 @@ struct PhotoListCardView: View {
         }
     }
 }
-
 

@@ -20,13 +20,23 @@ struct NotificationsView: View {
                 case .success:
                     List(viewModel.actions, id: \.id) { action in
                         HStack {
-                            WebImage(url: action.photo.imageURL)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(6)
-                                .clipped()
-
+                            if let data = action.photo.imageData, let uiImage = UIImage(
+                                data: data
+                            ) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .cornerRadius(6)
+                                    .clipped()
+                            }  else {
+                                WebImage(url: action.photo.imageURL)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .cornerRadius(6)
+                                    .clipped()
+                            }
                             VStack(alignment: .leading) {
                                 Text(actionMessage(for: action))
                                     .font(.body)

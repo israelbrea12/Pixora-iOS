@@ -21,7 +21,6 @@ struct PhotoDetailsView: View {
     ) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
-        NavigationStack{
             ZStack(
                 content: {
                     switch photoDetailsViewModel.state{
@@ -37,9 +36,10 @@ struct PhotoDetailsView: View {
                     }
                 }
             )
-        }
         .task {
-            let isAlreadyFavorite = await photoDetailsViewModel.load(photo: photo)
+            let isAlreadyFavorite = await photoDetailsViewModel.load(
+                photo: photo
+            )
             if isAlreadyFavorite {
                 photoDetailsViewModel.likes += 1
             }
@@ -88,12 +88,23 @@ struct PhotoDetailsView: View {
     
     // 📸 Imagen de la foto ajustada al ancho
     private var photoCoverImage: some View {
-        WebImage(url: photo.imageURL)
-            .resizable()
-            .scaledToFit() // Mantiene proporciones sin recortar
-            .frame(maxWidth: .infinity)
-            .cornerRadius(20)
-            .overlay(backButton, alignment: .topLeading) // Botón de regresar
+        Group {
+            if let data = photo.imageData, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
+            } else if let url = photo.imageURL {
+                WebImage(url: url)
+                    .resizable()
+            } else {
+                Image(systemName: "photo")
+                    .resizable()
+                    .foregroundColor(.gray)
+            }
+        }
+        .scaledToFit()
+        .frame(maxWidth: .infinity)
+        .cornerRadius(20)
+        .overlay(backButton, alignment: .topLeading)
     }
         
     // 🔙 Botón para volver atrás
@@ -117,13 +128,14 @@ struct PhotoDetailsView: View {
         HStack(spacing: 18) {
             HStack {
                 LikeButton(
-                        isLiked: photoDetailsViewModel.isFavorite,
-                        onTap: {
-                            Task {
-                                _ = await photoDetailsViewModel.toggleFavorite(for: photo)
-                            }
+                    isLiked: photoDetailsViewModel.isFavorite,
+                    onTap: {
+                        Task {
+                            _ = await photoDetailsViewModel
+                                .toggleFavorite(for: photo)
                         }
-                    )
+                    }
+                )
 
                 Text("\(photoDetailsViewModel.likes)")
                     .font(.subheadline)
@@ -156,14 +168,18 @@ struct PhotoDetailsView: View {
             Button(action: {
                 photoDetailsViewModel.isNewListSheetPresented = true
             }) {
-                Text(photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar")
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 10)
-                    .font(.body)
-                    .bold()
-                    .background(photoDetailsViewModel.isSavedInAnyList ? Color.gray : Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(24)
+                Text(
+                    photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar"
+                )
+                .padding(.vertical, 10)
+                .padding(.horizontal, 10)
+                .font(.body)
+                .bold()
+                .background(
+                    photoDetailsViewModel.isSavedInAnyList ? Color.gray : Color.red
+                )
+                .foregroundColor(.white)
+                .cornerRadius(24)
             }
             .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented, onDismiss: {
                 photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
@@ -179,11 +195,24 @@ struct PhotoDetailsView: View {
     // 🏅 Usuario (Foto de perfil + Nombre)
     private var userInfo: some View {
         HStack {
-            WebImage(url: photo.photographerProfileImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
+            WebImage(url: photo.photographerProfileImage) { phase in
+                switch phase {
+                case .empty:
+                    initialsCircle
+                        .foregroundColor(.black)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                        .clipped()
+                        .clipShape(Circle())
+                case .failure:
+                    initialsCircle
+                @unknown default:
+                    initialsCircle
+                }
+            }
                 
             Text(photo.photographerUsername ?? "Unknown")
                 .font(.headline)
@@ -202,6 +231,15 @@ struct PhotoDetailsView: View {
         }
         .padding(.horizontal)
         .padding(.top, 4)
+    }
+    
+    private var initialsCircle: some View {
+        let initials = (photo.photographerUsername ?? "U").initials
+        return Text(initials)
+            .font(.headline)
+            .foregroundColor(.white)
+            .frame(width: 40, height: 40)
+            .background(Circle().fill(Color.gray))
     }
 }
 
