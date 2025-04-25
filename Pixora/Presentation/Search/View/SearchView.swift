@@ -104,12 +104,37 @@ struct SearchView: View {
                 LazyVStack(spacing: 16) {
                     ForEach(rightColumn, id: \.id) { photo in
                         NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
-                            WebImage(url: photo.imageURL)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: itemWidth, height: CGFloat.random(in: 150...300))
-                                .clipped()
-                                .cornerRadius(8)
+                            let height = CGFloat.random(in: 150...300)
+                            WebImage(url: photo.imageURL) { phase in
+                                switch phase {
+                                case .empty:
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.1))
+                                        ProgressView()
+                                    }
+                                    .frame(width: itemWidth, height: height)
+                                    .cornerRadius(8)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: itemWidth, height: height)
+                                        .clipped()
+                                        .cornerRadius(8)
+                                case .failure:
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(Color.red.opacity(0.1))
+                                        Image(systemName: "xmark.octagon")
+                                            .foregroundColor(.red)
+                                    }
+                                    .frame(width: itemWidth, height: height)
+                                    .cornerRadius(8)
+                                @unknown default:
+                                    EmptyView()
+                                }
+                            }
                         }
                         .onAppear {
                             if photo == searchViewModel.photos.last {

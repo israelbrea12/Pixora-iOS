@@ -76,7 +76,7 @@ struct MyPhotosView: View {
     }
     
     private func emptyView() -> some View {
-        InfoView(message: "No data found")
+        InfoView(message: "No photos yet")
     }
     
     private func errorView(errorMsg: String) -> some View {

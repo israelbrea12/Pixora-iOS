@@ -9,9 +9,16 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    
+    @State private var showSplash = true
+
     var body: some View {
-        MainView()
+        ZStack {
+            if showSplash {
+                SplashView(isActive: $showSplash)
+            } else {
+                MainView()
+            }
+        }
     }
 }
 
