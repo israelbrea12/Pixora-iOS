@@ -10,11 +10,9 @@ import SDWebImageSwiftUI
 
 struct NewListView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var newListViewModel: NewListViewModel
+    @StateObject var newListViewModel = Resolver.shared.resolve(NewListViewModel.self)
 
-    init(photo: Photo) {
-        _newListViewModel = StateObject(wrappedValue: Resolver.shared.resolve(NewListViewModel.self, argument: photo))
-    }
+    var photo: Photo
 
     var body: some View {
         NavigationStack {
@@ -37,6 +35,11 @@ struct NewListView: View {
             Button("Cancelar", role: .cancel) {}
         } message: {
             Text("Escribe un nombre para la nueva lista")
+        }
+        .onAppear {
+            Task {
+                newListViewModel.loadLists()
+            }
         }
     }
 
@@ -85,7 +88,7 @@ struct NewListView: View {
         List {
             ForEach(newListViewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
                 Button {
-                    newListViewModel.addPhotoToList(list)
+                    newListViewModel.addPhoto(photo, to: list)
                     dismiss()
                 } label: {
                     HStack(spacing: 12) {
@@ -126,5 +129,4 @@ struct NewListView: View {
         }
         .listStyle(.plain)
     }
-
 }

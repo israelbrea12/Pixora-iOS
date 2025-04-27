@@ -248,14 +248,13 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(NewListViewModel.self) { resolver, photo in
+        container.register(NewListViewModel.self) { resolver in
             NewListViewModel(
                 getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
                 createListUseCase: resolver
                     .resolve(CreatePhotoListUseCase.self)!,
                 addPhotoToListUseCase: resolver
                     .resolve(AddPhotoToListUseCase.self)!,
-                photo: photo,
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!,
                 saveUserActivityUseCase: resolver.resolve(SaveUserActivityUseCase.self)!
             )

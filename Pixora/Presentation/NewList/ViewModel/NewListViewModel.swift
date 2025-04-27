@@ -17,7 +17,6 @@ final class NewListViewModel: ObservableObject {
 
     private let getListsUseCase: GetPhotoListsUseCase
     private let createListUseCase: CreatePhotoListUseCase
-    private let photo: Photo
     private let addPhotoToListUseCase: AddPhotoToListUseCase
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
     private let saveUserActivityUseCase: SaveUserActivityUseCase
@@ -26,17 +25,14 @@ final class NewListViewModel: ObservableObject {
         getListsUseCase: GetPhotoListsUseCase,
         createListUseCase: CreatePhotoListUseCase,
         addPhotoToListUseCase: AddPhotoToListUseCase,
-        photo: Photo,
         getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase,
         saveUserActivityUseCase: SaveUserActivityUseCase
     ) {
         self.getListsUseCase = getListsUseCase
         self.createListUseCase = createListUseCase
         self.addPhotoToListUseCase = addPhotoToListUseCase
-        self.photo = photo
         self.getPhotosFromListUseCase = getPhotosFromListUseCase
         self.saveUserActivityUseCase = saveUserActivityUseCase
-        loadLists()
     }
 
     func loadLists() {
@@ -78,13 +74,12 @@ final class NewListViewModel: ObservableObject {
         }
     }
     
-    func addPhotoToList(_ list: PhotoList) {
+    func addPhoto(_ photo: Photo, to list: PhotoList) {
         let result = addPhotoToListUseCase.execute(photo: photo, list: list)
         switch result {
         case .success:
             print("✅ Foto añadida a la lista \(list.name)")
             
-            // Guardar actividad
             let activity = UserActivity(
                 id: UUID(),
                 type: .addedToList,
@@ -98,6 +93,4 @@ final class NewListViewModel: ObservableObject {
             print("❌ Error al añadir foto: \(error.localizedDescription)")
         }
     }
-
 }
-
