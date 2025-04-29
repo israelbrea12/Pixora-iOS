@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 extension CustomStringConvertible where Self: Any {
     
@@ -49,5 +50,18 @@ struct IdentifiableImage: Identifiable, Equatable {
 
 extension Notification.Name {
     static let navigateToMyPhotos = Notification.Name("navigateToMyPhotos")
+}
+
+extension View {
+    @ViewBuilder func `if`<Content: View>(
+        _ condition: Bool,
+        transform: (Self) -> Content
+    ) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
 }
 

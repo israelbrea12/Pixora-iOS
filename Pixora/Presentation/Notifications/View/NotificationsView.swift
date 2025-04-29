@@ -69,3 +69,22 @@ struct NotificationsView: View {
     }
 }
 
+struct NotificationsView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            NotificationsView()
+                .previewDevice("iPhone SE (3rd generation)")
+                .previewDisplayName("iPhone SE Portrait")
+
+            NotificationsView()
+                .previewDevice("iPhone 15")
+                .previewDisplayName("iPhone 15")
+
+            NotificationsView()
+                .previewDevice("iPad Pro (11-inch) (4th generation)")
+                .previewDisplayName("iPad Pro")
+        }
+    }
+}
+
+
