@@ -11,15 +11,6 @@ import SDWebImageSwiftUI
 struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
     
-    let categories = [
-        "popular",
-        "nature",
-        "people",
-        "animals",
-        "technology",
-        "travel"
-    ]
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,83 +21,75 @@ struct HomeView: View {
     }
     
     private func categoryView(for category: String) -> some View {
-        ScrollView {
-            VStack {
-                ZStack {
-                    switch homeViewModel.state {
-                    case .loading:
-                        loadingView()
-                    case .success:
-                        successView()
-                    case .error(let errorMessage):
-                        errorView(errorMsg: errorMessage)
-                    default:
-                        emptyView()
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let columnCount = screenWidth > 700 ? 3 : 2
+            let spacing: CGFloat = 16
+            let itemWidth = (screenWidth - (spacing * CGFloat(columnCount + 1))) / CGFloat(columnCount)
+            let columns = createColumns(from: homeViewModel.photos, columnCount: columnCount)
+
+            ScrollView {
+                VStack {
+                    ZStack {
+                        switch homeViewModel.state {
+                        case .loading:
+                            loadingView()
+                        case .success:
+                            HStack(alignment: .top, spacing: spacing) {
+                                ForEach(0..<columns.count, id: \.self) { columnIndex in
+                                    LazyVStack(spacing: spacing) {
+                                        ForEach(columns[columnIndex], id: \.id) { photo in
+                                            NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                                                let height = screenWidth > 700 ? CGFloat.random(in: 300...500) : CGFloat.random(in: 150...300)
+                                                WebImage(url: photo.imageURL) { phase in
+                                                    switch phase {
+                                                    case .empty:
+                                                        ZStack {
+                                                            Rectangle().fill(Color.gray.opacity(0.1))
+                                                            ProgressView()
+                                                        }
+                                                    case .success(let image):
+                                                        image.resizable().scaledToFill()
+                                                    case .failure:
+                                                        ZStack {
+                                                            Rectangle().fill(Color.red.opacity(0.1))
+                                                            Image(systemName: "xmark.octagon").foregroundColor(.red)
+                                                        }
+                                                    @unknown default:
+                                                        EmptyView()
+                                                    }
+                                                }
+                                                .frame(width: itemWidth, height: height)
+                                                .clipped()
+                                                .cornerRadius(8)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.top, spacing)
+                        case .error(let errorMessage):
+                            errorView(errorMsg: errorMessage)
+                        default:
+                            emptyView()
+                        }
                     }
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        }
-        .onAppear {
+            .onAppear {
                 if homeViewModel.selectedCategory != category || homeViewModel.photos.isEmpty {
                     homeViewModel.updateCategory(category)
                 }
             }
+        }
     }
+
     
     private func loadingView() -> some View {
         ProgressView()
     }
-    
-    private func successView() -> some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let columnCount = screenWidth > 700 ? 3 : 2
-        let spacing: CGFloat = 16
-        let itemWidth = (screenWidth - (spacing * CGFloat(columnCount + 1))) / CGFloat(columnCount)
-        
-        var columns: [[Photo]] = Array(repeating: [], count: columnCount)
-        for (index, photo) in homeViewModel.photos.enumerated() {
-            columns[index % columnCount].append(photo)
-        }
-
-        return ScrollView {
-            HStack(alignment: .top, spacing: spacing) {
-                ForEach(0..<columns.count, id: \.self) { columnIndex in
-                    LazyVStack(spacing: spacing) {
-                        ForEach(columns[columnIndex], id: \.id) { photo in
-                            NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
-                                let height = screenWidth > 700 ? CGFloat.random(in: 300...500) : CGFloat.random(in: 150...300)
-                                WebImage(url: photo.imageURL) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ZStack {
-                                            Rectangle().fill(Color.gray.opacity(0.1))
-                                            ProgressView()
-                                        }
-                                    case .success(let image):
-                                        image.resizable().scaledToFill()
-                                    case .failure:
-                                        ZStack {
-                                            Rectangle().fill(Color.red.opacity(0.1))
-                                            Image(systemName: "xmark.octagon").foregroundColor(.red)
-                                        }
-                                    @unknown default:
-                                        EmptyView()
-                                    }
-                                }
-                                .frame(width: itemWidth, height: height)
-                                .clipped()
-                                .cornerRadius(8)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, spacing)
-        }
-    }
-
     
     private func emptyView() -> some View {
         InfoView(message: "No data found")
@@ -125,7 +108,7 @@ struct HomeView: View {
 
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: isWide ? 16 : 12) {
-                ForEach(categories, id: \.self) { category in
+                ForEach(homeViewModel.categories, id: \.self) { category in
                     Button(action: {
                         homeViewModel.updateCategory(category)
                     }) {

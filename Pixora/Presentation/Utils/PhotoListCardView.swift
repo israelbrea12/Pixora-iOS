@@ -14,24 +14,31 @@ struct PhotoListCardView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                // Primera imagen o placeholder
-                imageView(for: photos.indices.contains(0) ? photos[0] : nil)
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(10)
+            GeometryReader { geometry in
+                let totalWidth = geometry.size.width
+                let spacing: CGFloat = 4
+                let leftImageWidth = (totalWidth - spacing) * 0.55
+                let rightImageWidth = (totalWidth - spacing) * 0.45
+                let imageHeight = leftImageWidth // square
 
-                VStack(spacing: 4) {
-                    // Segunda imagen o placeholder
-                    imageView(for: photos.indices.contains(1) ? photos[1] : nil)
-                        .frame(width: 70, height: 48)
+                HStack(spacing: spacing) {
+                    imageView(for: photos.indices.contains(0) ? photos[0] : nil)
+                        .frame(width: leftImageWidth, height: imageHeight)
                         .cornerRadius(10)
 
-                    // Tercera imagen o placeholder
-                    imageView(for: photos.indices.contains(2) ? photos[2] : nil)
-                        .frame(width: 70, height: 48)
-                        .cornerRadius(10)
+                    VStack(spacing: spacing) {
+                        imageView(for: photos.indices.contains(1) ? photos[1] : nil)
+                            .frame(width: rightImageWidth, height: (imageHeight - spacing) / 2)
+                            .cornerRadius(10)
+
+                        imageView(for: photos.indices.contains(2) ? photos[2] : nil)
+                            .frame(width: rightImageWidth, height: (imageHeight - spacing) / 2)
+                            .cornerRadius(10)
+                    }
                 }
+                .frame(height: imageHeight) // Ensure GeometryReader container respects total height
             }
+            .aspectRatio(1.7, contentMode: .fit) // Use aspect ratio to auto-size height based on width
 
             Text(photoList.name)
                 .font(.headline)
@@ -62,4 +69,5 @@ struct PhotoListCardView: View {
         }
     }
 }
+
 

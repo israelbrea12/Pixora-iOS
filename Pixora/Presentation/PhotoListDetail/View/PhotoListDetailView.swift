@@ -47,45 +47,40 @@ struct PhotoListDetailView: View {
 
     @ViewBuilder
     private func contentView() -> some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let itemWidth = (screenWidth / 2) - 24
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let spacing: CGFloat = 16
+            let columnCount = screenWidth > 700 ? 3 : 2
+            let totalSpacing = spacing * CGFloat(columnCount + 1)
+            let itemWidth = max((screenWidth - totalSpacing) / CGFloat(columnCount), 0)
 
-        let leftColumn = photoListDetailViewModel.photos.enumerated().filter { $0.offset % 2 == 0 }.map {
-            $0.element
-        }
-        let rightColumn = photoListDetailViewModel.photos.enumerated().filter { $0.offset % 2 != 0 }.map {
-            $0.element
-        }
+            let columns = createColumns(from: photoListDetailViewModel.photos, columnCount: columnCount)
 
-        ScrollView {
-            HStack(alignment: .top, spacing: 16) {
-                LazyVStack(spacing: 16) {
-                    ForEach(leftColumn, id: \.id) { photo in
-                        NavigationLink(
-                            destination: PhotoDetailsView(photo: photo)
-                        ) {
-                            photoCard(photo: photo, width: itemWidth)
+            if itemWidth > 0 {
+                ScrollView {
+                    HStack(alignment: .top, spacing: spacing) {
+                        ForEach(0..<columns.count, id: \.self) { columnIndex in
+                            LazyVStack(spacing: spacing) {
+                                ForEach(columns[columnIndex], id: \.id) { photo in
+                                    NavigationLink(destination: PhotoDetailsView(photo: photo)) {
+                                        photoCard(photo: photo, width: itemWidth)
+                                    }
+                                }
+                            }
                         }
                     }
+                    .padding(.horizontal)
+                    .padding(.top, spacing)
                 }
-
-                LazyVStack(spacing: 16) {
-                    ForEach(rightColumn, id: \.id) { photo in
-                        NavigationLink(
-                            destination: PhotoDetailsView(photo: photo)
-                        ) {
-                            photoCard(photo: photo, width: itemWidth)
-                        }
-                    }
-                }
+            } else {
+                ProgressView()
             }
-            .padding(.horizontal)
-            .padding(.top, 16)
         }
     }
 
     private func photoCard(photo: Photo, width: CGFloat) -> some View {
-        let height = CGFloat.random(in: 150...300)
+        let safeWidth = max(width, 0)
+        let height = safeWidth * CGFloat.random(in: 1.2...1.8)
 
         return Group {
             if let data = photo.imageData, let uiImage = UIImage(data: data) {
@@ -105,8 +100,7 @@ struct PhotoListDetailView: View {
                     case .failure:
                         ZStack {
                             Rectangle().fill(Color.red.opacity(0.1))
-                            Image(systemName: "xmark.octagon")
-                                .foregroundColor(.red)
+                            Image(systemName: "xmark.octagon").foregroundColor(.red)
                         }
                     @unknown default:
                         EmptyView()
@@ -116,7 +110,7 @@ struct PhotoListDetailView: View {
                 Rectangle().fill(Color.gray.opacity(0.2))
             }
         }
-        .frame(width: width, height: height)
+        .frame(width: safeWidth, height: height)
         .clipped()
         .cornerRadius(8)
     }

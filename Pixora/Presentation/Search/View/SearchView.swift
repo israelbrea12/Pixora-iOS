@@ -74,59 +74,63 @@ struct SearchView: View {
     }
 
     private func successView() -> some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let columnCount = screenWidth > 700 ? 3 : 2
-        let spacing: CGFloat = 16
-        let itemWidth = (screenWidth - (spacing * CGFloat(columnCount + 1))) / CGFloat(columnCount)
+        GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let spacing: CGFloat = 16
+            let columnCount = screenWidth > 700 ? 3 : 2
+            let totalSpacing = spacing * CGFloat(columnCount + 1)
+            let itemWidth = max((screenWidth - totalSpacing) / CGFloat(columnCount), 0)
 
-        var columns: [[Photo]] = Array(repeating: [], count: columnCount)
-        for (index, photo) in searchViewModel.photos.enumerated() {
-            columns[index % columnCount].append(photo)
-        }
+            let columns = createColumns(from: searchViewModel.photos, columnCount: columnCount)
 
-        return ScrollView {
-            HStack(alignment: .top, spacing: spacing) {
-                ForEach(0..<columns.count, id: \.self) { columnIndex in
-                    LazyVStack(spacing: spacing) {
-                        ForEach(columns[columnIndex], id: \.id) { photo in
-                            NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
-                                let height = screenWidth > 700 ? CGFloat.random(in: 300...500) : CGFloat.random(in: 150...300)
+            if itemWidth > 0 {
+                ScrollView {
+                    HStack(alignment: .top, spacing: spacing) {
+                        ForEach(0..<columns.count, id: \.self) { columnIndex in
+                            LazyVStack(spacing: spacing) {
+                                ForEach(columns[columnIndex], id: \.id) { photo in
+                                    NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                                        let height = itemWidth * CGFloat.random(in: 1.2...1.8)
 
-                                WebImage(url: photo.imageURL) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ZStack {
-                                            Rectangle().fill(Color.gray.opacity(0.1))
-                                            ProgressView()
+                                        WebImage(url: photo.imageURL) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                ZStack {
+                                                    Rectangle().fill(Color.gray.opacity(0.1))
+                                                    ProgressView()
+                                                }
+                                            case .success(let image):
+                                                image.resizable().scaledToFill()
+                                            case .failure:
+                                                ZStack {
+                                                    Rectangle().fill(Color.red.opacity(0.1))
+                                                    Image(systemName: "xmark.octagon").foregroundColor(.red)
+                                                }
+                                            @unknown default:
+                                                EmptyView()
+                                            }
                                         }
-                                    case .success(let image):
-                                        image.resizable().scaledToFill()
-                                    case .failure:
-                                        ZStack {
-                                            Rectangle().fill(Color.red.opacity(0.1))
-                                            Image(systemName: "xmark.octagon").foregroundColor(.red)
-                                        }
-                                    @unknown default:
-                                        EmptyView()
+                                        .frame(width: itemWidth, height: height)
+                                        .clipped()
+                                        .cornerRadius(8)
                                     }
-                                }
-                                .frame(width: itemWidth, height: height)
-                                .clipped()
-                                .cornerRadius(8)
-                            }
-                            .onAppear {
-                                if photo == searchViewModel.photos.last {
-                                    Task {
-                                        await searchViewModel.fetchPhotos()
+                                    .onAppear {
+                                        if photo == searchViewModel.photos.last {
+                                            Task {
+                                                await searchViewModel.fetchPhotos()
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    .padding(.horizontal)
+                    .padding(.top, spacing)
                 }
+            } else {
+                ProgressView()
             }
-            .padding(.horizontal)
-            .padding(.top, spacing)
         }
     }
 

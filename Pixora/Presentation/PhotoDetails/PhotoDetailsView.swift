@@ -21,32 +21,32 @@ struct PhotoDetailsView: View {
     ) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
-            ZStack(
-                content: {
-                    switch photoDetailsViewModel.state{
-                    case .loading,
-                            .initial:
-                        loadingView()
-                    case .success:
-                        successView()
-                    case .error(let error):
-                        errorView(errorMsg: error)
-                    case .empty:
-                        emptyView()
-                    }
-                }
-            )
+        ZStack(alignment: .topLeading) {
+            switch photoDetailsViewModel.state {
+            case .loading, .initial:
+                loadingView()
+            case .success:
+                successView()
+            case .error(let error):
+                errorView(errorMsg: error)
+            case .empty:
+                emptyView()
+            }
+
+            // Always visible back button overlay
+            backButton
+                .padding(.leading, 16)
+                .padding(.top, 16)
+        }
         .task {
-            let isAlreadyFavorite = await photoDetailsViewModel.load(
-                photo: photo
-            )
+            let isAlreadyFavorite = await photoDetailsViewModel.load(photo: photo)
             if isAlreadyFavorite {
                 photoDetailsViewModel.likes += 1
             }
             photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
         }
-
     }
+
     
     private func loadingView() -> some View {
         ProgressView()
@@ -102,9 +102,10 @@ struct PhotoDetailsView: View {
             }
         }
         .scaledToFit()
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: 600) // 👈 cap the width, ideal for iPad
         .cornerRadius(20)
-        .overlay(backButton, alignment: .topLeading)
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity) // center in ScrollView
     }
         
     // 🔙 Botón para volver atrás

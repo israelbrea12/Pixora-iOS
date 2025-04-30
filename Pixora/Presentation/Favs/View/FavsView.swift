@@ -41,94 +41,70 @@ struct FavsView: View {
     }
     
     private func successView() -> some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let itemWidth = (screenWidth / 3) - 20 // Ajuste para padding y spacing
+        let spacing: CGFloat = 12
 
-        // Dividir las fotos en 3 columnas según su posición
-        let columns = (0..<3).map { columnIndex in
-            favsViewModel.photos.enumerated()
-                .filter { $0.offset % 3 == columnIndex }
-                .map { $0.element }
-        }
+        return GeometryReader { geometry in
+            let screenWidth = geometry.size.width
+            let columnCount = screenWidth > 1000 ? 4 : 3
+            let itemWidth = (screenWidth - spacing * CGFloat(columnCount + 1)) / CGFloat(columnCount)
 
-        return ScrollView {
-            HStack(alignment: .top, spacing: 12) {
-                ForEach(0..<3, id: \.self) { columnIndex in
-                    LazyVStack(spacing: 12) {
-                        ForEach(columns[columnIndex], id: \.id) { photo in
-                            NavigationLink(
-                                destination: PhotoDetailsView(photo: photo)
-                                    .toolbar(.hidden, for: .tabBar)
-                            ) {
-                                let height = CGFloat.random(in: 150...190)
+            // Precompute the columns outside the ViewBuilder
+            let columns = createColumns(from: favsViewModel.photos, columnCount: columnCount)
 
-                                if let data = photo.imageData, let uiImage = UIImage(
-                                    data: data
-                                ) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFill()
+            ScrollView {
+                HStack(alignment: .top, spacing: spacing) {
+                    ForEach(0..<columnCount, id: \.self) { columnIndex in
+                        LazyVStack(spacing: spacing) {
+                            ForEach(columns[columnIndex], id: \.id) { photo in
+                                NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                                    let height = screenWidth > 700
+                                        ? CGFloat.random(in: 300...500)
+                                        : CGFloat.random(in: 150...190)
+
+                                    if let data = photo.imageData, let uiImage = UIImage(data: data) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: itemWidth, height: height)
+                                            .clipped()
+                                            .cornerRadius(8)
+                                    } else {
+                                        WebImage(url: photo.imageURL) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                ZStack {
+                                                    Rectangle().fill(Color.gray.opacity(0.1))
+                                                    ProgressView()
+                                                }
+                                            case .success(let image):
+                                                image
+                                                    .resizable()
+                                                    .scaledToFill()
+                                            case .failure:
+                                                ZStack {
+                                                    Rectangle().fill(Color.red.opacity(0.1))
+                                                    Image(systemName: "xmark.octagon")
+                                                        .foregroundColor(.red)
+                                                }
+                                            @unknown default:
+                                                EmptyView()
+                                            }
+                                        }
                                         .frame(width: itemWidth, height: height)
                                         .clipped()
                                         .cornerRadius(8)
-                                } else {
-                                    
-                                    WebImage(url: photo.imageURL) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            ZStack {
-                                                Rectangle()
-                                                    .fill(
-                                                        Color.gray.opacity(0.1)
-                                                    )
-                                                ProgressView()
-                                            }
-                                            .frame(
-                                                width: itemWidth,
-                                                height: height
-                                            )
-                                            .cornerRadius(8)
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(
-                                                    width: itemWidth,
-                                                    height: height
-                                                )
-                                                .clipped()
-                                                .cornerRadius(8)
-                                        case .failure:
-                                            ZStack {
-                                                Rectangle()
-                                                    .fill(
-                                                        Color.red.opacity(0.1)
-                                                    )
-                                                Image(
-                                                    systemName: "xmark.octagon"
-                                                )
-                                                .foregroundColor(.red)
-                                            }
-                                            .frame(
-                                                width: itemWidth,
-                                                height: height
-                                            )
-                                            .cornerRadius(8)
-                                        @unknown default:
-                                            EmptyView()
-                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+                .padding(.horizontal, spacing)
+                .padding(.top, spacing)
             }
-            .padding(.horizontal, 12)
-            .padding(.top, 16)
         }
     }
-    
+
     private func emptyView() -> some View {
         InfoView(message: "No favorites yet")
     }
