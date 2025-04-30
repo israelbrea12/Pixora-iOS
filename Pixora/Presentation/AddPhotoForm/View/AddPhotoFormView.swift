@@ -21,7 +21,7 @@ struct PhotoFormView: View {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 300)
+                        .frame(height: 200)
                         .cornerRadius(25)
                 }
 
@@ -42,7 +42,7 @@ struct PhotoFormView: View {
                     Text("Guardar")
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green)
+                        .background(LinearGradient.mainBluePurple)
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }

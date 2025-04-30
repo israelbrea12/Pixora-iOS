@@ -15,6 +15,8 @@ struct PhotoDetailsView: View {
     @StateObject var photoDetailsViewModel = Resolver.shared.resolve(
         PhotoDetailsViewModel.self
     )
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
+
     
     @Environment(
         \.presentationMode
@@ -45,6 +47,13 @@ struct PhotoDetailsView: View {
             }
             photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
         }
+        .onAppear {
+            tabBarVisibility.hide()
+        }
+        .onDisappear {
+            tabBarVisibility.show()
+        }
+
     }
 
     
@@ -74,7 +83,6 @@ struct PhotoDetailsView: View {
             .toolbar(.hidden, for: .navigationBar)
         } //ScrollView
         .scrollIndicators(.hidden)
-        .navigationBarBackButtonHidden(true)
         .toolbarBackground(.hidden, for: .navigationBar)
     }
     

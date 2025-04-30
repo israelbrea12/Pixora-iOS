@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 struct ProfileView: View {
     @State private var selectedTab: ProfileTab = .lists
     @State private var selectedList: PhotoList? = nil
-    @EnvironmentObject private var tabBarVisibility: TabBarVisibilityManager
 
     var body: some View {
         NavigationStack {
@@ -49,11 +48,6 @@ struct ProfileView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .navigateToMyPhotos)) { _ in
             selectedTab = .myPhotos
-        }
-        .onChange(of: selectedList) { newValue in
-            withAnimation {
-                tabBarVisibility.isVisible = (newValue == nil)
-            }
         }
     }
 }

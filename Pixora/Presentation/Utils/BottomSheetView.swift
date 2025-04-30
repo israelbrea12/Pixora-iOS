@@ -76,7 +76,7 @@ struct BottomSheetView: View {
                 .font(.title2)
                 .foregroundColor(.white)
                 .frame(width: 44, height: 44)
-                .background(Color.accentColor)
+                .background(LinearGradient.mainBluePurple)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
             Text(title)

@@ -32,6 +32,7 @@ struct ListsView: View {
                             ) {
                                 PhotoListCardView(photoList: list, photos: photos)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()

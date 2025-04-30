@@ -65,3 +65,19 @@ extension View {
     }
 }
 
+extension UIDevice {
+    static var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+}
+
+extension LinearGradient {
+    static let mainBluePurple = LinearGradient(
+        gradient: Gradient(colors: [Color.blue, Color.purple]),
+        startPoint: .leading,
+        endPoint: .trailing
+    )
+}
+
+
+

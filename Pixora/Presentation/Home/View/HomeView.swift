@@ -13,9 +13,11 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                categorySelectionView()
-                categoryView(for: homeViewModel.selectedCategory)
+            ZStack {
+                VStack {
+                    categorySelectionView()
+                    categoryView(for: homeViewModel.selectedCategory)
+                }
             }
         }
     }
@@ -116,9 +118,14 @@ struct HomeView: View {
                             .font(.system(size: fontSize, weight: .medium))
                             .padding(.vertical, verticalPadding)
                             .padding(.horizontal, horizontalPadding)
-                            .background(
-                                homeViewModel.selectedCategory == category ? Color.blue : Color.gray.opacity(0.2)
-                            )
+                            .background {
+                                if homeViewModel.selectedCategory == category {
+                                    LinearGradient.mainBluePurple
+                                } else {
+                                    Color(.systemGray5)
+                                }
+                            }
+
                             .foregroundColor(
                                 homeViewModel.selectedCategory == category ? .white : .black
                             )

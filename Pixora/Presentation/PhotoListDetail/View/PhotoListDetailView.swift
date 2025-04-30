@@ -19,8 +19,6 @@ struct PhotoListDetailView: View {
     let list: PhotoList
     
     @StateObject var photoListDetailViewModel = Resolver.shared.resolve(PhotoListDetailViewModel.self)
-    
-    @EnvironmentObject private var tabBarVisibility: TabBarVisibilityManager
 
     var body: some View {
         ZStack {
@@ -42,9 +40,6 @@ struct PhotoListDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await photoListDetailViewModel.loadPhotos(list: list)
-        }
-        .onAppear {
-            tabBarVisibility.isVisible = false
         }
     }
 

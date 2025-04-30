@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 
 struct FavsView: View {
     @StateObject var favsViewModel = Resolver.shared.resolve(FavsViewModel.self)
+    
     @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
@@ -56,7 +57,8 @@ struct FavsView: View {
                     ForEach(0..<columnCount, id: \.self) { columnIndex in
                         LazyVStack(spacing: spacing) {
                             ForEach(columns[columnIndex], id: \.id) { photo in
-                                NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
+                                NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar))
+                                {
                                     let height = screenWidth > 700
                                         ? CGFloat.random(in: 300...500)
                                         : CGFloat.random(in: 150...190)

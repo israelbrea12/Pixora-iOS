@@ -9,57 +9,57 @@ import UIKit
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var viewModel = Resolver.shared.resolve(MainViewModel.self)
+    @StateObject private var viewModel = Resolver.shared.resolve(
+        MainViewModel.self
+    )
     @StateObject private var tabBarVisibility = TabBarVisibilityManager()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            TabView(selection: $viewModel.selectedTab) {
-                HomeView()
-                    .tabItem { Image(systemName: "house") }
-                    .tag(0)
-
-                SearchView()
-                    .tabItem { Image(systemName: "magnifyingglass") }
-                    .tag(1)
-
-                Color.clear
-                    .tabItem { Image(systemName: "plus") }
-                    .tag(2)
-
-                NotificationsView()
-                    .tabItem { Image(systemName: "bell") }
-                    .tag(3)
-
-                ProfileView()
-                    .tabItem { Image(systemName: "person") }
-                    .tag(4)
-            }
-            .onChange(of: viewModel.selectedTab) {
-                viewModel.handleTabSelection()
-            }
-
-
-            .sheet(isPresented: $viewModel.isPresented) {
-                BottomSheetView { image in
-                    viewModel.selectedImageForForm = IdentifiableImage(image: image)
+            Group {
+                switch viewModel.selectedTab {
+                case 0: HomeView().environmentObject(tabBarVisibility)
+                case 1: SearchView().environmentObject(tabBarVisibility)
+                case 2: Color.clear // Este es el botón central (Plus)
+                case 3: NotificationsView().environmentObject(tabBarVisibility)
+                case 4: ProfileView().environmentObject(tabBarVisibility)
+                default: HomeView().environmentObject(tabBarVisibility)
                 }
-                .presentationDetents([.fraction(0.4), .medium])
-                .presentationDragIndicator(.visible)
             }
+            .transition(.opacity)
 
-            .sheet(item: $viewModel.selectedImageForForm) { identifiable in
-                NavigationStack {
-                    PhotoFormView(image: identifiable.image)
-                        .environmentObject(viewModel) // <-- ¡Clave!
+            CustomTabBar(selectedTab: $viewModel.selectedTab)
+                .onChange(of: viewModel.selectedTab) {
+                    viewModel.handleTabSelection()
                 }
-                .presentationDragIndicator(.visible)
-            }
 
-            .environmentObject(tabBarVisibility)
-            .padding(.bottom, tabBarVisibility.isVisible ? 0 : -200)
-            .animation(.easeInOut(duration: 0.5), value: tabBarVisibility.isVisible)
+
+                .sheet(isPresented: $viewModel.isPresented) {
+                    BottomSheetView { image in
+                        viewModel.selectedImageForForm = IdentifiableImage(
+                            image: image
+                        )
+                    }
+                    .presentationDetents([.fraction(0.4), .medium])
+                    .presentationDragIndicator(.visible)
+                }
+                .presentationCompactAdaptation(.popover)
+
+                .sheet(item: $viewModel.selectedImageForForm) { identifiable in
+                    NavigationStack {
+                        PhotoFormView(image: identifiable.image)
+                            .environmentObject(viewModel)
+                    }
+                    .presentationDragIndicator(.visible)
+                }
+
+                .environmentObject(tabBarVisibility)
+                .offset(y: tabBarVisibility.isVisible ? 0 : 100)
+                .animation(
+                    .easeInOut(duration: 0.5),
+                    value: tabBarVisibility.isVisible
+                )
         }
         .onAppear {
             customizeTabBar()
@@ -68,7 +68,8 @@ struct MainView: View {
         .onChange(of: viewModel.shouldNavigateToMyPhotos) {
             if viewModel.shouldNavigateToMyPhotos {
                 viewModel.selectedTab = 4 // Profile tab
-                NotificationCenter.default.post(name: .navigateToMyPhotos, object: nil)
+                NotificationCenter.default
+                    .post(name: .navigateToMyPhotos, object: nil)
                 viewModel.shouldNavigateToMyPhotos = false
             }
         }

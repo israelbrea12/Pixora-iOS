@@ -28,6 +28,9 @@
 		406351F82D90B4BD0090D1F8 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406351F72D90B4BD0090D1F8 /* Resolver.swift */; };
 		406351FB2D90BBF70090D1F8 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 406351FA2D90BBF70090D1F8 /* CryptoSwift */; };
 		407F36722DC22FA800BE8F53 /* CreateColumns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36712DC22FA800BE8F53 /* CreateColumns.swift */; };
+		407F36752DC2763D00BE8F53 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36742DC2763D00BE8F53 /* CustomTabBar.swift */; };
+		407F368A2DC2A2B200BE8F53 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36892DC2A2B200BE8F53 /* GradientBackground.swift */; };
+		407F36902DC2AB4900BE8F53 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F368F2DC2AB4900BE8F53 /* CustomTabView.swift */; };
 		4090E1C92D907B0B001143BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C32D907B0B001143BE /* ContentView.swift */; };
 		4090E1CA2D907B0B001143BE /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C42D907B0B001143BE /* Persistence.swift */; };
 		4090E1CB2D907B0B001143BE /* Pixora.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C52D907B0B001143BE /* Pixora.xcdatamodeld */; };
@@ -143,6 +146,9 @@
 		406351F52D90AE830090D1F8 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		406351F72D90B4BD0090D1F8 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		407F36712DC22FA800BE8F53 /* CreateColumns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateColumns.swift; sourceTree = "<group>"; };
+		407F36742DC2763D00BE8F53 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		407F36892DC2A2B200BE8F53 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
+		407F368F2DC2AB4900BE8F53 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		4090E1AA2D907A60001143BE /* Pixora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixora.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4090E1C02D907B0B001143BE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4090E1C22D907B0B001143BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -583,6 +589,7 @@
 		4090E2112D909791001143BE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				407F36892DC2A2B200BE8F53 /* GradientBackground.swift */,
 				40074B8C2DBBADC80097DFE1 /* LottieView.swift */,
 				4093BB672DBA4BDE0082A482 /* BottomSheetView.swift */,
 				4090E2122D9097A2001143BE /* InfoView.swift */,
@@ -924,6 +931,8 @@
 			isa = PBXGroup;
 			children = (
 				4090E1D52D907B88001143BE /* MainView.swift */,
+				407F368F2DC2AB4900BE8F53 /* CustomTabView.swift */,
+				407F36742DC2763D00BE8F53 /* CustomTabBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1041,6 +1050,7 @@
 				4093BB2F2DB7AF8D0082A482 /* AddMyPhotoViewModel.swift in Sources */,
 				4093BADB2DB0FB9A0082A482 /* PhotoListRepository.swift in Sources */,
 				4090E2232D909ED3001143BE /* PhotoURLsModel.swift in Sources */,
+				407F36902DC2AB4900BE8F53 /* CustomTabView.swift in Sources */,
 				40F9E1272DB011020071A0FD /* DeletePhotoAsFavoriteUseCase.swift in Sources */,
 				4093BB2D2DB7A8C90082A482 /* UserActivityRepositoryImpl.swift in Sources */,
 				4093BAFF2DB6A9CD0082A482 /* PhotoListDetailView.swift in Sources */,
@@ -1135,6 +1145,8 @@
 				4090E20E2D9081CF001143BE /* SessionManager.swift in Sources */,
 				4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */,
 				400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */,
+				407F368A2DC2A2B200BE8F53 /* GradientBackground.swift in Sources */,
+				407F36752DC2763D00BE8F53 /* CustomTabBar.swift in Sources */,
 				406351E92D90AC4B0090D1F8 /* NetworkError.swift in Sources */,
 				4093BB202DB79B6E0082A482 /* UserActivity.swift in Sources */,
 				4093BB032DB6AEBE0082A482 /* TabBarVisibilityManager.swift in Sources */,
