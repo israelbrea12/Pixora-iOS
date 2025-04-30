@@ -5,19 +5,22 @@
 //  Created by Israel Brea Piñero on 21/4/25.
 //
 
+//
+//  PhotoListDetailView.swift
+//  Pixora
+//
+//  Created by Israel Brea Piñero on 21/4/25.
+//
+
 import SwiftUI
 import SDWebImageSwiftUI
 
 struct PhotoListDetailView: View {
-    @StateObject var photoListDetailViewModel: PhotoListDetailViewModel
-    @EnvironmentObject private var tabBarVisibility: TabBarVisibilityManager
+    let list: PhotoList
     
-    init(photoList: PhotoList) {
-        _photoListDetailViewModel = StateObject(
-            wrappedValue: Resolver.shared
-                .resolve(PhotoListDetailViewModel.self, argument: photoList)
-        )
-    }
+    @StateObject var photoListDetailViewModel = Resolver.shared.resolve(PhotoListDetailViewModel.self)
+    
+    @EnvironmentObject private var tabBarVisibility: TabBarVisibilityManager
 
     var body: some View {
         ZStack {
@@ -35,10 +38,10 @@ struct PhotoListDetailView: View {
                 InfoView(message: message)
             }
         }
-        .navigationTitle(photoListDetailViewModel.list.name)
+        .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            await photoListDetailViewModel.loadPhotos()
+            await photoListDetailViewModel.loadPhotos(list: list)
         }
         .onAppear {
             tabBarVisibility.isVisible = false
@@ -115,4 +118,3 @@ struct PhotoListDetailView: View {
         .cornerRadius(8)
     }
 }
-

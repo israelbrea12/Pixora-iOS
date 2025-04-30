@@ -44,7 +44,7 @@ struct ProfileView: View {
                 }
             }
             .navigationDestination(item: $selectedList) { list in
-                PhotoListDetailView(photoList: list)
+                MyPhotosView()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .navigateToMyPhotos)) { _ in

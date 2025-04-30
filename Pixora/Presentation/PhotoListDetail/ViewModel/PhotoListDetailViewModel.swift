@@ -13,15 +13,12 @@ final class PhotoListDetailViewModel: ObservableObject {
     @Published var photos: [Photo] = []
 
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
-    
-    let list: PhotoList
 
-    init(list: PhotoList, getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase) {
-        self.list = list
+    init(getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase) {
         self.getPhotosFromListUseCase = getPhotosFromListUseCase
     }
 
-    func loadPhotos() async {
+    func loadPhotos(list: PhotoList) async {
         state = .loading
 
         switch getPhotosFromListUseCase.execute(for: list) {

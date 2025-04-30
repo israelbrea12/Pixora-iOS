@@ -25,12 +25,13 @@ struct ListsView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
-                            Button {
-                                selectedList = list
-                            } label: {
+                            NavigationLink(destination:
+                                PhotoListDetailView(
+                                    list: list
+                                )
+                            ) {
                                 PhotoListCardView(photoList: list, photos: photos)
                             }
-                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .padding()

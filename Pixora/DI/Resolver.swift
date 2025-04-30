@@ -267,11 +267,9 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(PhotoListDetailViewModel.self) { resolver, photoList in
+        container.register(PhotoListDetailViewModel.self) { resolver in
             PhotoListDetailViewModel(
-                list: photoList,
                 getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
-                
             )
         }.inObjectScope(.container)
         
