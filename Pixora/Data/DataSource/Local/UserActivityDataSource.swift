@@ -8,11 +8,13 @@
 import Foundation
 import CoreData
 
+// MARK: - Protocol
 protocol UserActivityDataSource {
     func saveAction(_ action: UserActivity) throws
     func fetchAllActions() throws -> [UserActivity]
 }
 
+// MARK: - Implementation
 final class UserActivityDataSourceImpl: UserActivityDataSource {
     private let context: NSManagedObjectContext
 

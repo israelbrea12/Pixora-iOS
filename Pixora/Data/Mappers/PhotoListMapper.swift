@@ -5,7 +5,6 @@
 //  Created by Israel Brea Piñero on 17/4/25.
 //
 
-// PhotoListMapper.swift
 import Foundation
 import CoreData
 

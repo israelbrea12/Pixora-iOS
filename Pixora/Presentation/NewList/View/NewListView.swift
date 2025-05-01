@@ -9,8 +9,12 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct NewListView: View {
+    
     @Environment(\.dismiss) var dismiss
-    @StateObject var newListViewModel = Resolver.shared.resolve(NewListViewModel.self)
+    
+    @StateObject var newListViewModel = Resolver.shared.resolve(
+        NewListViewModel.self
+    )
 
     var photo: Photo
 
@@ -86,14 +90,19 @@ struct NewListView: View {
 
     private var listSection: some View {
         List {
-            ForEach(newListViewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
+            ForEach(newListViewModel.listsWithPhotos, id: \.0.id) { (
+                list,
+                photos
+            ) in
                 Button {
                     newListViewModel.addPhoto(photo, to: list)
                     dismiss()
                 } label: {
                     HStack(spacing: 12) {
                         if let lastPhoto = photos.last {
-                            if let data = lastPhoto.imageData, let uiImage = UIImage(data: data) {
+                            if let data = lastPhoto.imageData, let uiImage = UIImage(
+                                data: data
+                            ) {
                                 Image(uiImage: uiImage)
                                     .resizable()
                                     .scaledToFill()

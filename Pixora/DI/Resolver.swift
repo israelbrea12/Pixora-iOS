@@ -39,6 +39,7 @@ public final class Resolver {
 
 extension Resolver {
     @MainActor func injectNetwork() {
+        
         container.register(NetworkManager.self) { _ in
             NetworkManagerImpl()
         }.inObjectScope(.container)
@@ -58,9 +59,7 @@ extension Resolver {
 // MARK: - DataSource
 extension Resolver {
     @MainActor func injectDataSource() {
-    
-        //--------------------------------------------------------------------------------
-        // Photo
+
         container.register(PhotoDataSource.self){ resolver in
             PhotoDataSourceImpl(apiManager: resolver.resolve(APIManager.self)!)
         }.inObjectScope(.container)
@@ -88,13 +87,9 @@ extension Resolver {
 extension Resolver {
     @MainActor func injectRepository() {
         
-        //--------------------------------------------------------------------------------
-        // Photo
         container.register(PhotoRepository.self){resolver in
             PhotoRepositoryImpl(
-                photoDataSource: resolver.resolve(
-                    PhotoDataSource.self
-                )!,
+                photoDataSource: resolver.resolve(PhotoDataSource.self)!,
                 favDataSource: resolver.resolve(FavoritePhotoDataSource.self)!,
                 myPhotosDataSource: resolver.resolve(MyPhotosDataSource.self)!
             )
@@ -111,7 +106,6 @@ extension Resolver {
                 dataSource: resolver.resolve(UserActivityDataSource.self)!
             )
         }.inObjectScope(.container)
-        
     }
 }
 
@@ -121,16 +115,12 @@ extension Resolver {
 extension Resolver {
     @MainActor func injectUseCase() {
         
-        //--------------------------------------------------------------------------------
-        // Photo
         container.register(GetPhotosUseCase.self){resolver in
             GetPhotosUseCase(
                 photoRepository: resolver.resolve(PhotoRepository.self)!
             )
         }.inObjectScope(.container)
         
-        //--------------------------------------------------------------------------------
-        // Favorite
         container.register(SetPhotoAsFavoriteUseCase.self){resolver in
             SetPhotoAsFavoriteUseCase(
                 photoRepository: resolver.resolve(PhotoRepository.self)!
@@ -187,22 +177,30 @@ extension Resolver {
         
         container.register(GetUserActivitiesUseCase.self){resolver in
             GetUserActivitiesUseCase(
-                userActivityRepository: resolver.resolve(UserActivityRepository.self)!)
+                userActivityRepository: resolver.resolve(UserActivityRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(SaveUserActivityUseCase.self){resolver in
             SaveUserActivityUseCase(
-                userActivityRepository: resolver.resolve(UserActivityRepository.self)!)
+                userActivityRepository: resolver.resolve(UserActivityRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(FetchMyPhotosUseCase.self){resolver in
             FetchMyPhotosUseCase(
-                photoRepository: resolver.resolve(PhotoRepository.self)!)
+                photoRepository: resolver.resolve(PhotoRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(SaveMyPhotoUseCase.self){resolver in
             SaveMyPhotoUseCase(
-                photoRepository: resolver.resolve(PhotoRepository.self)!)
+                photoRepository: resolver.resolve(PhotoRepository.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(NotificationUseCase.self){resolver in
+            NotificationUseCase()
         }.inObjectScope(.container)
     }
 
@@ -238,7 +236,8 @@ extension Resolver {
                     .resolve(IsPhotoFavoriteUseCase.self)!,
                 isPhotoInAnyListUseCase: resolver
                     .resolve(IsPhotoInAnyListUseCase.self)!,
-                saveUserActivityUseCase: resolver.resolve(SaveUserActivityUseCase.self)!)
+                saveUserActivityUseCase: resolver
+                    .resolve(SaveUserActivityUseCase.self)!)
         }.inObjectScope(.container)
         
         container.register(FavsViewModel.self){resolver in
@@ -255,33 +254,39 @@ extension Resolver {
                     .resolve(CreatePhotoListUseCase.self)!,
                 addPhotoToListUseCase: resolver
                     .resolve(AddPhotoToListUseCase.self)!,
-                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!,
-                saveUserActivityUseCase: resolver.resolve(SaveUserActivityUseCase.self)!
+                getPhotosFromListUseCase: resolver
+                    .resolve(GetPhotosFromPhotoListUseCase.self)!,
+                saveUserActivityUseCase: resolver
+                    .resolve(SaveUserActivityUseCase.self)!
             )
         }.inObjectScope(.container)
         
         container.register(ListsViewModel.self) { resolver in
             ListsViewModel(
                 getListsUseCase: resolver.resolve(GetPhotoListsUseCase.self)!,
-                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
+                getPhotosFromListUseCase: resolver
+                    .resolve(GetPhotosFromPhotoListUseCase.self)!
             )
         }.inObjectScope(.container)
         
         container.register(PhotoListDetailViewModel.self) { resolver in
             PhotoListDetailViewModel(
-                getPhotosFromListUseCase: resolver.resolve(GetPhotosFromPhotoListUseCase.self)!
+                getPhotosFromListUseCase: resolver
+                    .resolve(GetPhotosFromPhotoListUseCase.self)!
             )
         }.inObjectScope(.container)
         
         container.register(NotificationsViewModel.self) { resolver in
             NotificationsViewModel(
-                getUserActivitiesUseCase: resolver.resolve(GetUserActivitiesUseCase.self)!
+                getUserActivitiesUseCase: resolver
+                    .resolve(GetUserActivitiesUseCase.self)!
             )
         }.inObjectScope(.container)
         
         container.register(MyPhotosViewModel.self) { resolver in
             MyPhotosViewModel(
-                fetchMyPhotosUseCase: resolver.resolve(FetchMyPhotosUseCase.self)!
+                fetchMyPhotosUseCase: resolver
+                    .resolve(FetchMyPhotosUseCase.self)!
             )
         }.inObjectScope(.container)
 
@@ -293,7 +298,7 @@ extension Resolver {
         
         container.register(MainViewModel.self) { resolver in
             MainViewModel(
-                
+                notificationUseCase: resolver.resolve(NotificationUseCase.self)!
             )
         }.inObjectScope(.container)
     }

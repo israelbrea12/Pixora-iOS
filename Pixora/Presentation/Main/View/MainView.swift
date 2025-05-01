@@ -9,10 +9,10 @@ import UIKit
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var viewModel = Resolver.shared.resolve(
-        MainViewModel.self
-    )
+    
+    @StateObject private var viewModel = Resolver.shared.resolve(MainViewModel.self)
     @StateObject private var tabBarVisibility = TabBarVisibilityManager()
+    
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {

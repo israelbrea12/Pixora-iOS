@@ -50,7 +50,7 @@ struct ModernCameraView: View {
                         .background(Color.accentColor)
                         .clipShape(Capsule())
                     }
-                    .padding(.horizontal, 120) // MÁS ESPACIO
+                    .padding(.horizontal, 120)
                     .padding(.bottom, 40)
                 }
 

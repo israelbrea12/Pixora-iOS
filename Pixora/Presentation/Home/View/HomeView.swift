@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct HomeView: View {
+    
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
     
     var body: some View {
@@ -27,67 +28,119 @@ struct HomeView: View {
             let screenWidth = geometry.size.width
             let columnCount = screenWidth > 700 ? 3 : 2
             let spacing: CGFloat = 16
-            let itemWidth = (screenWidth - (spacing * CGFloat(columnCount + 1))) / CGFloat(columnCount)
-            let columns = createColumns(from: homeViewModel.photos, columnCount: columnCount)
+            let itemWidth = (screenWidth - (spacing * CGFloat(columnCount + 1))) / CGFloat(
+                columnCount
+            )
+            let columns = createColumns(
+                from: homeViewModel.photos,
+                columnCount: columnCount
+            )
 
-            ScrollView {
-                VStack {
-                    ZStack {
-                        switch homeViewModel.state {
-                        case .loading:
-                            loadingView()
-                        case .success:
-                            HStack(alignment: .top, spacing: spacing) {
-                                ForEach(0..<columns.count, id: \.self) { columnIndex in
-                                    LazyVStack(spacing: spacing) {
-                                        ForEach(columns[columnIndex], id: \.id) { photo in
-                                            NavigationLink(destination: PhotoDetailsView(photo: photo).toolbar(.hidden, for: .tabBar)) {
-                                                let height = screenWidth > 700 ? CGFloat.random(in: 300...500) : CGFloat.random(in: 150...300)
-                                                WebImage(url: photo.imageURL) { phase in
-                                                    switch phase {
-                                                    case .empty:
-                                                        ZStack {
-                                                            Rectangle().fill(Color.gray.opacity(0.1))
-                                                            ProgressView()
+            if itemWidth > 0 {
+                ScrollView {
+                    VStack {
+                        ZStack {
+                            switch homeViewModel.state {
+                            case .loading:
+                                loadingView()
+                            case .success:
+                                HStack(alignment: .top, spacing: spacing) {
+                                    ForEach(
+                                        0..<columns.count,
+                                        id: \.self
+                                    ) { columnIndex in
+                                        LazyVStack(spacing: spacing) {
+                                            ForEach(
+                                                columns[columnIndex],
+                                                id: \.id
+                                            ) { photo in
+                                                NavigationLink(
+                                                    destination: PhotoDetailsView(
+                                                        photo: photo
+                                                    )
+                                                    .toolbar(
+                                                        .hidden,
+                                                        for: .tabBar
+                                                    )
+                                                ) {
+                                                    let height = screenWidth > 700 ? CGFloat.random(in: 300...500) : CGFloat.random(
+                                                        in: 150...300
+                                                    )
+                                                    WebImage(
+                                                        url: photo.imageURL
+                                                    ) { phase in
+                                                        switch phase {
+                                                        case .empty:
+                                                            ZStack {
+                                                                Rectangle()
+                                                                    .fill(
+                                                                        Color.gray
+                                                                            .opacity(
+                                                                                0.1
+                                                                            )
+                                                                    )
+                                                                ProgressView()
+                                                            }
+                                                        case .success(
+                                                            let image
+                                                        ):
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFill()
+                                                        case .failure:
+                                                            ZStack {
+                                                                Rectangle()
+                                                                    .fill(
+                                                                        Color.red
+                                                                            .opacity(
+                                                                                0.1
+                                                                            )
+                                                                    )
+                                                                Image(
+                                                                    systemName: "xmark.octagon"
+                                                                )
+                                                                .foregroundColor(
+                                                                    .red
+                                                                )
+                                                            }
+                                                        @unknown default:
+                                                            EmptyView()
                                                         }
-                                                    case .success(let image):
-                                                        image.resizable().scaledToFill()
-                                                    case .failure:
-                                                        ZStack {
-                                                            Rectangle().fill(Color.red.opacity(0.1))
-                                                            Image(systemName: "xmark.octagon").foregroundColor(.red)
-                                                        }
-                                                    @unknown default:
-                                                        EmptyView()
                                                     }
+                                                    .frame(
+                                                        width: itemWidth,
+                                                        height: height
+                                                    )
+                                                    .clipped()
+                                                    .cornerRadius(8)
                                                 }
-                                                .frame(width: itemWidth, height: height)
-                                                .clipped()
-                                                .cornerRadius(8)
                                             }
                                         }
                                     }
                                 }
+                                .padding(.horizontal)
+                                .padding(.top, spacing)
+                            case .error(let errorMessage):
+                                errorView(errorMsg: errorMessage)
+                            default:
+                                emptyView()
                             }
-                            .padding(.horizontal)
-                            .padding(.top, spacing)
-                        case .error(let errorMessage):
-                            errorView(errorMsg: errorMessage)
-                        default:
-                            emptyView()
                         }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
+                }
+                .onAppear {
+                    if homeViewModel.selectedCategory != category || homeViewModel.photos.isEmpty {
+                        homeViewModel.updateCategory(category)
+                    }
                 }
             }
-            .onAppear {
-                if homeViewModel.selectedCategory != category || homeViewModel.photos.isEmpty {
-                    homeViewModel.updateCategory(category)
-                }
+            else {
+                ProgressView()
             }
+
         }
     }
-
     
     private func loadingView() -> some View {
         ProgressView()
@@ -136,7 +189,6 @@ struct HomeView: View {
             .padding(.horizontal)
         }
     }
-
 }
 
 struct HomeView_Previews: PreviewProvider {

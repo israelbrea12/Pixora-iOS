@@ -11,16 +11,27 @@ import CoreData
 
 @MainActor
 final class MyPhotosViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var photos: [Photo] = []
     @Published var state: ViewState = .initial
 
-    private let fetchMyPhotosUseCase: FetchMyPhotosUseCase
+    
+    // MARK: - Private vars
     private var initialLoadDone = false
+    
+    
+    // MARK: - Use cases
+    private let fetchMyPhotosUseCase: FetchMyPhotosUseCase
+    
 
+    // MARK: - Lifecycle functions
     init(fetchMyPhotosUseCase: FetchMyPhotosUseCase) {
         self.fetchMyPhotosUseCase = fetchMyPhotosUseCase
     }
 
+    
+    // MARK: - Functions
     func loadIfNeeded() async {
         guard !initialLoadDone else { return }
         initialLoadDone = true

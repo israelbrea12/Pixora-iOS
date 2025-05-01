@@ -10,6 +10,7 @@ import SwiftUI
 import Lottie
 
 struct LottieView: UIViewRepresentable {
+    
     var fileName: String
 
     func makeUIView(context: Context) -> UIView {
@@ -17,7 +18,7 @@ struct LottieView: UIViewRepresentable {
         let animationView = LottieAnimationView(name: fileName)
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .playOnce
-        animationView.animationSpeed = 1.5 // ← Aumenta el número para más velocidad
+        animationView.animationSpeed = 1.5
         animationView.play()
 
         animationView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +28,7 @@ struct LottieView: UIViewRepresentable {
             animationView.widthAnchor.constraint(equalTo: view.widthAnchor),
             animationView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
-
+        
         return view
     }
 

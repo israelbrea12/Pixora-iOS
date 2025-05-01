@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ProfileView: View {
+    
     @State private var selectedTab: ProfileTab = .lists
     @State private var selectedList: PhotoList? = nil
 
@@ -46,7 +47,9 @@ struct ProfileView: View {
                 MyPhotosView()
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .navigateToMyPhotos)) { _ in
+        .onReceive(
+            NotificationCenter.default.publisher(for: .navigateToMyPhotos)
+        ) { _ in
             selectedTab = .myPhotos
         }
     }

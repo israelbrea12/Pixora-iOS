@@ -8,6 +8,7 @@
 import Foundation
 
 final class UserActivityRepositoryImpl: UserActivityRepository {
+    
     private let dataSource: UserActivityDataSource
 
     init(dataSource: UserActivityDataSource) {

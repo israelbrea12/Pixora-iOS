@@ -12,15 +12,12 @@ import SDWebImageSwiftUI
 struct PhotoDetailsView: View {
     
     @State var photo: Photo
-    @StateObject var photoDetailsViewModel = Resolver.shared.resolve(
-        PhotoDetailsViewModel.self
-    )
+    
+    @StateObject var photoDetailsViewModel = Resolver.shared.resolve(PhotoDetailsViewModel.self)
+    
     @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
 
-    
-    @Environment(
-        \.presentationMode
-    ) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -35,13 +32,14 @@ struct PhotoDetailsView: View {
                 emptyView()
             }
 
-            // Always visible back button overlay
             backButton
                 .padding(.leading, 16)
                 .padding(.top, 16)
         }
         .task {
-            let isAlreadyFavorite = await photoDetailsViewModel.load(photo: photo)
+            let isAlreadyFavorite = await photoDetailsViewModel.load(
+                photo: photo
+            )
             if isAlreadyFavorite {
                 photoDetailsViewModel.likes += 1
             }
@@ -81,7 +79,7 @@ struct PhotoDetailsView: View {
             }
             .padding(.horizontal, 4)
             .toolbar(.hidden, for: .navigationBar)
-        } //ScrollView
+        }
         .scrollIndicators(.hidden)
         .toolbarBackground(.hidden, for: .navigationBar)
     }
@@ -94,7 +92,6 @@ struct PhotoDetailsView: View {
         InfoView(message: errorMsg)
     }
     
-    // 📸 Imagen de la foto ajustada al ancho
     private var photoCoverImage: some View {
         Group {
             if let data = photo.imageData, let uiImage = UIImage(data: data) {
@@ -110,13 +107,12 @@ struct PhotoDetailsView: View {
             }
         }
         .scaledToFit()
-        .frame(maxWidth: 600) // 👈 cap the width, ideal for iPad
+        .frame(maxWidth: 600)
         .cornerRadius(20)
         .padding(.horizontal)
-        .frame(maxWidth: .infinity) // center in ScrollView
+        .frame(maxWidth: .infinity)
     }
-        
-    // 🔙 Botón para volver atrás
+
     private var backButton: some View {
         Button(action: {
             self.presentationMode.wrappedValue.dismiss()
@@ -131,8 +127,7 @@ struct PhotoDetailsView: View {
         .padding(.leading, 16)
         .padding(.top, 16)
     }
-        
-    // 📌 Barra de interacciones (Likes, Comentarios, Descargas, Más opciones, Guardar)
+
     private var interactionBar: some View {
         HStack(spacing: 18) {
             HStack {
@@ -175,7 +170,9 @@ struct PhotoDetailsView: View {
             Spacer()
                 
             Button(action: {
-                photoDetailsViewModel.isNewListSheetPresented = true
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+                    photoDetailsViewModel.isNewListSheetPresented = true
+                }
             }) {
                 Text(
                     photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar"
@@ -189,6 +186,10 @@ struct PhotoDetailsView: View {
                 )
                 .foregroundColor(.white)
                 .cornerRadius(24)
+                .animation(
+                    .spring(response: 0.3, dampingFraction: 0.5),
+                    value: photoDetailsViewModel.isSavedInAnyList
+                )
             }
             .sheet(isPresented: $photoDetailsViewModel.isNewListSheetPresented, onDismiss: {
                 photoDetailsViewModel.checkIfPhotoIsInAnyList(photo)
@@ -200,8 +201,7 @@ struct PhotoDetailsView: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 10)
     }
-        
-    // 🏅 Usuario (Foto de perfil + Nombre)
+
     private var userInfo: some View {
         HStack {
             WebImage(url: photo.photographerProfileImage) { phase in
@@ -230,8 +230,7 @@ struct PhotoDetailsView: View {
         }
         .padding(.horizontal)
     }
-        
-    // 📝 Descripción de la imagen
+
     private var descriptionView: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(photo.description ?? "No description available.")

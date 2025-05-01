@@ -9,18 +9,24 @@ import Foundation
 
 @MainActor
 final class NewListViewModel: ObservableObject {
+    
+    // MARK: Publisheds
     @Published var lists: [PhotoList] = []
     @Published var newListName: String = ""
     @Published var showCreateAlert: Bool = false
     @Published var state: ViewState = .initial
     @Published var listsWithPhotos: [(PhotoList, [Photo])] = []
 
+    
+    // MARK: Use cases
     private let getListsUseCase: GetPhotoListsUseCase
     private let createListUseCase: CreatePhotoListUseCase
     private let addPhotoToListUseCase: AddPhotoToListUseCase
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
     private let saveUserActivityUseCase: SaveUserActivityUseCase
 
+    
+    // MARK: - Lifecycle functions
     init(
         getListsUseCase: GetPhotoListsUseCase,
         createListUseCase: CreatePhotoListUseCase,
@@ -35,6 +41,8 @@ final class NewListViewModel: ObservableObject {
         self.saveUserActivityUseCase = saveUserActivityUseCase
     }
 
+    
+    // MARK: Functions
     func loadLists() {
         state = .loading
         switch getListsUseCase.execute() {

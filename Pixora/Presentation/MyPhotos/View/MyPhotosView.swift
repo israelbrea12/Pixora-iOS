@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct MyPhotosView: View {
-    @StateObject var myPhotosViewModel = Resolver.shared.resolve(
-        MyPhotosViewModel.self
-    )
+    
+    @StateObject var myPhotosViewModel = Resolver.shared.resolve(MyPhotosViewModel.self)
 
     var body: some View {
         NavigationStack {
@@ -28,10 +27,10 @@ struct MyPhotosView: View {
                 }
             }
             .onAppear {
-                            Task {
-                                await myPhotosViewModel.fetchMyPhotos()
-                            }
-                        }
+                Task {
+                    await myPhotosViewModel.fetchMyPhotos()
+                }
+            }
         }
         
     }

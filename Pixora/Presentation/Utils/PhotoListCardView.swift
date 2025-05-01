@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PhotoListCardView: View {
+    
     let photoList: PhotoList
     let photos: [Photo]
 
@@ -36,9 +37,9 @@ struct PhotoListCardView: View {
                             .cornerRadius(10)
                     }
                 }
-                .frame(height: imageHeight) // Ensure GeometryReader container respects total height
+                .frame(height: imageHeight)
             }
-            .aspectRatio(1.7, contentMode: .fit) // Use aspect ratio to auto-size height based on width
+            .aspectRatio(1.7, contentMode: .fit)
 
             Text(photoList.name)
                 .font(.headline)

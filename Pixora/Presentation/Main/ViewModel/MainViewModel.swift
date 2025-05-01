@@ -10,6 +10,8 @@ import SwiftUI
 
 @MainActor
 final class MainViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var selectedTab: Int = 0
     @Published var previousTab: Int = 0
     @Published var isPresented: Bool = false
@@ -18,12 +20,17 @@ final class MainViewModel: ObservableObject {
     @Published var shouldNavigateToMyPhotos = false
 
     
-    private let notificationManager: NotificationManagerProtocol
+    // MARK: - Use Cases
+    let notificationUseCase: NotificationUseCase
     
-    init(notificationManager: NotificationManagerProtocol = NotificationManager.shared) {
-        self.notificationManager = notificationManager
+    
+    // MARK: - Lifecycle functions
+    init(notificationUseCase: NotificationUseCase) {
+        self.notificationUseCase = notificationUseCase
     }
     
+    
+    // MARK: - Functions
     func handleTabSelection() {
         if selectedTab == 2 {
             selectedTab = previousTab
@@ -34,22 +41,6 @@ final class MainViewModel: ObservableObject {
     }
     
     func handleScenePhaseChange(_ phase: ScenePhase) {
-        switch phase {
-        case .background:
-            NotificationManager.shared.scheduleNotification(
-                title: "Pixora",
-                body: "Explora y comparte fotos con la comunidad ¡Qué divertido!",
-                inSeconds: 5
-            )
-            NotificationManager.shared.scheduleNotification(
-                title: "Pixora",
-                body: "Pixora te echa de menos 😢 ¡Vuelve y mira las nuevas fotos increíbles!",
-                inSeconds: 30
-            )
-        case .active:
-            NotificationManager.shared.cancelAllNotifications()
-        default:
-            break
-        }
+        notificationUseCase.handleScenePhaseChange(phase)
     }
 }

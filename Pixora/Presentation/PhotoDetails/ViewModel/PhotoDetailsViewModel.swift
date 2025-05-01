@@ -9,18 +9,24 @@ import Foundation
 
 @MainActor
 final class PhotoDetailsViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var isFavorite: Bool = false
     @Published var state: ViewState = .loading
     @Published var likes: Int = 0
     @Published var isNewListSheetPresented = false
     @Published var isSavedInAnyList: Bool = false
 
+    
+    // MARK: - Use cases
     private let setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase
     private let deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase
     private let isPhotoFavoriteUseCase: IsPhotoFavoriteUseCase
     private let isPhotoInAnyListUseCase: IsPhotoInAnyListUseCase
     private let saveUserActivityUseCase: SaveUserActivityUseCase
 
+    
+    // MARK: - Lifecycle functions
     init(
         setPhotoAsFavoriteUseCase: SetPhotoAsFavoriteUseCase,
         deletePhotoAsFavoriteUseCase: DeletePhotoAsFavoriteUseCase,
@@ -35,6 +41,8 @@ final class PhotoDetailsViewModel: ObservableObject {
         self.saveUserActivityUseCase = saveUserActivityUseCase
     }
 
+    
+    // MARK: - Functions
     func load(photo: Photo) async -> Bool {
         self.state = .loading
         self.likes = photo.likes ?? 0
@@ -49,7 +57,6 @@ final class PhotoDetailsViewModel: ObservableObject {
             return false
         }
     }
-
 
     func toggleFavorite(for photo: Photo) async -> Bool {
         if isFavorite {

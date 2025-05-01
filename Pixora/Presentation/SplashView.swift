@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SplashView: View {
+    
     @Binding var isActive: Bool
 
     var body: some View {

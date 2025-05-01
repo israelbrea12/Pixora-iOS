@@ -8,8 +8,6 @@
 import Foundation
 import CoreData
 
-// MARK: - Mapping
-
 extension PhotoModel {
     func toDomain() -> Photo {
         return Photo(

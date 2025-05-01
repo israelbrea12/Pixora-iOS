@@ -16,7 +16,7 @@ protocol FavoritePhotoDataSource {
     func isFavorite(photo: Photo) throws -> Bool
 }
 
-// MARK: - Implementación
+// MARK: - Implementation
 class FavoritePhotoDataSourceImpl: FavoritePhotoDataSource {
     private let context: NSManagedObjectContext
     

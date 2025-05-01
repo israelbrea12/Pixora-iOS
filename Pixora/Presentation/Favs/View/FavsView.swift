@@ -11,6 +11,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct FavsView: View {
+    
     @StateObject var favsViewModel = Resolver.shared.resolve(FavsViewModel.self)
     
     @Environment(\.scenePhase) var scenePhase
@@ -48,8 +49,6 @@ struct FavsView: View {
             let screenWidth = geometry.size.width
             let columnCount = screenWidth > 1000 ? 4 : 3
             let itemWidth = (screenWidth - spacing * CGFloat(columnCount + 1)) / CGFloat(columnCount)
-
-            // Precompute the columns outside the ViewBuilder
             let columns = createColumns(from: favsViewModel.photos, columnCount: columnCount)
 
             ScrollView {

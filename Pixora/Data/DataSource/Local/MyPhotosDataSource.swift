@@ -15,7 +15,7 @@ protocol MyPhotosDataSource {
 
 }
 
-// MARK: - Implementación
+// MARK: - Implementation
 class MyPhotosDataSourceImpl: MyPhotosDataSource {
     private let context: NSManagedObjectContext
     

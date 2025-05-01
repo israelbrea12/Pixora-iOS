@@ -5,17 +5,11 @@
 //  Created by Israel Brea Piñero on 21/4/25.
 //
 
-//
-//  PhotoListDetailView.swift
-//  Pixora
-//
-//  Created by Israel Brea Piñero on 21/4/25.
-//
-
 import SwiftUI
 import SDWebImageSwiftUI
 
 struct PhotoListDetailView: View {
+    
     let list: PhotoList
     
     @StateObject var photoListDetailViewModel = Resolver.shared.resolve(PhotoListDetailViewModel.self)

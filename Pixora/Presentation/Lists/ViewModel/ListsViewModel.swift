@@ -9,14 +9,22 @@ import Foundation
 
 @MainActor
 final class ListsViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var state: ViewState = .initial
     @Published var listsWithPhotos: [(PhotoList, [Photo])] = []
 
+    
+    // MARK: - Private vars
     private var hasLoaded = false
 
+    
+    // MARK: - Use cases
     private let getListsUseCase: GetPhotoListsUseCase
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
 
+    
+    // MARK: - Lifecycle functions
     init(
         getListsUseCase: GetPhotoListsUseCase,
         getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
@@ -25,6 +33,8 @@ final class ListsViewModel: ObservableObject {
         self.getPhotosFromListUseCase = getPhotosFromListUseCase
     }
 
+    
+    // MARK: - Functions
     func loadListsIfNeeded() async {
         guard !hasLoaded else { return }
         hasLoaded = true
@@ -45,7 +55,9 @@ final class ListsViewModel: ObservableObject {
                             let photos = try await self.getPhotosFromListUseCase.execute(for: list).get()
                             return (list, photos)
                         } catch {
-                            print("Error fetching photos for list \(list.name): \(error)")
+                            print(
+                                "Error fetching photos for list \(list.name): \(error)"
+                            )
                             return (list, nil)
                         }
                     }

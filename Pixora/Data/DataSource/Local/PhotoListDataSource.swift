@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+// MARK: - Protocol
 protocol PhotoListDataSource {
     func fetchLists() throws -> [PhotoList]
     func createList(name: String) throws
@@ -15,6 +16,7 @@ protocol PhotoListDataSource {
     func getPhotos(for list: PhotoList) throws -> [Photo]
 }
 
+// MARK: - Implementation
 class PhotoListDataSourceImpl: PhotoListDataSource {
     
     private let context: NSManagedObjectContext

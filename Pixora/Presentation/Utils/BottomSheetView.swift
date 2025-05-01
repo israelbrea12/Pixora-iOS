@@ -39,13 +39,18 @@ struct BottomSheetView: View {
                     }
                     
                     PhotosPicker(selection: $selectedItem, matching: .images) {
-                        sheetButton(icon: "photo.on.rectangle", title: "Desde galería")
+                        sheetButton(
+                            icon: "photo.on.rectangle",
+                            title: "Desde galería"
+                        )
                     }
                     
                     .onChange(of: selectedItem) { newItem in
                         guard let newItem = newItem else { return }
                         Task {
-                            if let data = try? await newItem.loadTransferable(type: Data.self),
+                            if let data = try? await newItem.loadTransferable(
+                                type: Data.self
+                            ),
                                let image = UIImage(data: data) {
                                 onImageSelected(image)
                                 dismiss()
@@ -71,6 +76,7 @@ struct BottomSheetView: View {
     }
 
     func sheetButton(icon: String, title: String) -> some View {
+        
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.title2)

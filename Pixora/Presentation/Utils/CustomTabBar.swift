@@ -39,7 +39,7 @@ struct CustomTabBar: View {
                             .bold()
                             .frame(width: 24, height: 24)
                     )
-                    .frame(width: 24, height: 24) // ← importante para evitar que se expanda
+                    .frame(width: 24, height: 24)
             } else {
                 Image(systemName: icon)
                     .resizable()

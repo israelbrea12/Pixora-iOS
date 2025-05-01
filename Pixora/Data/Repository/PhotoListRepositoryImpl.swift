@@ -8,6 +8,7 @@
 import Foundation
 
 class PhotoListRepositoryImpl: PhotoListRepository {
+    
     private let dataSource: PhotoListDataSource
 
     init(dataSource: PhotoListDataSource) {

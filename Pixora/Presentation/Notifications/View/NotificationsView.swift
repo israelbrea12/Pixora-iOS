@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct NotificationsView: View {
+    
     @StateObject var viewModel = Resolver.shared.resolve(NotificationsViewModel.self)
 
     var body: some View {

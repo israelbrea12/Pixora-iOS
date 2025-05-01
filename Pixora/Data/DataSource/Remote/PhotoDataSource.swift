@@ -9,11 +9,14 @@ import Foundation
 
 typealias PhotoResponse = BaseResponse<PhotoModel>
 
+// MARK: - Protocol
 protocol PhotoDataSource {
     func getPhotos(from page: Int, by query: String) async throws -> BaseResponse<PhotoModel>
 }
 
+// MARK: - Implementation
 class PhotoDataSourceImpl: PhotoDataSource {
+    
     let apiManager: APIManager
     
     init(apiManager: APIManager) {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct InfoView: View {
+    
     let message: String
     
     var body: some View {

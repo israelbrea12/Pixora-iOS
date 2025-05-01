@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListsView: View {
     @StateObject private var viewModel = Resolver.shared.resolve(ListsViewModel.self)
+    
     @Binding var selectedList: PhotoList?
 
     private let columns = [
@@ -24,13 +25,19 @@ struct ListsView: View {
             case .success:
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.listsWithPhotos, id: \.0.id) { (list, photos) in
+                        ForEach(viewModel.listsWithPhotos, id: \.0.id) { (
+                            list,
+                            photos
+                        ) in
                             NavigationLink(destination:
-                                PhotoListDetailView(
-                                    list: list
-                                )
+                                            PhotoListDetailView(
+                                                list: list
+                                            )
                             ) {
-                                PhotoListCardView(photoList: list, photos: photos)
+                                PhotoListCardView(
+                                    photoList: list,
+                                    photos: photos
+                                )
                             }
                             .buttonStyle(.plain)
                         }

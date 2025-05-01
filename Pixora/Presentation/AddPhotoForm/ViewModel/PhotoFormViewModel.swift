@@ -9,16 +9,24 @@ import SwiftUI
 
 @MainActor
 class PhotoFormViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var image: UIImage?
     @Published var description: String = ""
     @Published var photographerUsername: String = ""
 
+    
+    // MARK: - Use cases
     private let saveMyPhotoUseCase: SaveMyPhotoUseCase
 
+    
+    // MARK: - Lifecycle functions
     init(saveMyPhotoUseCase: SaveMyPhotoUseCase) {
         self.saveMyPhotoUseCase = saveMyPhotoUseCase
     }
 
+    
+    // MARK: - Functions
     func setImage(_ image: UIImage) {
         print("🧩 Imagen actualizada: \(image)")
         self.image = image
@@ -47,7 +55,10 @@ class PhotoFormViewModel: ObservableObject {
             print("❌ Error al guardar: \(error.localizedDescription)")
         }
     }
-    func reset() {
+    
+    
+    // MARK: - Private functions
+    private func reset() {
         image = nil
         description = ""
         photographerUsername = ""

@@ -9,15 +9,23 @@ import Foundation
 
 @MainActor
 final class PhotoListDetailViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var state: ViewState = .initial
     @Published var photos: [Photo] = []
 
+    
+    // MARK: - Use cases
     private let getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase
 
+    
+    // MARK: - Lifecycle functions
     init(getPhotosFromListUseCase: GetPhotosFromPhotoListUseCase) {
         self.getPhotosFromListUseCase = getPhotosFromListUseCase
     }
 
+    
+    // MARK: - Functions
     func loadPhotos(list: PhotoList) async {
         state = .loading
 

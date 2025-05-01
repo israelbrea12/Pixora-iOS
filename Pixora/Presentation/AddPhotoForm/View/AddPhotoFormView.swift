@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct PhotoFormView: View {
+    
+    @StateObject private var photoFormViewModel = Resolver.shared.resolve(PhotoFormViewModel.self)
+    
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var mainViewModel: MainViewModel
-    @StateObject private var photoFormViewModel = Resolver.shared.resolve(PhotoFormViewModel.self)
 
     let image: UIImage
 
