@@ -15,7 +15,8 @@ struct LottieView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
-        let animationView = LottieAnimationView(name: fileName)
+        let animationView = LottieAnimationView(name: fileName,
+                                                configuration: LottieConfiguration(renderingEngine: .mainThread))
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .playOnce
         animationView.animationSpeed = 1.5

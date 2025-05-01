@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40074B862DBBAD000097DFE1 /* lottie_p_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 40074B852DBBAD000097DFE1 /* lottie_p_animation.json */; };
+		40074B862DBBAD000097DFE1 /* lottie_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 40074B852DBBAD000097DFE1 /* lottie_animation.json */; };
 		40074B8D2DBBADC80097DFE1 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40074B8C2DBBADC80097DFE1 /* LottieView.swift */; };
 		40074B8F2DBBADF30097DFE1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40074B8E2DBBADF30097DFE1 /* SplashView.swift */; };
 		400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B5A892D97530800C8C15E /* PhotoDetailsView.swift */; };
@@ -119,7 +119,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40074B852DBBAD000097DFE1 /* lottie_p_animation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lottie_p_animation.json; sourceTree = "<group>"; };
+		40074B852DBBAD000097DFE1 /* lottie_animation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lottie_animation.json; sourceTree = "<group>"; };
 		40074B8C2DBBADC80097DFE1 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		40074B8E2DBBADF30097DFE1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		400B5A892D97530800C8C15E /* PhotoDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsView.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 		40074B842DBBACF50097DFE1 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				40074B852DBBAD000097DFE1 /* lottie_p_animation.json */,
+				40074B852DBBAD000097DFE1 /* lottie_animation.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -993,7 +993,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40074B862DBBAD000097DFE1 /* lottie_p_animation.json in Resources */,
+				40074B862DBBAD000097DFE1 /* lottie_animation.json in Resources */,
 				407F36972DC38E2A00BE8F53 /* Preview Assets.xcassets in Resources */,
 				4090E1CE2D907B0B001143BE /* Assets.xcassets in Resources */,
 			);
@@ -1241,7 +1241,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pixora/Preview Content\"";
-				DEVELOPMENT_TEAM = AMAGSB5ARQ;
+				DEVELOPMENT_TEAM = A5UCFNWB8C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a tu cámara para que puedas tomar una foto en Pixora.";
@@ -1256,7 +1256,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibrepidevs.Pixora;
+				PRODUCT_BUNDLE_IDENTIFIER = es.upsa.mimo.pixora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1272,7 +1272,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pixora/Preview Content\"";
-				DEVELOPMENT_TEAM = AMAGSB5ARQ;
+				DEVELOPMENT_TEAM = A5UCFNWB8C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a tu cámara para que puedas tomar una foto en Pixora.";
@@ -1287,7 +1287,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibrepidevs.Pixora;
+				PRODUCT_BUNDLE_IDENTIFIER = es.upsa.mimo.pixora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

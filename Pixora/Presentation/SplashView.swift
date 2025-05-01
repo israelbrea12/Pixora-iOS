@@ -15,7 +15,7 @@ struct SplashView: View {
     var body: some View {
         ZStack {
             Color.blue.ignoresSafeArea()
-            LottieView(fileName: "lottie_p_animation")
+            LottieView(fileName: "lottie_animation")
                 .frame(width: 150, height: 150)
         }
         .onAppear {

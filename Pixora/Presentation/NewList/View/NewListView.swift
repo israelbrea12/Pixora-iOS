@@ -35,6 +35,7 @@ struct NewListView: View {
         }
         .alert("Nueva lista", isPresented: $newListViewModel.showCreateAlert) {
             TextField("Nombre de la lista", text: $newListViewModel.newListName)
+                .disableAutocorrection(true)
             Button("Añadir", action: newListViewModel.createList)
             Button("Cancelar", role: .cancel) {}
         } message: {
