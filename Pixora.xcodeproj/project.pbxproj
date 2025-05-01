@@ -31,6 +31,7 @@
 		407F36752DC2763D00BE8F53 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36742DC2763D00BE8F53 /* CustomTabBar.swift */; };
 		407F368A2DC2A2B200BE8F53 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36892DC2A2B200BE8F53 /* GradientBackground.swift */; };
 		407F36932DC37FF100BE8F53 /* NotificationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36922DC37FF100BE8F53 /* NotificationUseCase.swift */; };
+		407F36972DC38E2A00BE8F53 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407F36962DC38E2A00BE8F53 /* Preview Assets.xcassets */; };
 		4090E1C92D907B0B001143BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C32D907B0B001143BE /* ContentView.swift */; };
 		4090E1CA2D907B0B001143BE /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C42D907B0B001143BE /* Persistence.swift */; };
 		4090E1CB2D907B0B001143BE /* Pixora.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1C52D907B0B001143BE /* Pixora.xcdatamodeld */; };
@@ -48,12 +49,8 @@
 		4090E1F52D907DD8001143BE /* FavsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1F42D907DD8001143BE /* FavsViewModel.swift */; };
 		4090E1F92D907E20001143BE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1F82D907E20001143BE /* ProfileView.swift */; };
 		4090E1FB2D907E39001143BE /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E1FA2D907E39001143BE /* ProfileViewModel.swift */; };
-		4090E2002D908179001143BE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4090E1FF2D908179001143BE /* FirebaseAuth */; };
-		4090E2022D908179001143BE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4090E2012D908179001143BE /* FirebaseFirestore */; };
-		4090E2042D908179001143BE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 4090E2032D908179001143BE /* FirebaseStorage */; };
 		4090E2072D90818B001143BE /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4090E2062D90818B001143BE /* Swinject */; };
 		4090E20A2D90819C001143BE /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4090E2092D90819C001143BE /* SDWebImageSwiftUI */; };
-		4090E20E2D9081CF001143BE /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E20D2D9081CF001143BE /* SessionManager.swift */; };
 		4090E2132D9097A2001143BE /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E2122D9097A2001143BE /* InfoView.swift */; };
 		4090E2152D909834001143BE /* PhotoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E2142D909834001143BE /* PhotoRow.swift */; };
 		4090E2172D90989F001143BE /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090E2162D90989F001143BE /* DataConstants.swift */; };
@@ -145,6 +142,7 @@
 		407F36742DC2763D00BE8F53 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		407F36892DC2A2B200BE8F53 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		407F36922DC37FF100BE8F53 /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
+		407F36962DC38E2A00BE8F53 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4090E1AA2D907A60001143BE /* Pixora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixora.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4090E1C22D907B0B001143BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4090E1C32D907B0B001143BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 		4090E1F42D907DD8001143BE /* FavsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavsViewModel.swift; sourceTree = "<group>"; };
 		4090E1F82D907E20001143BE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4090E1FA2D907E39001143BE /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		4090E20D2D9081CF001143BE /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		4090E2122D9097A2001143BE /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		4090E2142D909834001143BE /* PhotoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRow.swift; sourceTree = "<group>"; };
 		4090E2162D90989F001143BE /* DataConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
@@ -237,9 +234,6 @@
 			files = (
 				4090E20A2D90819C001143BE /* SDWebImageSwiftUI in Frameworks */,
 				40DA54742DBBAE4F00907D6D /* Lottie in Frameworks */,
-				4090E2002D908179001143BE /* FirebaseAuth in Frameworks */,
-				4090E2022D908179001143BE /* FirebaseFirestore in Frameworks */,
-				4090E2042D908179001143BE /* FirebaseStorage in Frameworks */,
 				4090E2072D90818B001143BE /* Swinject in Frameworks */,
 				406351FB2D90BBF70090D1F8 /* CryptoSwift in Frameworks */,
 			);
@@ -348,6 +342,14 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
+		407F36942DC38DF000BE8F53 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				407F36962DC38E2A00BE8F53 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		4090E1A12D907A60001143BE = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +374,7 @@
 				4090E1D12D907B38001143BE /* Data */,
 				4090E1D02D907B32001143BE /* Domain */,
 				4090E1CF2D907B0E001143BE /* Presentation */,
+				407F36942DC38DF000BE8F53 /* Preview Content */,
 				4090E1C22D907B0B001143BE /* Assets.xcassets */,
 				4090E1C62D907B0B001143BE /* PixoraApp.swift */,
 				4090E1C32D907B0B001143BE /* ContentView.swift */,
@@ -565,7 +568,6 @@
 			isa = PBXGroup;
 			children = (
 				40074B842DBBACF50097DFE1 /* Lottie */,
-				4090E20D2D9081CF001143BE /* SessionManager.swift */,
 				406351F52D90AE830090D1F8 /* Extension.swift */,
 				4093BB022DB6AEBE0082A482 /* TabBarVisibilityManager.swift */,
 				4093BB1C2DB794F20082A482 /* NotificationManager.swift */,
@@ -937,9 +939,6 @@
 			);
 			name = Pixora;
 			packageProductDependencies = (
-				4090E1FF2D908179001143BE /* FirebaseAuth */,
-				4090E2012D908179001143BE /* FirebaseFirestore */,
-				4090E2032D908179001143BE /* FirebaseStorage */,
 				4090E2062D90818B001143BE /* Swinject */,
 				4090E2092D90819C001143BE /* SDWebImageSwiftUI */,
 				406351FA2D90BBF70090D1F8 /* CryptoSwift */,
@@ -974,7 +973,6 @@
 			mainGroup = 4090E1A12D907A60001143BE;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4090E2052D90818B001143BE /* XCRemoteSwiftPackageReference "Swinject" */,
 				4090E2082D90819C001143BE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				406351F92D90BBF70090D1F8 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
@@ -996,6 +994,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40074B862DBBAD000097DFE1 /* lottie_p_animation.json in Resources */,
+				407F36972DC38E2A00BE8F53 /* Preview Assets.xcassets in Resources */,
 				4090E1CE2D907B0B001143BE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,7 +1101,6 @@
 				4090E2312D90A808001143BE /* AppError.swift in Sources */,
 				4093BB682DBA4BDE0082A482 /* BottomSheetView.swift in Sources */,
 				407F36722DC22FA800BE8F53 /* CreateColumns.swift in Sources */,
-				4090E20E2D9081CF001143BE /* SessionManager.swift in Sources */,
 				4093BB0E2DB77EF40082A482 /* ProfileTab.swift in Sources */,
 				400B5A8A2D97530800C8C15E /* PhotoDetailsView.swift in Sources */,
 				407F368A2DC2A2B200BE8F53 /* GradientBackground.swift in Sources */,
@@ -1329,14 +1327,6 @@
 				minimumVersion = 1.8.4;
 			};
 		};
-		4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.10.0;
-			};
-		};
 		4090E2052D90818B001143BE /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -1368,21 +1358,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 406351F92D90BBF70090D1F8 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
 			productName = CryptoSwift;
-		};
-		4090E1FF2D908179001143BE /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		4090E2012D908179001143BE /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		4090E2032D908179001143BE /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4090E1FE2D908179001143BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
 		};
 		4090E2062D90818B001143BE /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
