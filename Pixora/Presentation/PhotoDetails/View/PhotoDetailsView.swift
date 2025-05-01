@@ -143,6 +143,9 @@ struct PhotoDetailsView: View {
 
                 Text("\(photoDetailsViewModel.likes)")
                     .font(.subheadline)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .minimumScaleFactor(0.6)
             }
                 
             Button(action: {}) {
@@ -177,6 +180,9 @@ struct PhotoDetailsView: View {
                 Text(
                     photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar"
                 )
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .minimumScaleFactor(0.6)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 10)
                 .font(.body)
