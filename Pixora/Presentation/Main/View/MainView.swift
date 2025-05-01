@@ -67,12 +67,15 @@ struct MainView: View {
         }
         .onChange(of: viewModel.shouldNavigateToMyPhotos) {
             if viewModel.shouldNavigateToMyPhotos {
-                viewModel.selectedTab = 4 // Profile tab
-                NotificationCenter.default
-                    .post(name: .navigateToMyPhotos, object: nil)
-                viewModel.shouldNavigateToMyPhotos = false
+                viewModel.selectedTab = 4
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .navigateToMyPhotos, object: nil)
+                    viewModel.shouldNavigateToMyPhotos = false
+                }
             }
         }
+
 
         .onChange(of: scenePhase) {
             viewModel.handleScenePhaseChange(scenePhase)
