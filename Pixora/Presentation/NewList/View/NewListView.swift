@@ -27,19 +27,19 @@ struct NewListView: View {
                 case .success:
                     contentView()
                 case .empty:
-                    InfoView(message: "Aún no tienes listas creadas")
+                    InfoView(message: "You don't have any lists created yet.")
                 case .error(let errorMsg):
                     InfoView(message: errorMsg)
                 }
             }
         }
-        .alert("Nueva lista", isPresented: $newListViewModel.showCreateAlert) {
-            TextField("Nombre de la lista", text: $newListViewModel.newListName)
+        .alert("New list", isPresented: $newListViewModel.showCreateAlert) {
+            TextField("List name", text: $newListViewModel.newListName)
                 .disableAutocorrection(true)
-            Button("Añadir", action: newListViewModel.createList)
-            Button("Cancelar", role: .cancel) {}
+            Button("Add", action: newListViewModel.createList)
+            Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Escribe un nombre para la nueva lista")
+            Text("Enter a name for the new list")
         }
         .onAppear {
             Task {
@@ -60,11 +60,11 @@ struct NewListView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Guardar")
+        .navigationTitle("Save")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cerrar") {
+                Button("Close") {
                     dismiss()
                 }
             }
@@ -72,7 +72,7 @@ struct NewListView: View {
     }
 
     private var header: some View {
-        Text("Guardar en una lista")
+        Text("Save to a list")
             .font(.title2)
             .bold()
             .padding(.top)
@@ -82,7 +82,7 @@ struct NewListView: View {
         Button {
             newListViewModel.showCreateAlert = true
         } label: {
-            Label("Crear nueva lista", systemImage: "plus.circle.fill")
+            Label("Create new list", systemImage: "plus.circle.fill")
                 .font(.headline)
                 .foregroundColor(.blue)
                 .padding(.vertical, 10)

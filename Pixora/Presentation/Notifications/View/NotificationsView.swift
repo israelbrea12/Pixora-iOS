@@ -63,9 +63,9 @@ struct NotificationsView: View {
     private func actionMessage(for action: UserActivity) -> String {
         switch action.type {
         case .likedPhoto:
-            return "Has dado me gusta a una foto"
+            return "You have liked a photo"
         case .addedToList:
-            return "Has añadido una foto a la lista \(action.listName ?? "")"
+            return "You have added a photo to the \(action.listName ?? "") list"
         }
     }
 }

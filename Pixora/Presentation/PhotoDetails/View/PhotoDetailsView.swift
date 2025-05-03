@@ -178,13 +178,13 @@ struct PhotoDetailsView: View {
                 }
             }) {
                 Text(
-                    photoDetailsViewModel.isSavedInAnyList ? "Guardado" : "Guardar"
+                    photoDetailsViewModel.isSavedInAnyList ? "Saved" : "Save"
                 )
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .minimumScaleFactor(0.6)
                 .padding(.vertical, 10)
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 20)
                 .font(.body)
                 .bold()
                 .background(

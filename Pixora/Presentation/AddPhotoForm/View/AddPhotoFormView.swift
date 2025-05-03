@@ -27,10 +27,10 @@ struct PhotoFormView: View {
                         .cornerRadius(25)
                 }
 
-                TextField("Descripción", text: $photoFormViewModel.description)
+                TextField("Description", text: $photoFormViewModel.description)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Usuario", text: $photoFormViewModel.photographerUsername)
+                TextField("User", text: $photoFormViewModel.photographerUsername)
                     .textFieldStyle(.roundedBorder)
 
                 Button {
@@ -41,7 +41,7 @@ struct PhotoFormView: View {
                                 mainViewModel.shouldNavigateToMyPhotos = true
                             }
                 } label: {
-                    Text("Guardar")
+                    Text("Save")
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(LinearGradient.mainBluePurple)
@@ -51,7 +51,7 @@ struct PhotoFormView: View {
             }
             .padding()
         }
-        .navigationTitle("Nueva Foto")
+        .navigationTitle("New Photo")
         .onAppear {
             photoFormViewModel.setImage(image)
         }
