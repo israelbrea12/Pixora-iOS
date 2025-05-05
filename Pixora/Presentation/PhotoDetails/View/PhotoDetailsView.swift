@@ -148,27 +148,27 @@ struct PhotoDetailsView: View {
                     .minimumScaleFactor(0.6)
             }
                 
-            Button(action: {}) {
-                Image(systemName: "message")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .bold()
-            }
-                
-            Button(action: {}) {
-                Image(systemName: "arrow.down.circle")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .bold()
-            }
-                
-            Button(action: {}) {
-                Image(systemName: "ellipsis")
-                    .foregroundColor(.black)
-                    .padding(.horizontal)
-                    .font(.headline)
-                    .bold()
-            }
+//            Button(action: {}) {
+//                Image(systemName: "message")
+//                    .foregroundColor(.black)
+//                    .font(.headline)
+//                    .bold()
+//            }
+//                
+//            Button(action: {}) {
+//                Image(systemName: "arrow.down.circle")
+//                    .foregroundColor(.black)
+//                    .font(.headline)
+//                    .bold()
+//            }
+//                
+//            Button(action: {}) {
+//                Image(systemName: "ellipsis")
+//                    .foregroundColor(.black)
+//                    .padding(.horizontal)
+//                    .font(.headline)
+//                    .bold()
+//            }
                 
             Spacer()
                 
@@ -204,7 +204,7 @@ struct PhotoDetailsView: View {
             }
         }
         .font(.title3)
-        .padding(.horizontal, 8)
+        .padding(.horizontal)
         .padding(.vertical, 10)
     }
 

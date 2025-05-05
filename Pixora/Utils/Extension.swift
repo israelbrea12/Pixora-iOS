@@ -79,5 +79,21 @@ extension LinearGradient {
     )
 }
 
+extension View {
+    @ViewBuilder
+    func `if`<TrueContent: View, FalseContent: View>(
+        _ condition: Bool,
+        @ViewBuilder transform: (Self) -> TrueContent,
+        @ViewBuilder else elseTransform: (Self) -> FalseContent
+    ) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            elseTransform(self)
+        }
+    }
+}
+
+
 
 
