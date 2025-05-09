@@ -5,7 +5,6 @@
 //  Created by Israel Brea Piñero on 22/4/25.
 //
 
-import Foundation
 import UserNotifications
 
 class NotificationManager {

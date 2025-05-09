@@ -10,15 +10,16 @@ import CoreData
 
 // MARK: - Protocol
 protocol PhotoListDataSource {
-    func fetchLists() throws -> [PhotoList]
-    func createList(name: String) throws
-    func addPhotoToList(_ photo: Photo, to list: PhotoList) throws
-    func getPhotos(for list: PhotoList) throws -> [Photo]
+    
+    func fetchListEntities() throws -> [PhotoListEntity]
+    func createListEntity(_ listEntity: PhotoListEntity) throws
+    func addPhotoEntity(_ photoEntity: PhotoEntity, toListEntityWithId listId: UUID) throws
+    func getPhotoEntities(forListEntityWithId listId: UUID) throws -> [PhotoEntity]
 }
 
 // MARK: - Implementation
 class PhotoListDataSourceImpl: PhotoListDataSource {
-    
+
     private let context: NSManagedObjectContext
 
     init(
@@ -27,27 +28,23 @@ class PhotoListDataSourceImpl: PhotoListDataSource {
         self.context = context
     }
 
-    func fetchLists() throws -> [PhotoList] {
+    func fetchListEntities() throws -> [PhotoListEntity] {
         let request = PhotoListEntity.fetchRequest()
-        let result = try context.fetch(request)
-        return result.map { $0.toDomain() }
+        return try context.fetch(request)
     }
 
-    func createList(name: String) throws {
-        let list = PhotoList(id: UUID(), name: name)
-        _ = list.toData(context: context)
+    func createListEntity(_ listEntity: PhotoListEntity) throws {
         try context.save()
+        print("✅ PhotoListEntity creada: \(listEntity.name ?? "sin nombre")")
     }
-    
-    func addPhotoToList(_ photo: Photo, to list: PhotoList) throws {
+
+    func addPhotoEntity(_ photoEntity: PhotoEntity, toListEntityWithId listId: UUID) throws {
         let listRequest = PhotoListEntity.fetchRequest()
-        listRequest.predicate = NSPredicate(format: "id == %@", list.id.uuidString)
+        listRequest.predicate = NSPredicate(format: "id == %@", listId.uuidString)
         guard let listEntity = try context.fetch(listRequest).first else {
-            throw NSError(domain: "Lista no encontrada", code: 0)
+            throw NSError(domain: "PhotoListDataSource", code: 404, userInfo: [NSLocalizedDescriptionKey: "PhotoListEntity no encontrada con ID: \(listId.uuidString)"])
         }
-
-        let photoEntity = photo.toData(context: context)
-
+        
         let entry = PhotoInListEntity(context: context)
         entry.id = UUID()
         entry.addedAt = Date()
@@ -55,27 +52,20 @@ class PhotoListDataSourceImpl: PhotoListDataSource {
         entry.photo = photoEntity
 
         try context.save()
+        print("✅ PhotoEntity \(photoEntity.id ?? "") añadido a PhotoListEntity: \(listEntity.name ?? "")")
     }
-    
-    func getPhotos(for list: PhotoList) throws -> [Photo] {
-        let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
-        var result: [Photo] = []
-        
-        try backgroundContext.performAndWait {
-            let request = PhotoListEntity.fetchRequest()
-            request.predicate = NSPredicate(format: "id == %@", list.id.uuidString)
 
-            guard let listEntity = try backgroundContext.fetch(request).first,
-                  let photoInListSet = listEntity.photosInList as? Set<PhotoInListEntity> else {
-                result = []
-                return
-            }
+    func getPhotoEntities(forListEntityWithId listId: UUID) throws -> [PhotoEntity] {
+        let request = PhotoListEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", listId.uuidString)
 
-            result = photoInListSet
-                .sorted(by: { $0.addedAt ?? .distantPast < $1.addedAt ?? .distantPast })
-                .compactMap { $0.photo?.toDomain() } // AHORA es seguro
+        guard let listEntity = try context.fetch(request).first,
+              let photoInListSet = listEntity.photosInList as? Set<PhotoInListEntity> else {
+            return []
         }
 
-        return result
+        return photoInListSet
+            .sorted(by: { $0.addedAt ?? .distantPast < $1.addedAt ?? .distantPast })
+            .compactMap { $0.photo }
     }
 }

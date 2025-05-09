@@ -47,7 +47,6 @@ extension Photo {
         
         let entity = (try? context.fetch(request).first) ?? PhotoEntity(context: context)
 
-        // actualiza todos los campos siempre
         entity.id = self.id ?? UUID().uuidString
         entity.descriptionText = self.description ?? ""
         entity.color = self.color ?? "#FFFFFF"
@@ -55,7 +54,7 @@ extension Photo {
         entity.imageURL = self.imageURL?.absoluteString ?? ""
         entity.photographerUsername = self.photographerUsername ?? "Desconocido"
         entity.photographerProfileImage = self.photographerProfileImage?.absoluteString ?? ""
-        entity.isFavorite = true // importante: fuerza a true
+        entity.isFavorite = true
         entity.imageData = self.imageData ?? nil
 
         return entity

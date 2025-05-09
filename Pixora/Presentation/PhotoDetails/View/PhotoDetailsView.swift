@@ -62,9 +62,12 @@ struct PhotoDetailsView: View {
     private func successView() -> some View{
         ScrollView{
             VStack {
-                photoCoverImage
-                            
-                interactionBar
+                VStack(spacing: 16) {
+                    photoCoverImage
+                    interactionBar
+                }
+                .frame(maxWidth: 600)
+                .padding(.horizontal)
                             
                 userInfo
                             
@@ -107,10 +110,13 @@ struct PhotoDetailsView: View {
             }
         }
         .scaledToFit()
-        .frame(maxWidth: 600)
         .cornerRadius(20)
-        .padding(.horizontal)
         .frame(maxWidth: .infinity)
+        .onTapGesture(count: 2) {
+                Task {
+                    _ = await photoDetailsViewModel.toggleFavorite(for: photo)
+                }
+            }
     }
 
     private var backButton: some View {
@@ -204,7 +210,6 @@ struct PhotoDetailsView: View {
             }
         }
         .font(.title3)
-        .padding(.horizontal)
         .padding(.vertical, 10)
     }
 

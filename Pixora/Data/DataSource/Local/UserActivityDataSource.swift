@@ -10,8 +10,8 @@ import CoreData
 
 // MARK: - Protocol
 protocol UserActivityDataSource {
-    func saveAction(_ action: UserActivity) throws
-    func fetchAllActions() throws -> [UserActivity]
+    func saveActionEntity(_ actionEntity: UserActivityEntity) throws
+    func fetchAllActionEntities() throws -> [UserActivityEntity]
 }
 
 // MARK: - Implementation
@@ -22,19 +22,14 @@ final class UserActivityDataSourceImpl: UserActivityDataSource {
         self.context = context
     }
 
-    func saveAction(_ action: UserActivity) throws {
-        let entity = UserActivityEntity(context: context)
-        entity.id = action.id
-        entity.type = action.type.rawValue
-        entity.timestamp = action.timestamp
-        entity.listName = action.listName
-        entity.photo = action.photo.toData(context: context)
+    func saveActionEntity(_ actionEntity: UserActivityEntity) throws {
         try context.save()
+        print("✅ UserActivityEntity guardada: \(actionEntity.id?.uuidString ?? "sin ID")")
     }
 
-    func fetchAllActions() throws -> [UserActivity] {
+    func fetchAllActionEntities() throws -> [UserActivityEntity] {
         let request = UserActivityEntity.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        return try context.fetch(request).compactMap { $0.toDomain() }
+        return try context.fetch(request)
     }
 }

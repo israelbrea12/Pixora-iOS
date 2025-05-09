@@ -10,26 +10,26 @@ import CoreData
 
 // MARK: - Protocol
 protocol MyPhotosDataSource {
-    func fetchMyPhotos() throws -> [Photo]
+    func fetchMyPhotos() throws -> [PhotoEntity]
     func saveMyPhoto(_ photo: Photo) throws
-
 }
 
 // MARK: - Implementation
 class MyPhotosDataSourceImpl: MyPhotosDataSource {
     private let context: NSManagedObjectContext
-    
+
     init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.context = context
     }
-    
-    func fetchMyPhotos() throws -> [Photo] {
+
+    func fetchMyPhotos() throws -> [PhotoEntity] {
         let request: NSFetchRequest<PhotoEntity> = PhotoEntity.fetchRequest()
         request.predicate = NSPredicate(format: "imageData != nil")
-        return try context.fetch(request).map { $0.toDomain() }
+        return try context.fetch(request)
     }
-    
+
     func saveMyPhoto(_ photo: Photo) throws {
+        
         let entity = PhotoEntity(context: context)
         entity.id = photo.id
         entity.descriptionText = photo.description
@@ -37,9 +37,7 @@ class MyPhotosDataSourceImpl: MyPhotosDataSource {
         entity.photographerUsername = photo.photographerUsername
         entity.isFavorite = photo.isFavorite
         entity.imageData = photo.imageData
-
+        
         try context.save()
     }
-
 }
-

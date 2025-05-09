@@ -10,48 +10,49 @@ import CoreData
 
 // MARK: - Protocol
 protocol FavoritePhotoDataSource {
-    func saveFavorite(_ photo: Photo) throws
-    func deleteFavorite(_ photo: Photo) throws
-    func fetchFavorites() throws -> [Photo]
-    func isFavorite(photo: Photo) throws -> Bool
+    
+    func saveFavoriteEntity(_ photoEntity: PhotoEntity) throws
+    func deleteFavoriteEntityBy(photoId: String) throws
+    func fetchFavoriteEntities() throws -> [PhotoEntity]
+    func isFavorite(photoId: String) throws -> Bool
 }
 
 // MARK: - Implementation
 class FavoritePhotoDataSourceImpl: FavoritePhotoDataSource {
-    private let context: NSManagedObjectContext
     
+    private let context: NSManagedObjectContext
+
     init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.context = context
     }
-    
-    func saveFavorite(_ photo: Photo) throws {
-        var updatedPhoto = photo
-        updatedPhoto.isFavorite = true
-        _ = updatedPhoto.toData(context: context)
+
+    func saveFavoriteEntity(_ photoEntity: PhotoEntity) throws {
         try context.save()
-        print("✅ Foto guardada como favorita: \(photo.id ?? "sin ID")")
+        print("✅ PhotoEntity guardado como favorito: \(photoEntity.id ?? "sin ID")")
     }
 
-
-    func deleteFavorite(_ photo: Photo) throws {
+    func deleteFavoriteEntityBy(photoId: String) throws {
         let request = PhotoEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", photo.id ?? "")
+        request.predicate = NSPredicate(format: "id == %@", photoId)
         if let result = try context.fetch(request).first {
             result.isFavorite = false
             try context.save()
+            print("🗑️ PhotoEntity desmarcado como favorito: \(photoId)")
+        } else {
+            print("⚠️ PhotoEntity no encontrado para eliminar de favoritos con ID: \(photoId)")
         }
     }
 
-    func fetchFavorites() throws -> [Photo] {
+    func fetchFavoriteEntities() throws -> [PhotoEntity] {
         let request = PhotoEntity.fetchRequest()
         request.predicate = NSPredicate(format: "isFavorite == true")
-        return try context.fetch(request).map { $0.toDomain() }
+        return try context.fetch(request)
     }
 
-    func isFavorite(photo: Photo) throws -> Bool {
+    func isFavorite(photoId: String) throws -> Bool {
         let request = PhotoEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@ AND isFavorite == true", photo.id ?? "")
-        return try context.count(for: request) > 0
+        request.predicate = NSPredicate(format: "id == %@ AND isFavorite == true", photoId)
+        let count = try context.count(for: request)
+        return count > 0
     }
 }
-

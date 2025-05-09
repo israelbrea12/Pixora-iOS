@@ -11,9 +11,6 @@ import SDWebImageSwiftUI
 struct SearchView: View {
     
     @StateObject var searchViewModel = Resolver.shared.resolve(SearchViewModel.self)
-    
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.verticalSizeClass) var verticalSizeClass
         
     var body: some View {
         NavigationStack {
@@ -60,7 +57,7 @@ struct SearchView: View {
                 .font(.system(size: 22))
                 .padding(.vertical, 10)
         }
-        .padding(.horizontal)
+        .padding()
         .background(Color(.systemGray6))
         .cornerRadius(12)
         .onChange(of: searchViewModel.searchDebounced) { _ in
